@@ -15,6 +15,7 @@ namespace Dal
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<Admin> Admins { get; set; }
         public HighSchoolContext() : base()
         {
 
@@ -37,6 +38,7 @@ namespace Dal
             modelBuilder.Entity<Subject>().ToTable("Matters");
             modelBuilder.Entity<Student>().ToTable("Students");
             modelBuilder.Entity<Teacher>().ToTable("Teachers");
+            modelBuilder.Entity<Admin>().ToTable("Admins");
             base.OnModelCreating(modelBuilder);
         }
     }
