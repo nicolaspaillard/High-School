@@ -6,6 +6,7 @@ namespace Models
 {
     class Matter
     {
-        
+        public string Name { get; set; }
+
     }
 }

@@ -7,7 +7,7 @@ namespace Models
     class Timetable
     {
         // IDK
-        List<Course> Course;
+        public virtual List<Course> Course { get; set; }
 
     }
 }

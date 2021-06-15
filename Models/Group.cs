@@ -6,6 +6,6 @@ namespace Models
 {
     class Group
     {
-        List<Student> Students;    
+        public virtual List<Student> Students { get; set; }    
     }
 }
