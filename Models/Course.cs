@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Models
@@ -9,9 +10,9 @@ namespace Models
         public int ID { get; set; }
         public virtual Teacher Teacher { get; set; }
         public virtual Subject Subject { get; set; }
-        public virtual List<Group> Groups { get; set; }
-        public List<Student> MissingStudents { get; set; }
+        public virtual List<ClassStudents> ClassStudents { get; set; }
+        public virtual List<MissingStudent> MissingStudents { get; set; }
         public virtual Classroom Classroom { get; set; }
-        DateTime Date { get; set; }
+        public DateTime Date { get; set; }
     }
 }
