@@ -38,7 +38,7 @@ namespace Dal
             modelBuilder.Entity<Subject>().ToTable("Matters");
             modelBuilder.Entity<Student>().ToTable("Students");
             modelBuilder.Entity<Teacher>().ToTable("Teachers");
-            modelBuilder.Entity<Admin>().ToTable("Admins");
+            modelBuilder.Entity<Admin>().ToTable("Admins");u
             base.OnModelCreating(modelBuilder);
         }
     }
