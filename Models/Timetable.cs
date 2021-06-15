@@ -4,10 +4,9 @@ using System.Text;
 
 namespace Models
 {
-    class Timetable
+    public class Timetable
     {
         // IDK
         public virtual List<Course> Course { get; set; }
-
     }
 }

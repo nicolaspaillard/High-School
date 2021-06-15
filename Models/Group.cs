@@ -4,8 +4,9 @@ using System.Text;
 
 namespace Models
 {
-    class Group
+    public class Group
     {
         public virtual List<Student> Students { get; set; }    
+        public virtual Teacher HomeRoomTeacher { get; set; }
     }
 }

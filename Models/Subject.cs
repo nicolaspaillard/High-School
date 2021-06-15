@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Models
 {
-    class Matter
+    public class Subject
     {
         public string Name { get; set; }
-
     }
 }
