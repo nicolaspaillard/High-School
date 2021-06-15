@@ -7,5 +7,7 @@ namespace Models
     class Timetable
     {
         // IDK
+        List<Course> Course;
+
     }
 }

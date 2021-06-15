@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Models
 {
-    class Student
+    class Student : Person
     {
+        bool IsDelegate { get; set; }
     }
 }

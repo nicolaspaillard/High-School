@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Models
 {
-    class Teacher : Person
+    class Matter
     {
-        List<Matter> Matters { get; set; }
+        
     }
 }

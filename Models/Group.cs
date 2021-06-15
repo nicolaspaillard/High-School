@@ -6,8 +6,6 @@ namespace Models
 {
     class Group
     {
-        List<Student> blablabla;
-        DateTime Year;
-         
+        List<Student> Students;    
     }
 }
