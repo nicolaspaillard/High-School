@@ -6,6 +6,7 @@ namespace Models
 {
     public class Grade
     {
+        public int ID { get; set; }
         public virtual Subject Matter { get; set; }
         public virtual Teacher Teacher { get; set; }
         public string Assessment { get; set; }

@@ -6,7 +6,7 @@ using Models;
 
 namespace Dal
 {
-    class HighSchoolContext : DbContext
+    public class HighSchoolContext : DbContext
     {
         public DbSet<Classroom> Classrooms { get; set; }
         public DbSet<Course> Courses{ get; set; }

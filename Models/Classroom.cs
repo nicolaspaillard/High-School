@@ -6,6 +6,6 @@ namespace Models
 {
     public class Classroom
     {
-
+        public int ID { get; set; }
     }
 }

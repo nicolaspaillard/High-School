@@ -6,6 +6,7 @@ namespace Models
 {
     public class Group
     {
+        public int ID { get; set; }
         public virtual List<Student> Students { get; set; }    
         public virtual Teacher HomeRoomTeacher { get; set; }
     }
