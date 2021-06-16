@@ -7,10 +7,10 @@ namespace Application.Repositories.IRepositories
 {
     public interface IRepositoryAsync<T>
     {
-        public async Task<List<T>> GetAllAsync();
-        public async Task<T> GetAsync(int id);
-        public async Task<int> CreateAsync(T obj);
-        public async Task<int> UpdateAsync(T obj);
-        public async Task<int> DeleteAsync(T obj);
+        public Task<List<T>> GetAllAsync();
+        public Task<T> GetAsync(int id);
+        public Task<int> CreateAsync(T obj);
+        public Task<int> UpdateAsync(T obj);
+        public Task<int> DeleteAsync(T obj);
     }
 }
