@@ -3,36 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Repositories.IRepositories;
+using Dal;
+using Microsoft.EntityFrameworkCore;
 using Models;
 
 namespace Application.Repositories
 {
     public class GradesRepository : IRepositoryAsync<Grade>
     {
-        public Task<int> CreateAsync(Grade obj)
+        private HighSchoolContext context;
+        public GradesRepository(HighSchoolContext context)
         {
-            //araerfezat
-            throw new NotImplementedException();
+            this.context = context;
+        }
+        public async Task<int> CreateAsync(Grade obj)
+        {
+            await context.Grades.AddAsync(obj);
+            return await context.SaveChangesAsync();
         }
 
-        public Task<int> DeleteAsync(Grade obj)
+        public async Task<int> DeleteAsync(Grade obj)
         {
-            throw new NotImplementedException();
+            context.Grades.Remove(obj);
+            return await context.SaveChangesAsync();
         }
 
-        public Task<List<Grade>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<List<Grade>> GetAllAsync() => await context.Grades.ToListAsync();
 
-        public Task<Grade> GetAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<int> UpdateAsync(Grade obj)
+        public async Task<Grade> GetAsync(int id) => await context.Grades.FirstOrDefaultAsync(g => g.ID == id);
+
+        public async Task<int> UpdateAsync(Grade obj)
         {
-            throw new NotImplementedException();
+            var grade = await GetAsync(obj.ID);
+            grade.Assessment = obj.Assessment;
+            grade.Course = obj.Course;
+            grade.Student = obj.Student;
+            grade.Value = obj.Value;
+            return await context.SaveChangesAsync();
         }
     }
 }
