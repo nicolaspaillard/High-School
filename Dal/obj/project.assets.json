@@ -5718,23 +5718,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Formation\\.nuget\\packages\\": {},
+    "C:\\Users\\phili\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Formation\\Desktop\\High School\\Dal\\Dal.csproj",
+      "projectUniqueName": "C:\\Users\\phili\\source\\repos\\High-School\\Dal\\Dal.csproj",
       "projectName": "Dal",
-      "projectPath": "C:\\Users\\Formation\\Desktop\\High School\\Dal\\Dal.csproj",
-      "packagesPath": "C:\\Users\\Formation\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Formation\\Desktop\\High School\\Dal\\obj\\",
+      "projectPath": "C:\\Users\\phili\\source\\repos\\High-School\\Dal\\Dal.csproj",
+      "packagesPath": "C:\\Users\\phili\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\phili\\source\\repos\\High-School\\Dal\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\Formation\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\phili\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -5749,8 +5749,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\Formation\\Desktop\\High School\\Models\\Models.csproj": {
-              "projectPath": "C:\\Users\\Formation\\Desktop\\High School\\Models\\Models.csproj"
+            "C:\\Users\\phili\\source\\repos\\High-School\\Models\\Models.csproj": {
+              "projectPath": "C:\\Users\\phili\\source\\repos\\High-School\\Models\\Models.csproj"
             }
           }
         }

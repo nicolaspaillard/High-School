@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Formation\\Desktop\\High School\\ViewApp\\ViewApp.csproj": {}
+    "C:\\Users\\phili\\source\\repos\\High-School\\ViewApp\\ViewApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Formation\\Desktop\\High School\\Dal\\Dal.csproj": {
+    "C:\\Users\\phili\\source\\repos\\High-School\\Dal\\Dal.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Formation\\Desktop\\High School\\Dal\\Dal.csproj",
+        "projectUniqueName": "C:\\Users\\phili\\source\\repos\\High-School\\Dal\\Dal.csproj",
         "projectName": "Dal",
-        "projectPath": "C:\\Users\\Formation\\Desktop\\High School\\Dal\\Dal.csproj",
-        "packagesPath": "C:\\Users\\Formation\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Formation\\Desktop\\High School\\Dal\\obj\\",
+        "projectPath": "C:\\Users\\phili\\source\\repos\\High-School\\Dal\\Dal.csproj",
+        "packagesPath": "C:\\Users\\phili\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\phili\\source\\repos\\High-School\\Dal\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Formation\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\phili\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -32,8 +32,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\Formation\\Desktop\\High School\\Models\\Models.csproj": {
-                "projectPath": "C:\\Users\\Formation\\Desktop\\High School\\Models\\Models.csproj"
+              "C:\\Users\\phili\\source\\repos\\High-School\\Models\\Models.csproj": {
+                "projectPath": "C:\\Users\\phili\\source\\repos\\High-School\\Models\\Models.csproj"
               }
             }
           }
@@ -76,20 +76,20 @@
         }
       }
     },
-    "C:\\Users\\Formation\\Desktop\\High School\\Models\\Models.csproj": {
+    "C:\\Users\\phili\\source\\repos\\High-School\\Models\\Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Formation\\Desktop\\High School\\Models\\Models.csproj",
+        "projectUniqueName": "C:\\Users\\phili\\source\\repos\\High-School\\Models\\Models.csproj",
         "projectName": "Models",
-        "projectPath": "C:\\Users\\Formation\\Desktop\\High School\\Models\\Models.csproj",
-        "packagesPath": "C:\\Users\\Formation\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Formation\\Desktop\\High School\\Models\\obj\\",
+        "projectPath": "C:\\Users\\phili\\source\\repos\\High-School\\Models\\Models.csproj",
+        "packagesPath": "C:\\Users\\phili\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\phili\\source\\repos\\High-School\\Models\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Formation\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\phili\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -134,20 +134,20 @@
         }
       }
     },
-    "C:\\Users\\Formation\\Desktop\\High School\\ViewApp\\ViewApp.csproj": {
+    "C:\\Users\\phili\\source\\repos\\High-School\\ViewApp\\ViewApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Formation\\Desktop\\High School\\ViewApp\\ViewApp.csproj",
+        "projectUniqueName": "C:\\Users\\phili\\source\\repos\\High-School\\ViewApp\\ViewApp.csproj",
         "projectName": "ViewApp",
-        "projectPath": "C:\\Users\\Formation\\Desktop\\High School\\ViewApp\\ViewApp.csproj",
-        "packagesPath": "C:\\Users\\Formation\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Formation\\Desktop\\High School\\ViewApp\\obj\\",
+        "projectPath": "C:\\Users\\phili\\source\\repos\\High-School\\ViewApp\\ViewApp.csproj",
+        "packagesPath": "C:\\Users\\phili\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\phili\\source\\repos\\High-School\\ViewApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Formation\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\phili\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -162,8 +162,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\Formation\\Desktop\\High School\\Dal\\Dal.csproj": {
-                "projectPath": "C:\\Users\\Formation\\Desktop\\High School\\Dal\\Dal.csproj"
+              "C:\\Users\\phili\\source\\repos\\High-School\\Dal\\Dal.csproj": {
+                "projectPath": "C:\\Users\\phili\\source\\repos\\High-School\\Dal\\Dal.csproj"
               }
             }
           }
