@@ -8,46 +8,25 @@
     "net5.0": []
   },
   "packageFolders": {
-<<<<<<< HEAD
     "C:\\Users\\Formation\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
-=======
-    "C:\\Users\\dream\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
->>>>>>> f787d2a1396d75c6dd92a7f681d61d28e1c1831d
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\Formation\\Desktop\\High School\\Models\\Models.csproj",
       "projectName": "Models",
       "projectPath": "C:\\Users\\Formation\\Desktop\\High School\\Models\\Models.csproj",
       "packagesPath": "C:\\Users\\Formation\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Formation\\Desktop\\High School\\Models\\obj\\",
-=======
-      "projectUniqueName": "C:\\Users\\dream\\source\\repos\\High-School\\Models\\Models.csproj",
-      "projectName": "Models",
-      "projectPath": "C:\\Users\\dream\\source\\repos\\High-School\\Models\\Models.csproj",
-      "packagesPath": "C:\\Users\\dream\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dream\\source\\repos\\High-School\\Models\\obj\\",
->>>>>>> f787d2a1396d75c6dd92a7f681d61d28e1c1831d
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-<<<<<<< HEAD
         "C:\\Users\\Formation\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
-=======
-        "C:\\Users\\dream\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
->>>>>>> f787d2a1396d75c6dd92a7f681d61d28e1c1831d
       ],
       "originalTargetFrameworks": [
         "net5.0"
@@ -89,5 +68,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problème de lecture du fichier cache C:\\Users\\Formation\\Desktop\\High School\\Models\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

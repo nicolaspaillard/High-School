@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-<<<<<<< HEAD
-
-namespace Application.Repositories
-{
-    public class StudentsRepository
-=======
-using Application.Repositories.IRepositories;
+﻿using Application.Repositories.IRepositories;
 using Dal;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Application.Repositories
 {
     public class StudentsRepository : IRepositoryAsync<Student>
->>>>>>> f787d2a1396d75c6dd92a7f681d61d28e1c1831d
     {
         private HighSchoolContext context;
         public StudentsRepository(HighSchoolContext context)
@@ -49,7 +42,6 @@ namespace Application.Repositories
             temp.Email = obj.Email;
             temp.BirthDate = obj.BirthDate;
             temp.Grades = obj.Grades;
-
             return await context.SaveChangesAsync();
 
         }
