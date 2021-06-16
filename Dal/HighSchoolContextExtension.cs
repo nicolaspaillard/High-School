@@ -127,35 +127,53 @@ namespace Dal
             };
             #endregion
             #region SUBJECTS
+            List<Subject> subjects = new List<Subject>()
+            {
 
+            };
             #endregion
             #region GROUPS
+            List<Group> groups = new List<Group>()
+            {
 
+            };
             #endregion
             #region TEACHERS
+            List<Teacher> teachers = new List<Teacher>()
+            {
 
+            };
             #endregion
             #region CLASSROOM
+            List<Classroom> classrooms = new List<Classroom>()
+            {
 
+            };
             #endregion
             #region COURSES
+            List<Course> courses = new List<Course>()
+            {
 
+            };
             #endregion
             #region GRADES
+            List<Grade> grades = new List<Grade>()
+            {
 
+            };
             #endregion
             #region MISSING
 
             #endregion
-            context.Students.AddRange();
+            context.Students.AddRange(students);
             context.Teachers.AddRange();
-            context.Subjects.AddRange();
-            context.Groups.AddRange();
-            context.Classrooms.AddRange();
+            context.Subjects.AddRange(subjects);
+            context.Groups.AddRange(groups);
+            context.Classrooms.AddRange(classrooms);
             context.Courses.AddRange();
             context.Grades.AddRange();
             context.Missings.AddRange();
-
+            context.SaveChanges();
             // V ajout de données de test de la base ici V
         }
     }
