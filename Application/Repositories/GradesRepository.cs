@@ -11,6 +11,7 @@ namespace Application.Repositories
     {
         public Task<int> CreateAsync(Grade obj)
         {
+            //araerfezat
             throw new NotImplementedException();
         }
 
