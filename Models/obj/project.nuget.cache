@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "rjqpdWyyGYAjwSMsVOhRrpY5CqAlrDiUANq8jQ5SrgIAVGkpzTcmk6wpx4T5xZlKlvthgHAaK6dJ1vXiCjS5hA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Formation\\Desktop\\High School\\Models\\Models.csproj",
+=======
+  "dgSpecHash": "9MKh4l8oiVnIZ+2pf74jbdZHdgR9Run6HZ7zs7HWJPiz9HLsZscN8485my/CiWcNrFPA3qtNVFON79DQh1xVGg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\dream\\source\\repos\\High-School\\Models\\Models.csproj",
+>>>>>>> f787d2a1396d75c6dd92a7f681d61d28e1c1831d
   "expectedPackageFiles": [],
   "logs": []
 }
