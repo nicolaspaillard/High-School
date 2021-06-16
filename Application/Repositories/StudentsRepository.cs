@@ -38,9 +38,16 @@ namespace Application.Repositories
             return await context.Students.FirstOrDefaultAsync(s => s.ID == id);
         }
 
-        public Task<int> UpdateAsync(Student obj)
+        public async Task<int> UpdateAsync(Student obj)
         {
-            var temp = GetAsync(obj.ID);
+            var temp = await GetAsync(obj.ID);
+            temp.FirstName = obj.FirstName;
+            temp.LastName = obj.LastName;
+            temp.Email = obj.Email;
+            temp.BirthDate = obj.BirthDate;
+            temp.Grades = obj.Grades;
+
+            return await context.SaveChangesAsync();
 
         }
     }
