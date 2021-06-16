@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Repositories.IRepositories;
+using Models;
 
 namespace Application.Repositories
 {
-    public class TeachersRepository : IRepository
+    public class TeachersRepository : IRepositoryAsync<Teacher>
     {
+
     }
 }

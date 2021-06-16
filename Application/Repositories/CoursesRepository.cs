@@ -6,7 +6,7 @@ using Application.Repositories.IRepositories;
 
 namespace Application.Repositories
 {
-    public class CoursesRepository : IRepository
+    public class CoursesRepository : IRepositoryAsync<Course>
     {
     }
 }

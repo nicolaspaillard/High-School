@@ -1,6 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Application",
+    "\\Application\\Repositories",
+    "\\Dal",
+    "\\Models"
   ],
+  "SelectedNode": "\\High School.sln",
   "PreviewInSolutionExplorer": false
 }
