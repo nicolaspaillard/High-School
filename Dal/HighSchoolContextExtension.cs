@@ -436,7 +436,7 @@ namespace Dal
             #region GRADES
             List<Grade> grades = new List<Grade>()
             {
-				new { Assessment = "ullamcorper, nisl arcu", Value = "5.1430383328648" },
+				/*new { Assessment = "ullamcorper, nisl arcu", Value = "5.1430383328648" },
 				new { Assessment = "ut quam vel", Value = "8.075086608808" },
 				new { Assessment = "eu, placerat eget,", Value = "5.3974009482783" },
 				new { Assessment = "Nunc lectus pede,", Value = "12.323249158892" },
@@ -635,7 +635,7 @@ namespace Dal
 				new { Assessment = "in consequat enim", Value = "10.968164831649" },
 				new { Assessment = "luctus, ipsum leo", Value = "14.757212898426" },
 				new { Assessment = "Cras lorem lorem,", Value = "8.3436875121429" },
-				new { Assessment = "Donec tempus, lorem", Value = "7.4903806101311" }
+				new { Assessment = "Donec tempus, lorem", Value = "7.4903806101311" }*/
             };
             #endregion
             #region MISSING
