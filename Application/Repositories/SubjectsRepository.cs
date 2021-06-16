@@ -3,35 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Repositories.IRepositories;
+using Dal;
+using Microsoft.EntityFrameworkCore;
 using Models;
 
 namespace Application.Repositories
 {
     public class SubjectsRepository : IRepositoryAsync<Subject>
     {
-        public Task<int> CreateAsync(Subject obj)
+        private HighSchoolContext context;
+        public SubjectsRepository(HighSchoolContext context)
         {
-            throw new NotImplementedException();
+            this.context = context;
+        }
+        public async Task<int> CreateAsync(Subject obj)
+        {
+            await context.Subjects.AddAsync(obj);
+            return await context.SaveChangesAsync();
         }
 
-        public Task<int> DeleteAsync(Subject obj)
+        public async Task<int> DeleteAsync(Subject obj)
         {
-            throw new NotImplementedException();
+            context.Subjects.Remove(obj);
+            return await context.SaveChangesAsync();
         }
 
-        public Task<List<Subject>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<List<Subject>> GetAllAsync() => await context.Subjects.ToListAsync();
 
-        public Task<Subject> GetAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<Subject> GetAsync(int id) => await context.Subjects.FirstOrDefaultAsync(s => s.ID == id);
 
-        public Task<int> UpdateAsync(Subject obj)
+        public async Task<int> UpdateAsync(Subject obj)
         {
-            throw new NotImplementedException();
+            var subject = await GetAsync(obj.ID);
+            subject.Name = obj.Name;
+            return await context.SaveChangesAsync();
         }
     }
 }
