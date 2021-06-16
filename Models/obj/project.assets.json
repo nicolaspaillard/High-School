@@ -8,25 +8,27 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Formation\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Users\\dream\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Formation\\Desktop\\High School\\Models\\Models.csproj",
+      "projectUniqueName": "C:\\Users\\dream\\Source\\Repos\\High-School\\Models\\Models.csproj",
       "projectName": "Models",
-      "projectPath": "C:\\Users\\Formation\\Desktop\\High School\\Models\\Models.csproj",
-      "packagesPath": "C:\\Users\\Formation\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Formation\\Desktop\\High School\\Models\\obj\\",
+      "projectPath": "C:\\Users\\dream\\Source\\Repos\\High-School\\Models\\Models.csproj",
+      "packagesPath": "C:\\Users\\dream\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\dream\\Source\\Repos\\High-School\\Models\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Formation\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\dream\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
