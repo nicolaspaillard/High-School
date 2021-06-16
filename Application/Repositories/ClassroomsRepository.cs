@@ -1,5 +1,6 @@
 ﻿using Application.Repositories.IRepositories;
 using Dal;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -15,30 +16,33 @@ namespace Application.Repositories
         {
             this.context = context;
         }
-        public Task<int> CreateAsync(Classroom obj)
+        public async Task<int> CreateAsync(Classroom obj)
         {
-            context.Classrooms.AddAsync(obj);
+            await context.Classrooms.AddAsync(obj);
             return await context.SaveChangesAsync();
         }
 
-        public Task<int> DeleteAsync(int id)
+        public async Task<int> DeleteAsync(Classroom obj)
         {
-            throw new NotImplementedException();
+            context.Classrooms.Remove(obj);
+            return await context.SaveChangesAsync();
         }
 
-        public Task<List<Classroom>> GetAllAsync()
+        public async Task<List<Classroom>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await context.Classrooms.ToListAsync();
         }
 
-        public Task<Classroom> GetAsync(int id)
+        public async Task<Classroom> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            return await context.Classrooms.FirstOrDefaultAsync(c => c.ID == id);
         }
 
-        public Task<int> UpdateAsync(Classroom obj)
+        public async Task<int> UpdateAsync(Classroom obj)
         {
-            throw new NotImplementedException();
+            context.Classrooms.First(m => m.ID == obj.ID).ID = obj.ID;
+            context.Classrooms.First(m => m.ID == obj.ID).Name = obj.Name;
+            return await context.SaveChangesAsync();
         }
     }
 }

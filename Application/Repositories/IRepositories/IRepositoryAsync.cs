@@ -11,6 +11,6 @@ namespace Application.Repositories.IRepositories
         public async Task<T> GetAsync(int id);
         public async Task<int> CreateAsync(T obj);
         public async Task<int> UpdateAsync(T obj);
-        public async Task<int> DeleteAsync(int id);
+        public async Task<int> DeleteAsync(T obj);
     }
 }
