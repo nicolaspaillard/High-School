@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Models
 {
-    public class MissingStudent
+    public class Missing
     {
         public int ID { get; set; }
         public virtual Student Student { get; set; }

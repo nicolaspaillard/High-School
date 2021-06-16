@@ -10,8 +10,8 @@ namespace Models
         public int ID { get; set; }
         public virtual Teacher Teacher { get; set; }
         public virtual Subject Subject { get; set; }
-        public virtual List<ClassStudents> ClassStudents { get; set; }
-        public virtual List<MissingStudent> MissingStudents { get; set; }
+        public virtual List<Group> Groups { get; set; }
+        public virtual List<Missing> Missings { get; set; }
         public virtual Classroom Classroom { get; set; }
         public DateTime Date { get; set; }
     }

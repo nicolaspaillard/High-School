@@ -11,8 +11,8 @@ namespace Dal
         public DbSet<Classroom> Classrooms { get; set; }
         public DbSet<Course> Courses{ get; set; }
         public DbSet<Grade> Grades { get; set; }
-        public DbSet<ClassStudents> ClassStudents { get; set; }
-        public DbSet<MissingStudent> MissingStudents { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Missing> Missings { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
@@ -35,8 +35,8 @@ namespace Dal
             modelBuilder.Entity<Classroom>().ToTable("Classrooms");
             modelBuilder.Entity<Course>().ToTable("Courses");
             modelBuilder.Entity<Grade>().ToTable("Grades");
-            modelBuilder.Entity<ClassStudents>().ToTable("ClassStudents");
-            modelBuilder.Entity<MissingStudent>().ToTable("MissingStudents");
+            modelBuilder.Entity<Group>().ToTable("Groups");
+            modelBuilder.Entity<Missing>().ToTable("Missings");
             modelBuilder.Entity<Subject>().ToTable("Subjects");
             modelBuilder.Entity<Student>().ToTable("Students");
             modelBuilder.Entity<Teacher>().ToTable("Teachers");

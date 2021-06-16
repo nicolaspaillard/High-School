@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,39 @@ namespace Dal
             //if db has been already seeded
             if (context.Students.Any())
                 return;
-            
+            #region STUDENTS
+
+            #endregion
+            #region SUBJECTS
+
+            #endregion
+            #region GROUPS
+
+            #endregion
+            #region TEACHERS
+
+            #endregion
+            #region CLASSROOM
+
+            #endregion
+            #region COURSES
+
+            #endregion
+            #region GRADES
+
+            #endregion
+            #region MISSING
+
+            #endregion
+            context.Students.AddRange();
+            context.Teachers.AddRange();
+            context.Subjects.AddRange();
+            context.Groups.AddRange();
+            context.Classrooms.AddRange();
+            context.Courses.AddRange();
+            context.Grades.AddRange();
+            context.Missings.AddRange();
+
             // V ajout de données de test de la base ici V
         }
     }

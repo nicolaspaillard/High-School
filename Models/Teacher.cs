@@ -6,6 +6,6 @@ namespace Models
 {
     public class Teacher : Person
     {
-        public virtual List<Subject> Matters { get; set; }
+        public virtual List<Subject> Subjects { get; set; }
     }
 }
