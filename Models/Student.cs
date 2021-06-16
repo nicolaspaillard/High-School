@@ -6,7 +6,7 @@ namespace Models
 {
     public class Student : Person
     {
-        bool IsDelegate { get; set; }
+        bool IsDelegate { get; set; } = false;
         public virtual List<Grade> Grades { get; set; }
     }
 }

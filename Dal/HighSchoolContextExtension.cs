@@ -127,35 +127,65 @@ namespace Dal
             };
             #endregion
             #region SUBJECTS
-
+            List<Subject> subjects = new List<Subject>()
+            {
+                new Subject(){ Name = "Français"},
+                new Subject(){ Name = "C#"},
+                new Subject(){ Name = "Mathématiques"},
+                new Subject(){ Name = "ASP.NET"},
+                new Subject(){ Name = "Anglais"},
+            };
             #endregion
             #region GROUPS
+            List<Group> groups = new List<Group>()
+            {
 
+            };
             #endregion
             #region TEACHERS
+            List<Teacher> teachers = new List<Teacher>()
+            {
 
+            };
             #endregion
             #region CLASSROOM
-
+            List<Classroom> classrooms = new List<Classroom>()
+            {
+                new Classroom(){},
+                new Classroom(){},
+                new Classroom(){},
+                new Classroom(){},
+                new Classroom(){},
+                new Classroom(){},
+            };
             #endregion
             #region COURSES
+            List<Course> courses = new List<Course>()
+            {
 
+            };
             #endregion
             #region GRADES
+            List<Grade> grades = new List<Grade>()
+            {
 
+            };
             #endregion
             #region MISSING
+            List<Missing> missings = new List<Missing>()
+            {
 
+            };
             #endregion
-            context.Students.AddRange();
-            context.Teachers.AddRange();
-            context.Subjects.AddRange();
-            context.Groups.AddRange();
-            context.Classrooms.AddRange();
-            context.Courses.AddRange();
-            context.Grades.AddRange();
-            context.Missings.AddRange();
-
+            context.Students.AddRange(students);
+            context.Teachers.AddRange(teachers);
+            context.Subjects.AddRange(subjects);
+            context.Groups.AddRange(groups);
+            context.Classrooms.AddRange(classrooms);
+            context.Courses.AddRange(courses);
+            context.Grades.AddRange(grades);
+            context.Missings.AddRange(missings);
+            context.SaveChanges();
             // V ajout de données de test de la base ici V
         }
     }
