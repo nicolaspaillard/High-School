@@ -28,15 +28,11 @@ namespace Application.Repositories
             return await context.SaveChangesAsync();
         }
 
-        public async Task<List<Student>> GetAllAsync()
-        {
-            return await context.Students.ToListAsync();
-        }
+        public async Task<List<Student>> GetAllAsync() => await context.Students.ToListAsync();
+        
 
-        public async Task<Student> GetAsync(int id)
-        {
-            return await context.Students.FirstOrDefaultAsync(s => s.ID == id);
-        }
+        public async Task<Student> GetAsync(int id) => await context.Students.FirstOrDefaultAsync(s => s.ID == id);
+        
 
         public async Task<int> UpdateAsync(Student obj)
         {
