@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Application.Repositories;
+using Application.Repositories.IRepositories;
 using Models;
 
 namespace Application.Controllers
 {
     public class MissingsController : Controller
     {
-        private readonly MissingsRepository _repository;
+        private readonly IRepositoryAsync<Missing> _repository;
 
-        public MissingsController(MissingsRepository repository)
+        public MissingsController(IRepositoryAsync<Missing> repository)
         {
             _repository = repository;
         }

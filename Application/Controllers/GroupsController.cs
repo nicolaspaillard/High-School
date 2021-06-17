@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Application.Repositories;
+using Application.Repositories.IRepositories;
 using Models;
 
 namespace Application.Controllers
 {
     public class GroupsController : Controller
     {
-        private readonly GroupsRepository _repository;
+        private readonly IRepositoryAsync<Group> _repository;
 
-        public GroupsController(GroupsRepository repository)
+        public GroupsController(IRepositoryAsync<Group> repository)
         {
             _repository = repository;
         }

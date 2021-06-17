@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Application.Repositories;
+using Application.Repositories.IRepositories;
 using Models;
 
 namespace Application.Controllers
 {
     public class TeachersController : Controller
     {
-        private readonly TeachersRepository _repository;
+        private readonly IRepositoryAsync<Teacher> _repository;
 
-        public TeachersController(TeachersRepository repository)
+        public TeachersController(IRepositoryAsync<Teacher> repository)
         {
             _repository = repository;
         }

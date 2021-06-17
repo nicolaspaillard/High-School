@@ -7,15 +7,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Dal;
 using Models;
-using Application.Repositories;
+using Application.Repositories.IRepositories;
 
 namespace Application.Controllers
 {
     public class StudentsController : Controller
     {
-        private readonly StudentsRepository _repository;
+        private readonly IRepositoryAsync<Student> _repository;
 
-        public StudentsController(StudentsRepository repository)
+        public StudentsController(IRepositoryAsync<Student> repository)
         {
             _repository = repository;
         }
