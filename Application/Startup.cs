@@ -37,7 +37,7 @@ namespace Application
             services.AddScoped<IRepositoryAsync<Missing>, MissingsRepository>();
             services.AddScoped<IRepositoryAsync<Subject>, SubjectsRepository>();
             services.AddDbContext<HighSchoolContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("HighSchoolDb"))
+                options.UseSqlServer(Configuration.GetConnectionString("HighSchoolDb"))
             );
             services.AddControllersWithViews();
         } 
