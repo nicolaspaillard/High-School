@@ -5,36 +5,35 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Dal;
+using Application.Repositories;
 using Models;
 
 namespace Application.Controllers
 {
     public class SubjectsController : Controller
     {
-        private readonly HighSchoolContext _context;
+        private readonly SubjectsRepository _repository;
 
-        public SubjectsController(HighSchoolContext context)
+        public SubjectsController(SubjectsRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         // GET: Subjects
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Subjects.ToListAsync());
+            return View(await _repository.GetAllAsync());
         }
 
         // GET: Subjects/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
+            /*if (id == null)
             {
                 return NotFound();
-            }
+            }*/
 
-            var subject = await _context.Subjects
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var subject = await _repository.GetAsync(id);
             if (subject == null)
             {
                 return NotFound();
@@ -58,22 +57,21 @@ namespace Application.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(subject);
-                await _context.SaveChangesAsync();
+                await _repository.CreateAsync(subject);
                 return RedirectToAction(nameof(Index));
             }
             return View(subject);
         }
 
         // GET: Subjects/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
+            /*if (id == null)
             {
                 return NotFound();
-            }
+            }*/
 
-            var subject = await _context.Subjects.FindAsync(id);
+            var subject = await _repository.GetAsync(id);
             if (subject == null)
             {
                 return NotFound();
@@ -97,8 +95,7 @@ namespace Application.Controllers
             {
                 try
                 {
-                    _context.Update(subject);
-                    await _context.SaveChangesAsync();
+                    await _repository.UpdateAsync(subject);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -117,15 +114,14 @@ namespace Application.Controllers
         }
 
         // GET: Subjects/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
+            /*if (id == null)
             {
                 return NotFound();
-            }
+            }*/
 
-            var subject = await _context.Subjects
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var subject = await _repository.GetAsync(id);
             if (subject == null)
             {
                 return NotFound();
@@ -139,15 +135,15 @@ namespace Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var subject = await _context.Subjects.FindAsync(id);
-            _context.Subjects.Remove(subject);
-            await _context.SaveChangesAsync();
+            var subject = await _repository.GetAsync(id);
+            await _repository.DeleteAsync(subject);
             return RedirectToAction(nameof(Index));
         }
 
         private bool SubjectExists(int id)
         {
-            return _context.Subjects.Any(e => e.ID == id);
+            var listSubjects = _repository.GetAllAsync();
+            return listSubjects.Result.Any(s => s.ID == id);
         }
     }
 }

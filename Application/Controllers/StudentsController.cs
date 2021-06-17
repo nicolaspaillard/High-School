@@ -7,34 +7,34 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Dal;
 using Models;
+using Application.Repositories;
 
 namespace Application.Controllers
 {
     public class StudentsController : Controller
     {
-        private readonly HighSchoolContext _context;
+        private readonly StudentsRepository _repository;
 
-        public StudentsController(HighSchoolContext context)
+        public StudentsController(StudentsRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Students.ToListAsync());
+            return View(await _repository.GetAllAsync());
         }
 
         // GET: Students/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
+            /*if (id == null)
             {
                 return NotFound();
-            }
+            }*/
 
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var student = await _repository.GetAsync(id);
             if (student == null)
             {
                 return NotFound();
@@ -58,22 +58,21 @@ namespace Application.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(student);
-                await _context.SaveChangesAsync();
+                await _repository.CreateAsync(student);
                 return RedirectToAction(nameof(Index));
             }
             return View(student);
         }
 
         // GET: Students/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
+            /*if (id == null)
             {
                 return NotFound();
-            }
+            }*/
 
-            var student = await _context.Students.FindAsync(id);
+            var student = await _repository.GetAsync(id);
             if (student == null)
             {
                 return NotFound();
@@ -97,8 +96,7 @@ namespace Application.Controllers
             {
                 try
                 {
-                    _context.Update(student);
-                    await _context.SaveChangesAsync();
+                    await _repository.UpdateAsync(student);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -117,15 +115,14 @@ namespace Application.Controllers
         }
 
         // GET: Students/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
+            /*if (id == null)
             {
                 return NotFound();
-            }
+            }*/
 
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var student = await _repository.GetAsync(id);
             if (student == null)
             {
                 return NotFound();
@@ -139,15 +136,15 @@ namespace Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = await _context.Students.FindAsync(id);
-            _context.Students.Remove(student);
-            await _context.SaveChangesAsync();
+            var student = await _repository.GetAsync(id);
+            await _repository.DeleteAsync(student);
             return RedirectToAction(nameof(Index));
         }
 
         private bool StudentExists(int id)
         {
-            return _context.Students.Any(e => e.ID == id);
+            var listStudents = _repository.GetAllAsync();
+            return listStudents.Result.Any(s => s.ID == id);
         }
     }
 }
