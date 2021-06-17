@@ -1,8 +1,0 @@
-C:\Users\Formation\Desktop\High School\Application\obj\Debug\net5.0\Application.csproj.AssemblyReference.cache
-C:\Users\Formation\Desktop\High School\Application\obj\Debug\net5.0\Application.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Formation\Desktop\High School\Application\obj\Debug\net5.0\Application.AssemblyInfoInputs.cache
-C:\Users\Formation\Desktop\High School\Application\obj\Debug\net5.0\Application.AssemblyInfo.cs
-C:\Users\Formation\Desktop\High School\Application\obj\Debug\net5.0\Application.csproj.CoreCompileInputs.cache
-C:\Users\Formation\Desktop\High School\Application\obj\Debug\net5.0\Application.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\Formation\Desktop\High School\Application\obj\Debug\net5.0\Application.RazorAssemblyInfo.cache
-C:\Users\Formation\Desktop\High School\Application\obj\Debug\net5.0\Application.RazorAssemblyInfo.cs
