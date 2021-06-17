@@ -5,36 +5,35 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Dal;
+using Application.Repositories;
 using Models;
 
 namespace Application.Controllers
 {
     public class ClassroomsController : Controller
     {
-        private readonly HighSchoolContext _context;
+        private readonly ClassroomsRepository _repository;
 
-        public ClassroomsController(HighSchoolContext context)
+        public ClassroomsController(ClassroomsRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
-        // GET: Classrooms
+        // GET: Teachers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Classrooms.ToListAsync());
+            return View(await _repository.GetAllAsync());
         }
 
-        // GET: Classrooms/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Teachers/Details/5
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
+            /*if (id == null)
             {
                 return NotFound();
-            }
+            }*/
 
-            var classroom = await _context.Classrooms
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var classroom = await _repository.GetAsync(id);
             if (classroom == null)
             {
                 return NotFound();
@@ -43,37 +42,36 @@ namespace Application.Controllers
             return View(classroom);
         }
 
-        // GET: Classrooms/Create
+        // GET: Teachers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Classrooms/Create
+        // POST: Teachers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name")] Classroom classroom)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Email,BirthDate")] Classroom classroom)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(classroom);
-                await _context.SaveChangesAsync();
+                await _repository.CreateAsync(classroom);
                 return RedirectToAction(nameof(Index));
             }
             return View(classroom);
         }
 
-        // GET: Classrooms/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // GET: Teachers/Edit/5
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
+            /*if (id == null)
             {
                 return NotFound();
-            }
+            }*/
 
-            var classroom = await _context.Classrooms.FindAsync(id);
+            var classroom = await _repository.GetAsync(id);
             if (classroom == null)
             {
                 return NotFound();
@@ -81,12 +79,12 @@ namespace Application.Controllers
             return View(classroom);
         }
 
-        // POST: Classrooms/Edit/5
+        // POST: Teachers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name")] Classroom classroom)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,Email,BirthDate")] Classroom classroom)
         {
             if (id != classroom.ID)
             {
@@ -97,12 +95,11 @@ namespace Application.Controllers
             {
                 try
                 {
-                    _context.Update(classroom);
-                    await _context.SaveChangesAsync();
+                    await _repository.UpdateAsync(classroom);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClassroomExists(classroom.ID))
+                    if (!TeacherExists(classroom.ID))
                     {
                         return NotFound();
                     }
@@ -116,16 +113,15 @@ namespace Application.Controllers
             return View(classroom);
         }
 
-        // GET: Classrooms/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Teachers/Delete/5
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
+            /*if (id == null)
             {
                 return NotFound();
-            }
+            }*/
 
-            var classroom = await _context.Classrooms
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var classroom = await _repository.GetAsync(id);
             if (classroom == null)
             {
                 return NotFound();
@@ -134,20 +130,20 @@ namespace Application.Controllers
             return View(classroom);
         }
 
-        // POST: Classrooms/Delete/5
+        // POST: Teachers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var classroom = await _context.Classrooms.FindAsync(id);
-            _context.Classrooms.Remove(classroom);
-            await _context.SaveChangesAsync();
+            var classroom = await _repository.GetAsync(id);
+            await _repository.DeleteAsync(classroom);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClassroomExists(int id)
+        private bool TeacherExists(int id)
         {
-            return _context.Classrooms.Any(e => e.ID == id);
+            var listClassrooms = _repository.GetAllAsync();
+            return listClassrooms.Result.Any(t => t.ID == id);
         }
     }
 }

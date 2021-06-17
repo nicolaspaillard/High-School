@@ -5,90 +5,88 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Dal;
+using Application.Repositories;
 using Models;
 
 namespace Application.Controllers
 {
     public class GroupsController : Controller
     {
-        private readonly HighSchoolContext _context;
+        private readonly GroupsRepository _repository;
 
-        public GroupsController(HighSchoolContext context)
+        public GroupsController(GroupsRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
-        // GET: Groups
+        // GET: Teachers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Groups.ToListAsync());
+            return View(await _repository.GetAllAsync());
         }
 
-        // GET: Groups/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Teachers/Details/5
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
+            /*if (id == null)
+            {
+                return NotFound();
+            }*/
+
+            var group = await _repository.GetAsync(id);
+            if (group == null)
             {
                 return NotFound();
             }
 
-            var @group = await _context.Groups
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (@group == null)
-            {
-                return NotFound();
-            }
-
-            return View(@group);
+            return View(group);
         }
 
-        // GET: Groups/Create
+        // GET: Teachers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Groups/Create
+        // POST: Teachers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID")] Group @group)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Email,BirthDate")] Group group)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@group);
-                await _context.SaveChangesAsync();
+                await _repository.CreateAsync(group);
                 return RedirectToAction(nameof(Index));
             }
-            return View(@group);
+            return View(group);
         }
 
-        // GET: Groups/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // GET: Teachers/Edit/5
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
+            /*if (id == null)
             {
                 return NotFound();
-            }
+            }*/
 
-            var @group = await _context.Groups.FindAsync(id);
-            if (@group == null)
+            var group = await _repository.GetAsync(id);
+            if (group == null)
             {
                 return NotFound();
             }
-            return View(@group);
+            return View(group);
         }
 
-        // POST: Groups/Edit/5
+        // POST: Teachers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID")] Group @group)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,Email,BirthDate")] Group group)
         {
-            if (id != @group.ID)
+            if (id != group.ID)
             {
                 return NotFound();
             }
@@ -97,12 +95,11 @@ namespace Application.Controllers
             {
                 try
                 {
-                    _context.Update(@group);
-                    await _context.SaveChangesAsync();
+                    await _repository.UpdateAsync(group);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GroupExists(@group.ID))
+                    if (!TeacherExists(group.ID))
                     {
                         return NotFound();
                     }
@@ -113,41 +110,40 @@ namespace Application.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(@group);
+            return View(group);
         }
 
-        // GET: Groups/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Teachers/Delete/5
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
+            /*if (id == null)
+            {
+                return NotFound();
+            }*/
+
+            var group = await _repository.GetAsync(id);
+            if (group == null)
             {
                 return NotFound();
             }
 
-            var @group = await _context.Groups
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (@group == null)
-            {
-                return NotFound();
-            }
-
-            return View(@group);
+            return View(group);
         }
 
-        // POST: Groups/Delete/5
+        // POST: Teachers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @group = await _context.Groups.FindAsync(id);
-            _context.Groups.Remove(@group);
-            await _context.SaveChangesAsync();
+            var group = await _repository.GetAsync(id);
+            await _repository.DeleteAsync(group);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GroupExists(int id)
+        private bool TeacherExists(int id)
         {
-            return _context.Groups.Any(e => e.ID == id);
+            var listGroups = _repository.GetAllAsync();
+            return listGroups.Result.Any(t => t.ID == id);
         }
     }
 }
