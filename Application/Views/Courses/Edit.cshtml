@@ -1,7 +1,29 @@
 ﻿@model Models.Course
+@using Application.Controllers.Services
+@inject TeachersService teachersService
+@inject SubjectsService subjectsService
+@inject ClassroomsService classroomsService
 
 @{
     ViewData["Title"] = "Edit";
+
+    List<SelectListItem> teachers = new List<SelectListItem>();
+    foreach (var item in teachersService.GetAll())
+    {
+        teachers.Add(new SelectListItem { Text = $"{item.FirstName} {item.LastName}", Value = $"{item.ID}" });
+    }
+
+    List<SelectListItem> subjects = new List<SelectListItem>();
+    foreach (var item in subjectsService.GetAll())
+    {
+        subjects.Add(new SelectListItem { Text = $"{item.Name}", Value = $"{item.ID}" });
+    }
+
+    List<SelectListItem> classrooms = new List<SelectListItem>();
+    foreach (var item in classroomsService.GetAll())
+    {
+        classrooms.Add(new SelectListItem { Text = $"{item.Name}", Value = $"{item.ID}" });
+    }
 }
 
 <h1>Edit</h1>
@@ -17,6 +39,18 @@
                 <label asp-for="Date" class="control-label"></label>
                 <input asp-for="Date" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Teacher" class="control-label">Teachers</label><br />
+                <select asp-for="TeacherID" asp-items="teachers"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Subject" class="control-label">Subjects</label><br />
+                <select asp-for="SubjectID" asp-items="subjects"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Classroom" class="control-label">Classrooms</label><br />
+                <select asp-for="ClassroomID" asp-items="classrooms"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

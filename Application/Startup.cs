@@ -1,3 +1,4 @@
+using Application.Controllers.Services;
 using Application.Repositories;
 using Application.Repositories.IRepositories;
 using Dal;
@@ -36,6 +37,9 @@ namespace Application
             services.AddScoped<IRepositoryAsync<Group>, GroupsRepository>();
             services.AddScoped<IRepositoryAsync<Missing>, MissingsRepository>();
             services.AddScoped<IRepositoryAsync<Subject>, SubjectsRepository>();
+            services.AddTransient<TeachersService>();
+            services.AddTransient<SubjectsService>();
+            services.AddTransient<ClassroomsService>();
             services.AddDbContext<HighSchoolContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("HighSchoolDb"))
             );
