@@ -30,12 +30,10 @@ namespace Application.Repositories
 
         public async Task<List<Subject>> GetAllAsync() => await context.Subjects.ToListAsync();
 
-        public async Task<Subject> GetAsync(int id) => await context.Subjects.FirstOrDefaultAsync(s => s.ID == id);
+        public async Task<Subject> GetAsync(int id) => await context.Subjects.FindAsync((SubjectMatter)id);
 
         public async Task<int> UpdateAsync(Subject obj)
         {
-            var subject = await GetAsync(obj.ID);
-            subject.Name = obj.Name;
             return await context.SaveChangesAsync();
         }
     }
