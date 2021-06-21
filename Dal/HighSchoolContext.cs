@@ -44,7 +44,7 @@ namespace Dal
             modelBuilder.Entity<Admin>().ToTable("Admins");
             foreach (SubjectMatter val in Enum.GetValues(typeof(SubjectMatter)))
             {
-                modelBuilder.Entity<Subject>().HasData(new Subject { ID = val });
+                modelBuilder.Entity<Subject>().HasData(new Subject { SubjectID = val });
             }
             base.OnModelCreating(modelBuilder);
         }

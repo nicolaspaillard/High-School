@@ -86,7 +86,7 @@ namespace Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID")] Group group)
         {
-            if (id != group.ID)
+            if (id != group.GroupID)
             {
                 return NotFound();
             }
@@ -99,7 +99,7 @@ namespace Application.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TeacherExists(group.ID))
+                    if (!TeacherExists(group.GroupID))
                     {
                         return NotFound();
                     }
@@ -143,7 +143,7 @@ namespace Application.Controllers
         private bool TeacherExists(int id)
         {
             var listGroups = _repository.GetAllAsync();
-            return listGroups.Result.Any(t => t.ID == id);
+            return listGroups.Result.Any(t => t.GroupID == id);
         }
     }
 }

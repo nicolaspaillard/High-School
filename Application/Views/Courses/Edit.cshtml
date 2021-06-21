@@ -10,19 +10,19 @@
     List<SelectListItem> teachers = new List<SelectListItem>();
     foreach (var item in teachersService.GetAll())
     {
-        teachers.Add(new SelectListItem { Text = $"{item.FirstName} {item.LastName}", Value = $"{item.ID}" });
+        teachers.Add(new SelectListItem { Text = $"{item.FirstName} {item.LastName}", Value = $"{item.PersonID}" });
     }
 
     List<SelectListItem> subjects = new List<SelectListItem>();
     foreach (var item in subjectsService.GetAll())
     {
-        subjects.Add(new SelectListItem { Text = $"{item.ID}", Value = $"{item.ID}" });
+        subjects.Add(new SelectListItem { Text = $"{item.SubjectID}", Value = $"{item.SubjectID}" });
     }
 
     List<SelectListItem> classrooms = new List<SelectListItem>();
     foreach (var item in classroomsService.GetAll())
     {
-        classrooms.Add(new SelectListItem { Text = $"{item.Name}", Value = $"{item.ID}" });
+        classrooms.Add(new SelectListItem { Text = $"{item.Name}", Value = $"{item.ClassroomID}" });
     }
 }
 
@@ -34,7 +34,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ID" />
+            <input type="hidden" asp-for="CourseID" />
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
                 <input asp-for="Date" class="form-control" />

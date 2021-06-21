@@ -6,11 +6,9 @@ namespace Models
 {
     public class Subject
     {
-        public SubjectMatter ID { get; set; }
+        public SubjectMatter SubjectID { get; set; }
         public virtual List<Teacher> Teachers { get; set; }
         public virtual List<Group> Groups { get; set; }
-        //old
-        //public virtual List<Course> Courses { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
     }
 }

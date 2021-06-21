@@ -6,7 +6,7 @@ namespace Models
 {
     public class Classroom
     {
-        public int ID { get; set; }
+        public int ClassroomID { get; set; }
         public string Name { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
     }

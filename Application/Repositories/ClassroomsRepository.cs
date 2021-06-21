@@ -30,12 +30,12 @@ namespace Application.Repositories
 
         public async Task<List<Classroom>> GetAllAsync() => await context.Classrooms.ToListAsync();
 
-        public async Task<Classroom> GetAsync(int id) => await context.Classrooms.FirstOrDefaultAsync(c => c.ID == id);
+        public async Task<Classroom> GetAsync(int id) => await context.Classrooms.FirstOrDefaultAsync(c => c.ClassroomID == id);
 
         public async Task<int> UpdateAsync(Classroom obj)
         {
-            var classroom = await GetAsync(obj.ID);
-            classroom.ID = obj.ID;
+            var classroom = await GetAsync(obj.ClassroomID);
+            classroom.ClassroomID = obj.ClassroomID;
             classroom.Name = obj.Name;
             return await context.SaveChangesAsync();
         }

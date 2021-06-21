@@ -86,7 +86,7 @@ namespace Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name")] Classroom classroom)
         {
-            if (id != classroom.ID)
+            if (id != classroom.ClassroomID)
             {
                 return NotFound();
             }
@@ -99,7 +99,7 @@ namespace Application.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TeacherExists(classroom.ID))
+                    if (!TeacherExists(classroom.ClassroomID))
                     {
                         return NotFound();
                     }
@@ -143,7 +143,7 @@ namespace Application.Controllers
         private bool TeacherExists(int id)
         {
             var listClassrooms = _repository.GetAllAsync();
-            return listClassrooms.Result.Any(t => t.ID == id);
+            return listClassrooms.Result.Any(t => t.ClassroomID == id);
         }
     }
 }

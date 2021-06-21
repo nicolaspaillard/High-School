@@ -31,11 +31,11 @@ namespace Application.Repositories
         public async Task<List<Grade>> GetAllAsync() => await context.Grades.ToListAsync();
 
 
-        public async Task<Grade> GetAsync(int id) => await context.Grades.FirstOrDefaultAsync(g => g.ID == id);
+        public async Task<Grade> GetAsync(int id) => await context.Grades.FirstOrDefaultAsync(g => g.GradeID == id);
 
         public async Task<int> UpdateAsync(Grade obj)
         {
-            var grade = await GetAsync(obj.ID);
+            var grade = await GetAsync(obj.GradeID);
             grade.Assessment = obj.Assessment;
             grade.Course = obj.Course;
             grade.Student = obj.Student;

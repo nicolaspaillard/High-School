@@ -86,7 +86,7 @@ namespace Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Date,TeacherID,SubjectID,ClassroomID")] Course course)
         {
-            if (id != course.ID)
+            if (id != course.CourseID)
             {
                 return NotFound();
             }
@@ -99,7 +99,7 @@ namespace Application.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TeacherExists(course.ID))
+                    if (!TeacherExists(course.CourseID))
                     {
                         return NotFound();
                     }
@@ -143,7 +143,7 @@ namespace Application.Controllers
         private bool TeacherExists(int id)
         {
             var listCourses = _repository.GetAllAsync();
-            return listCourses.Result.Any(t => t.ID == id);
+            return listCourses.Result.Any(t => t.CourseID == id);
         }
     }
 }

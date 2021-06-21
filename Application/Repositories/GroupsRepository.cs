@@ -30,11 +30,11 @@ namespace Application.Repositories
 
         public async Task<List<Group>> GetAllAsync() => await context.Groups.ToListAsync();
 
-        public async Task<Group> GetAsync(int id) => await context.Groups.FirstOrDefaultAsync(g => g.ID == id);
+        public async Task<Group> GetAsync(int id) => await context.Groups.FirstOrDefaultAsync(g => g.GroupID == id);
 
         public async Task<int> UpdateAsync(Group obj)
         {
-            var group = await GetAsync(obj.ID);
+            var group = await GetAsync(obj.GroupID);
             group.Students = obj.Students;
             group.Courses = obj.Courses;
             group.HomeRoomTeacher = obj.HomeRoomTeacher;

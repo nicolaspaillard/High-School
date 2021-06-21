@@ -86,7 +86,7 @@ namespace Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name")] Subject subject)
         {
-            if (id != (int) subject.ID)
+            if (id != (int) subject.SubjectID)
             {
                 return NotFound();
             }
@@ -99,7 +99,7 @@ namespace Application.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SubjectExists((int)subject.ID))
+                    if (!SubjectExists((int)subject.SubjectID))
                     {
                         return NotFound();
                     }
@@ -143,7 +143,7 @@ namespace Application.Controllers
         private bool SubjectExists(int id)
         {
             var listSubjects = _repository.GetAllAsync();
-            return listSubjects.Result.Any(s => (int)s.ID == id);
+            return listSubjects.Result.Any(s => (int)s.SubjectID == id);
         }
     }
 }
