@@ -16,7 +16,7 @@
     List<SelectListItem> subjects = new List<SelectListItem>();
     foreach (var item in subjectsService.GetAll())
     {
-        subjects.Add(new SelectListItem { Text = $"{item.Name}", Value = $"{item.ID}" });
+        subjects.Add(new SelectListItem { Text = $"{item.ID}", Value = $"{item.ID}" });
     }
 
     List<SelectListItem> classrooms = new List<SelectListItem>();

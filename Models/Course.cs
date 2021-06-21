@@ -11,12 +11,12 @@ namespace Models
         public DateTime Date { get; set; }
 //Corriger syntaxe Id -> ID, supprimer doublon
         public int? TeacherID { get; set; }
-        public int TeacherId { get; set; }
+        //public int TeacherId { get; set; }
         public virtual Teacher Teacher { get; set; }
 // fabien
         //-> Corriger syntaxe Id -> ID, supprimer doublon + subjectmatter nullable pour suppression
-        public SubjectMatter SubjectId { get; set; }
-        public int? SubjectID { get; set; }
+        public SubjectMatter? SubjectID { get; set; }
+        //public int? SubjectID { get; set; }
 //
         public virtual Subject Subject { get; set; }
         public int? ClassroomID { get; set; }
