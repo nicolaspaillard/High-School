@@ -11,26 +11,33 @@ namespace Application.Repositories
 {
     public class TeachersRepository : IRepositoryAsync<Teacher>
     {
-        private HighSchoolContext context;
+        private HighSchoolContext _context;
         public TeachersRepository(HighSchoolContext context)
         {
-            this.context = context;
+            _context = context;
         }
         public async Task<int> CreateAsync(Teacher obj)
         {
-            await context.Teachers.AddAsync(obj);
-            return await context.SaveChangesAsync();
+            await _context.Teachers.AddAsync(obj);
+            return await _context.SaveChangesAsync();
         }
 
         public async Task<int> DeleteAsync(Teacher obj)
         {
-            context.Teachers.Remove(obj);
-            return await context.SaveChangesAsync();
+            var teacher = await _context.Teachers.FindAsync(obj.ID);
+            var courses = await _context.Courses.Where(c => c.TeacherID == teacher.ID).ToListAsync();
+            foreach (var course in courses)
+            {
+                course.TeacherID = null;
+            }
+         
+            _context.Teachers.Remove(teacher);
+            return await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Teacher>> GetAllAsync() => await context.Teachers.ToListAsync();
+        public async Task<List<Teacher>> GetAllAsync() => await _context.Teachers.ToListAsync();
 
-        public async Task<Teacher> GetAsync(int id) => await context.Teachers.FirstOrDefaultAsync(t => t.ID == id);
+        public async Task<Teacher> GetAsync(int id) => await _context.Teachers.FirstOrDefaultAsync(t => t.ID == id);
 
         public async Task<int> UpdateAsync(Teacher obj)
         {
@@ -40,7 +47,7 @@ namespace Application.Repositories
             teacher.Subjects = obj.Subjects;
             teacher.Email = obj.Email;
             teacher.BirthDate = obj.BirthDate;
-            return await context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
     }
 }

@@ -140,7 +140,7 @@ namespace Dal
             #region TEACHERS
             List<Teacher> teachers = new List<Teacher>()
             {
-                new() { FirstName = "Cassady", LastName = "Wagner", Email = "tellus@turpisIncondimentum.co.uk", BirthDate = DateTime.ParseExact("09/26/1987", "MM/dd/yyyy", CultureInfo.InvariantCulture) },
+                new() { Subjects = subjects, FirstName = "Cassady", LastName = "Wagner", Email = "tellus@turpisIncondimentum.co.uk", BirthDate = DateTime.ParseExact("09/26/1987", "MM/dd/yyyy", CultureInfo.InvariantCulture) },
 	            new() { FirstName = "Camilla", LastName = "Walsh", Email = "Donec@sit.co.uk", BirthDate = DateTime.ParseExact("10/21/1981", "MM/dd/yyyy", CultureInfo.InvariantCulture) },
 	            new() { FirstName = "Stuart", LastName = "Bush", Email = "lorem@metusAeneansed.net", BirthDate = DateTime.ParseExact("05/05/1972", "MM/dd/yyyy", CultureInfo.InvariantCulture) },
 	            new() { FirstName = "Rowan", LastName = "Obrien", Email = "dapibus@porttitorinterdum.net", BirthDate = DateTime.ParseExact("11/28/1981", "MM/dd/yyyy", CultureInfo.InvariantCulture) },
