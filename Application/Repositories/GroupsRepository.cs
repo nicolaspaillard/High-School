@@ -36,7 +36,7 @@ namespace Application.Repositories
         {
             var group = await GetAsync(obj.ID);
             group.Students = obj.Students;
-            group.Subjects = obj.Subjects;
+            group.Courses = obj.Courses;
             group.HomeRoomTeacher = obj.HomeRoomTeacher;
             return await context.SaveChangesAsync();
         }

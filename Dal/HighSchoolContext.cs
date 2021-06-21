@@ -42,6 +42,10 @@ namespace Dal
             modelBuilder.Entity<Student>().ToTable("Students");
             modelBuilder.Entity<Teacher>().ToTable("Teachers");
             modelBuilder.Entity<Admin>().ToTable("Admins");
+            foreach (SubjectMatter val in Enum.GetValues(typeof(SubjectMatter)))
+            {
+                modelBuilder.Entity<Subject>().HasData(new Subject { ID = val });
+            }
             base.OnModelCreating(modelBuilder);
         }
     }

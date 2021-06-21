@@ -8,7 +8,7 @@ namespace Models
     {
         public int ID { get; set; }
         public virtual List<Student> Students { get; set; }
-        public virtual List<Subject> Subjects { get; set; }
+        public virtual List<Course> Courses { get; set; }
         public virtual Teacher HomeRoomTeacher { get; set; }
     }
 }
