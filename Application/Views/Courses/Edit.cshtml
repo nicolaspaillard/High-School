@@ -10,7 +10,7 @@
     List<SelectListItem> teachers = new List<SelectListItem>();
     foreach (var item in teachersService.GetAll())
     {
-        teachers.Add(new SelectListItem { Text = $"{item.FirstName} {item.LastName}", Value = $"{item.PersonID}" });
+        teachers.Add(new SelectListItem { Text = $"{item.FirstName} {item.LastName}", Value = $"{item.ID}" });
     }
 
     List<SelectListItem> subjects = new List<SelectListItem>();

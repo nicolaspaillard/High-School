@@ -34,7 +34,7 @@ namespace Application.Controllers
             }
 
             var admin = await _context.Admins
-                .FirstOrDefaultAsync(m => m.PersonID == id);
+                .FirstOrDefaultAsync(m => m.ID == id);
             if (admin == null)
             {
                 return NotFound();
@@ -88,7 +88,7 @@ namespace Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,Email,BirthDate")] Admin admin)
         {
-            if (id != admin.PersonID)
+            if (id != admin.ID)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace Application.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AdminExists(admin.PersonID))
+                    if (!AdminExists(admin.ID))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace Application.Controllers
             }
 
             var admin = await _context.Admins
-                .FirstOrDefaultAsync(m => m.PersonID == id);
+                .FirstOrDefaultAsync(m => m.ID == id);
             if (admin == null)
             {
                 return NotFound();
@@ -147,7 +147,7 @@ namespace Application.Controllers
 
         private bool AdminExists(int id)
         {
-            return _context.Admins.Any(e => e.PersonID == id);
+            return _context.Admins.Any(e => e.ID == id);
         }
     }
 }
