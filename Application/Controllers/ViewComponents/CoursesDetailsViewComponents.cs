@@ -19,14 +19,14 @@ namespace Application.Controllers.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(int id)
         {
-            var course = await GetCourseById(id);
+            var course = await GetCoursesByTeacherId(id);
             return View(course);
         }
 
-        private async Task<List<Course>> GetCourseById(int id)
+        private async Task<List<Course>> GetCoursesByTeacherId(int id)
         {
             var course = await _repository.GetAllAsync();
-            return course.Where(c => c.ID == id).ToList();
+            return course.Where(c => c.TeacherID == id).ToList();
         }
     }
 }

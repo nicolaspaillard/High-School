@@ -16,5 +16,6 @@ namespace Application.Controllers.Services
         }
 
         public List<Classroom> GetAll() => _repository.GetAllAsync().Result;
+        public Classroom GetClassroom(int id) => _repository.GetAsync(id).Result;
     }
 }

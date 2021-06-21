@@ -40,6 +40,7 @@ namespace Application
             services.AddTransient<TeachersService>();
             services.AddTransient<SubjectsService>();
             services.AddTransient<ClassroomsService>();
+            services.AddTransient<CoursesService>();
             services.AddDbContext<HighSchoolContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("HighSchoolDb"))
             );
