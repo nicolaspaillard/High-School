@@ -37,11 +37,14 @@ namespace Application.Repositories
             var course = await GetAsync(obj.ID);
 
             course.Date = obj.Date;
-            course.Classroom = obj.Classroom;
             course.Missings = obj.Missings;
             course.Groups = obj.Groups;
+            course.Classroom = obj.Classroom;
+            course.ClassroomID = obj.ClassroomID;
             course.Subject = obj.Subject;
+            course.SubjectID = obj.SubjectID;
             course.Teacher = obj.Teacher;
+            course.TeacherID = obj.TeacherID;
 
             return await context.SaveChangesAsync();
         }
