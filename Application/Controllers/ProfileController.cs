@@ -61,10 +61,10 @@ namespace Application.Controllers
                 ProfileViewModel.HomeRoomTeacher = ProfileViewModel.Groups.Select(g => g.HomeRoomTeacher).First();
                 return View(ProfileViewModel);
             }
-            else if (await person is Teacher)
+            else if (person is Teacher)
             {
                 //traitement
-                return View(await person);
+                return View(person);
             }
             else
             {
