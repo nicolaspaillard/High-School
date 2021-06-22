@@ -11,30 +11,36 @@ namespace Application.Repositories
 {
     public class SubjectsRepository : IRepositoryAsync<Subject>
     {
-        private HighSchoolContext context;
+        private HighSchoolContext _context;
         public SubjectsRepository(HighSchoolContext context)
         {
-            this.context = context;
+            _context = context;
         }
         public async Task<int> CreateAsync(Subject obj)
         {
-            await context.Subjects.AddAsync(obj);
-            return await context.SaveChangesAsync();
+            await _context.Subjects.AddAsync(obj);
+            return await _context.SaveChangesAsync();
         }
 
         public async Task<int> DeleteAsync(Subject obj)
         {
-            context.Subjects.Remove(obj);
-            return await context.SaveChangesAsync();
+            var subject = await _context.Subjects.FindAsync(obj.SubjectID);
+            var courses = await _context.Courses.Where(c => c.SubjectID == subject.SubjectID).ToListAsync();
+            foreach (var course in courses)
+            {
+                course.SubjectID = null;
+            }
+            _context.Subjects.Remove(subject);
+            return await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Subject>> GetAllAsync() => await context.Subjects.ToListAsync();
+        public async Task<List<Subject>> GetAllAsync() => await _context.Subjects.ToListAsync();
 
-        public async Task<Subject> GetAsync(int id) => await context.Subjects.FindAsync((SubjectMatter)id);
+        public async Task<Subject> GetAsync(int id) => await _context.Subjects.FindAsync((SubjectMatter)id);
 
         public async Task<int> UpdateAsync(Subject obj)
         {
-            return await context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
     }
 }
