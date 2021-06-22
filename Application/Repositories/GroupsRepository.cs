@@ -32,6 +32,11 @@ namespace Application.Repositories
 
         public async Task<Group> GetAsync(int id) => await context.Groups.FirstOrDefaultAsync(g => g.GroupID == id);
 
+        public Task<Group> GetAsync(Guid guid)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<int> UpdateAsync(Group obj)
         {
             var group = await GetAsync(obj.GroupID);

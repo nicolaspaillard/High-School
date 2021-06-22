@@ -32,6 +32,11 @@ namespace Application.Repositories
 
         public async Task<Missing> GetAsync(int id) => await context.Missings.FirstOrDefaultAsync(m => m.MissingID == id);
 
+        public Task<Missing> GetAsync(Guid guid)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<int> UpdateAsync(Missing obj)
         {
             var missing = await GetAsync(obj.MissingID);

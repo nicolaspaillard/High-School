@@ -39,18 +39,12 @@ namespace Application.Controllers
             {
                 return NotFound();
             }*/
-            var guidstr =  User.Claims.FirstOrDefault(c => c.Type == ClaimConstants.ObjectId).Value;
-            Guid guid;
-            if (Guid.TryParse(guidstr, out guid))
-            {
-                var student = await _repository.GetAsync(guid);
-                if (student == null)
-                {
-                    return NotFound();
-                }
-                return View(student);
-            }
-            else
+
+
+            Guid currentGuid = Guid.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimConstants.ObjectId).Value);
+
+            var student = await _repository.GetAsync(currentGuid);
+            if (student == null)
             {
                 return NotFound();
             }
@@ -162,3 +156,4 @@ namespace Application.Controllers
         }
     }
 }
+// mdp  ad Sellers Chava = Vajo6106
