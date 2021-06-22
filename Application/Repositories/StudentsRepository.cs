@@ -21,19 +21,15 @@ namespace Application.Repositories
             await context.Students.AddAsync(obj);
             return await context.SaveChangesAsync();
         }
-
         public async Task<int> DeleteAsync(Student obj)
         {
             context.Students.Remove(obj);
             return await context.SaveChangesAsync();
         }
-
         public async Task<List<Student>> GetAllAsync() => await context.Students.ToListAsync();
-        
-
         public async Task<Student> GetAsync(int id) => await context.Students.FirstOrDefaultAsync(s => s.PersonID == id);
-        public async Task<Student> GetAsync(Guid id) => await context.Students.FirstOrDefaultAsync(s => s.AzureId == id);
 
+        public async Task<Student> GetAsync(Guid id) => await context.Students.FirstOrDefaultAsync(s => s.AzureId == id);
 
         public async Task<int> UpdateAsync(Student obj)
         {

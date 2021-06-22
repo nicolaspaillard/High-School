@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Application.Repositories.IRepositories;
 using Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Application.Controllers
 {
@@ -22,12 +23,15 @@ namespace Application.Controllers
         // GET: Teachers
         public async Task<IActionResult> Index()
         {
+
             return View(await _repository.GetAllAsync());
         }
 
         // GET: Teachers/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int id)
         {
+
             /*if (id == null)
             {
                 return NotFound();

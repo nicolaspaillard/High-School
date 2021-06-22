@@ -14,6 +14,5 @@ namespace Models
 
         public int? HomeRoomTeacherID { get; set; }
         public virtual Teacher HomeRoomTeacher { get; set; }
-
     }
 }

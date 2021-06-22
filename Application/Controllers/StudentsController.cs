@@ -8,21 +8,23 @@ using Microsoft.EntityFrameworkCore;
 using Dal;
 using Models;
 using Application.Repositories.IRepositories;
-using Microsoft.Identity.Web;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Identity.Web;
+using Application.Repositories;
 
 namespace Application.Controllers
 {
     public class StudentsController : Controller
     {
-        private readonly IRepositoryAsync<Student> _repository;
+        private readonly StudentsRepository _repository;
 
-        public StudentsController(IRepositoryAsync<Student> repository)
+        public StudentsController(StudentsRepository repository)
         {
             _repository = repository;
         }
 
         // GET: Students
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _repository.GetAllAsync());
@@ -32,10 +34,12 @@ namespace Application.Controllers
         [Authorize]
         public async Task<IActionResult> Details()
         {
+
             /*if (id == null)
             {
                 return NotFound();
             }*/
+
 
             Guid currentGuid = Guid.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimConstants.ObjectId).Value);
 
@@ -45,7 +49,6 @@ namespace Application.Controllers
                 return NotFound();
             }
 
-            return View(student);
         }
 
         // GET: Students/Create

@@ -147,7 +147,7 @@ namespace Application.Controllers
 
         private bool AdminExists(int id)
         {
-            return _context.Admins.Any(e => e.PersonID == id);
+            return _context.Admins.Any(a => a.PersonID == id);
         }
     }
 }
