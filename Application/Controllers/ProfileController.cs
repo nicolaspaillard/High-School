@@ -51,13 +51,14 @@ namespace Application.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var person = azureTools.RegisterAzureUser(User);
-            if (await person is Student)
+            var person = await azureTools.RegisterAzureUser(User);
+            if (person is Student)
             {
-                ProfileViewModel.Person = await person;
-                ProfileViewModel.Groups = (await _groups.GetAllAsync()).Where(g => g.Students.Contains(person.Result as Student)).ToList();
-                ProfileViewModel.Courses = (await _courses.GetAllAsync()).Where(course => ProfileViewModel.Courses.Contains(course)).ToList();
-                ProfileViewModel.Grades = (await _grades.GetAllAsync()).Where(g => g.StudentID == ((Student)person.Result).PersonID).ToList();
+                ProfileViewModel.Person = person;
+                ProfileViewModel.Groups = (await _groups.GetAllAsync()).Where(g => g.Students.Contains(person as Student)).ToList();
+                ProfileViewModel.Courses = ProfileViewModel.Groups.SelectMany(g => g.Courses).ToList();
+                ProfileViewModel.Grades = (await _grades.GetAllAsync()).Where(g => g.StudentID == ((Student)person).PersonID).ToList();
+                ProfileViewModel.HomeRoomTeacher 
                 return View(ProfileViewModel);
             }
             else if (await person is Teacher)
