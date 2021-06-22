@@ -33,6 +33,11 @@ namespace Application.Repositories
 
         public async Task<Grade> GetAsync(int id) => await context.Grades.FirstOrDefaultAsync(g => g.GradeID == id);
 
+        public Task<Grade> GetAsync(Guid guid)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<int> UpdateAsync(Grade obj)
         {
             var grade = await GetAsync(obj.GradeID);

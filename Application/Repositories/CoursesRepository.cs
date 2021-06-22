@@ -32,6 +32,11 @@ namespace Application.Repositories
 
         public async Task<Course> GetAsync(int id) => await context.Courses.FirstOrDefaultAsync(c => c.CourseID == id);
 
+        public Task<Course> GetAsync(Guid guid)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<int> UpdateAsync(Course obj)
         {
             var course = await GetAsync(obj.CourseID);

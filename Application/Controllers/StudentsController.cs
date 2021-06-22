@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Dal;
 using Models;
 using Application.Repositories.IRepositories;
+using Microsoft.Identity.Web;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Application.Controllers
 {
@@ -27,14 +29,17 @@ namespace Application.Controllers
         }
 
         // GET: Students/Details/5
-        public async Task<IActionResult> Details(int id)
+        [Authorize]
+        public async Task<IActionResult> Details()
         {
             /*if (id == null)
             {
                 return NotFound();
             }*/
 
-            var student = await _repository.GetAsync(id);
+            Guid currentGuid = Guid.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimConstants.ObjectId).Value);
+
+            var student = await _repository.GetAsync(currentGuid);
             if (student == null)
             {
                 return NotFound();
@@ -148,3 +153,4 @@ namespace Application.Controllers
         }
     }
 }
+// mdp  ad Sellers Chava = Vajo6106

@@ -32,6 +32,11 @@ namespace Application.Repositories
 
         public async Task<Subject> GetAsync(int id) => await context.Subjects.FindAsync((SubjectMatter)id);
 
+        public Task<Subject> GetAsync(Guid guid)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<int> UpdateAsync(Subject obj)
         {
             return await context.SaveChangesAsync();
