@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Models
 {
     public class Grade
     {
+        [Key]
         public int GradeID { get; set; }
         public string Assessment { get; set; }
         public double Value { get; set; }

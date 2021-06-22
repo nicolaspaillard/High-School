@@ -30,12 +30,12 @@ namespace Application.Repositories
 
         public async Task<List<Missing>> GetAllAsync() => await context.Missings.ToListAsync();
 
-        public async Task<Missing> GetAsync(int id) => await context.Missings.FirstOrDefaultAsync(m => m.ID == id);
+        public async Task<Missing> GetAsync(int id) => await context.Missings.FirstOrDefaultAsync(m => m.MissingID == id);
 
         public async Task<int> UpdateAsync(Missing obj)
         {
-            var missing = await GetAsync(obj.ID);
-            missing.ID = obj.ID;
+            var missing = await GetAsync(obj.MissingID);
+            missing.MissingID = obj.MissingID;
             missing.Student = obj.Student;
             missing.Course = obj.Course;
             return await context.SaveChangesAsync();

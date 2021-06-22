@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
@@ -7,8 +8,8 @@ namespace Models
 {
     public class Missing
     {
-        public int ID { get; set; }
-
+        [Key]
+        public int MissingID { get; set; }
         public int? StudentID { get; set; }
         public virtual Student Student { get; set; }
 

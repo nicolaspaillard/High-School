@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Models
 {
     public class Subject
     {
+        [Key]
         public SubjectMatter SubjectID { get; set; }
         public virtual List<Teacher> Teachers { get; set; }
         public virtual List<Group> Groups { get; set; }
