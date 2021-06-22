@@ -28,7 +28,7 @@ namespace Application.Repositories
         }
         public async Task<List<Student>> GetAllAsync() => await context.Students.ToListAsync();
         public async Task<Student> GetAsync(int id) => await context.Students.FirstOrDefaultAsync(s => s.PersonID == id);
-        public async Task<Student> GetAsync(Guid id) => await context.Students.FirstOrDefaultAsync(s => s.AzureID == id);
+        public async Task<Student> GetAsync(Guid guid) => await context.Students.FirstOrDefaultAsync(s => s.AzureID == guid);
         public async Task<int> UpdateAsync(Student obj)
         {
             var temp = await GetAsync(obj.PersonID);

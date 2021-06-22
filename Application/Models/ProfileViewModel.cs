@@ -14,7 +14,7 @@ namespace Application.Models
         public List<Grade> Grades { get; set; } = null;
         public List<Subject> Subjects { get; set; } = null;
         public List<Missing> Missings { get; set; } = null;
-        public List<Group> Group { get; set; } = null;
+        public List<Group> Groups { get; set; } = null;
         public List<Teacher> Teachers { get; set; } = null;
     }
 }
