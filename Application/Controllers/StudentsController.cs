@@ -89,7 +89,7 @@ namespace Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,Email,BirthDate")] Student student)
         {
-            if (id != student.ID)
+            if (id != student.PersonID)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace Application.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StudentExists(student.ID))
+                    if (!StudentExists(student.PersonID))
                     {
                         return NotFound();
                     }
@@ -146,7 +146,7 @@ namespace Application.Controllers
         private bool StudentExists(int id)
         {
             var listStudents = _repository.GetAllAsync();
-            return listStudents.Result.Any(s => s.ID == id);
+            return listStudents.Result.Any(s => s.PersonID == id);
         }
     }
 }

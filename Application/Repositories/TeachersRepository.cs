@@ -24,8 +24,8 @@ namespace Application.Repositories
 
         public async Task<int> DeleteAsync(Teacher obj)
         {
-            var teacher = await _context.Teachers.FindAsync(obj.ID);
-            var courses = await _context.Courses.Where(c => c.TeacherID == teacher.ID).ToListAsync();
+            var teacher = await _context.Teachers.FindAsync(obj.PersonID);
+            var courses = await _context.Courses.Where(c => c.TeacherID == teacher.PersonID).ToListAsync();
             foreach (var course in courses)
             {
                 course.TeacherID = null;
@@ -37,11 +37,11 @@ namespace Application.Repositories
 
         public async Task<List<Teacher>> GetAllAsync() => await _context.Teachers.ToListAsync();
 
-        public async Task<Teacher> GetAsync(int id) => await _context.Teachers.FirstOrDefaultAsync(t => t.ID == id);
+        public async Task<Teacher> GetAsync(int id) => await _context.Teachers.FirstOrDefaultAsync(t => t.PersonID == id);
 
         public async Task<int> UpdateAsync(Teacher obj)
         {
-            var teacher = await GetAsync(obj.ID);
+            var teacher = await GetAsync(obj.PersonID);
             teacher.LastName = obj.LastName;
             teacher.FirstName = obj.FirstName;
             teacher.Subjects = obj.Subjects;

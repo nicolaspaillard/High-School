@@ -31,12 +31,12 @@ namespace Application.Repositories
         public async Task<List<Student>> GetAllAsync() => await context.Students.ToListAsync();
         
 
-        public async Task<Student> GetAsync(int id) => await context.Students.FirstOrDefaultAsync(s => s.ID == id);
+        public async Task<Student> GetAsync(int id) => await context.Students.FirstOrDefaultAsync(s => s.PersonID == id);
         
 
         public async Task<int> UpdateAsync(Student obj)
         {
-            var temp = await GetAsync(obj.ID);
+            var temp = await GetAsync(obj.PersonID);
             temp.FirstName = obj.FirstName;
             temp.LastName = obj.LastName;
             temp.Email = obj.Email;
