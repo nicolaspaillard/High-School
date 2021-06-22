@@ -32,7 +32,8 @@ namespace Application.Repositories
         
 
         public async Task<Student> GetAsync(int id) => await context.Students.FirstOrDefaultAsync(s => s.PersonID == id);
-        
+        public async Task<Student> GetAsync(Guid id) => await context.Students.FirstOrDefaultAsync(s => s.AzureID == id);
+
 
         public async Task<int> UpdateAsync(Student obj)
         {
