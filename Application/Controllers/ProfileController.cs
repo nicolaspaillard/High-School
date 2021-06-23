@@ -60,9 +60,12 @@ namespace Application.Controllers
                 ProfileViewModel.PersonType = Role.Student;
                 ProfileViewModel.Person = person;
                 ProfileViewModel.Groups = (await _groups.GetAllAsync()).Where(g => g.Students.Contains(person as Student)).ToList();
-                ProfileViewModel.Courses = ProfileViewModel.Groups.SelectMany(g => g.Courses).ToList();
-                ProfileViewModel.Grades = (await _grades.GetAllAsync()).Where(g => g.StudentID == ((Student)person).PersonID).ToList();
                 ProfileViewModel.HomeRoomTeacher = ProfileViewModel.Groups.Select(g => g.HomeRoomTeacher).First();
+                ProfileViewModel.Courses = ProfileViewModel.Groups.SelectMany(g => g.Courses).ToList();
+                ProfileViewModel.Teachers = ProfileViewModel.Courses.Select(c => c.Teacher).ToList();
+                ProfileViewModel.Subjects = ProfileViewModel.Courses.Select(c => c.Subject).ToList();
+                ProfileViewModel.Grades = (await _grades.GetAllAsync()).Where(g => g.StudentID == person.PersonID).ToList();
+                ProfileViewModel.Missings = (await _missings.GetAllAsync()).Where(m => m.StudentID == person.PersonID).ToList();
                 return View(ProfileViewModel);
             }
             else if (person is Teacher)
