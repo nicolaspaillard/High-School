@@ -16,7 +16,7 @@ namespace Dal
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
-        public DbSet<Admin> Admins { get; set; }
+        public DbSet<Administrator> Admins { get; set; }
         public HighSchoolContext() : base()
         {
 
@@ -41,7 +41,7 @@ namespace Dal
             modelBuilder.Entity<Subject>().ToTable("Subjects");
             modelBuilder.Entity<Student>().ToTable("Students");
             modelBuilder.Entity<Teacher>().ToTable("Teachers");
-            modelBuilder.Entity<Admin>().ToTable("Admins");
+            modelBuilder.Entity<Administrator>().ToTable("Admins");
             foreach (SubjectMatter val in Enum.GetValues(typeof(SubjectMatter)))
             {
                 modelBuilder.Entity<Subject>().HasData(new Subject { SubjectID = val });

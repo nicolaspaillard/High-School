@@ -1,4 +1,4 @@
-﻿@model List<string>
+﻿@model Application.Models.ProfileViewModel
 
 @{
     Layout = null;
@@ -11,12 +11,35 @@
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
 </head>
+@*@if (Model.PersonType == PersonType.Student)
+{
+
+}
+else if (Model.PersonType == PersonType.Student)
+{
+
+}
+else if (Model.PersonType == PersonType.Admin)
+{
+
+}*@
 <body>
-    <ul>
-    @foreach (string item in Model)
-    {
-        <li><p>@item</p></li>
-    }
-    </ul>
+    <h1>@Model.PersonType</h1>
+    <table>
+        <thead>
+            <tr>
+                <td>Prénom</td>
+                <td>Nom</td>
+                <td>Email</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Person.FirstName</td>
+                <td>@Model.Person.LastName</td>
+                <td>@Model.Person.Email</td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>

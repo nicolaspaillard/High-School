@@ -11,16 +11,19 @@ using Application.Repositories.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web;
 using Application.Repositories;
+using Application.Controllers.Tools;
 
 namespace Application.Controllers
 {
     public class StudentsController : Controller
     {
-        private readonly StudentsRepository _repository;
+        private readonly IRepositoryAsync<Student> _repository;
+        private AzureTools azureTools;
 
-        public StudentsController(StudentsRepository repository)
+        public StudentsController(IRepositoryAsync<Student> students, IRepositoryAsync<Teacher> teachers, IRepositoryAsync<Administrator> admins)
         {
-            _repository = repository;
+            _repository = students;
+            azureTools = new(students, teachers, admins);
         }
 
         // GET: Students
@@ -34,21 +37,12 @@ namespace Application.Controllers
         [Authorize]
         public async Task<IActionResult> Details()
         {
-
-            /*if (id == null)
-            {
-                return NotFound();
-            }*/
-
-
-            Guid currentGuid = Guid.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimConstants.ObjectId).Value);
-
-            var student = await _repository.GetAsync(currentGuid);
-            if (student == null)
-            {
-                return NotFound();
-            }
-
+            var student = await azureTools.RegisterAzureUser(User);
+            //if (student == null)
+            //{
+            //    return NotFound();
+            //}
+            return View(student);
         }
 
         // GET: Students/Create

@@ -13,6 +13,13 @@ namespace Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public DateTime BirthDate { get; set; }
-        public Guid AzureId { get; set; }
+        public Guid AzureID { get; set; }
+        public Role Role { get; set; }
+    }
+    public enum Role
+    {
+        Administrator = 0,
+        Teacher = 1,
+        Student = 2
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Models
 {
-    public class Admin : Person
+    public class Administrator : Person
     {
 
     }

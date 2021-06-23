@@ -18,18 +18,20 @@ namespace Application.Controllers
 {
     public class ProfileController : Controller
     {
-        private readonly StudentsRepository _students;
-        private readonly TeachersRepository _teachers;
+        private readonly IRepositoryAsync<Student> _students;
+        private readonly IRepositoryAsync<Teacher> _teachers;
+        private readonly IRepositoryAsync<Administrator> _admins;
         private readonly IRepositoryAsync<Group> _groups;
         private readonly IRepositoryAsync<Grade> _grades;
         private readonly IRepositoryAsync<Course> _courses;
         private readonly IRepositoryAsync<Missing> _missings;
         private readonly IRepositoryAsync<Classroom> _classrooms;
         private readonly IRepositoryAsync<Subject> _subjects;
-        AzureTools azureTools;
+        AzureTools _azureTools;
         ProfileViewModel ProfileViewModel = new();
-        public ProfileController(StudentsRepository students,
-                                TeachersRepository teachers,
+        public ProfileController(IRepositoryAsync<Student> students,
+                                IRepositoryAsync<Teacher> teachers,
+                                IRepositoryAsync<Administrator> admins,
                                 IRepositoryAsync<Group> groups,
                                 IRepositoryAsync<Grade> grades,
                                 IRepositoryAsync<Course> courses,
@@ -45,15 +47,17 @@ namespace Application.Controllers
             _missings = missings;
             _classrooms = classrooms;
             _subjects = subjects;
-            azureTools = new(_students, _teachers);
+            _admins = admins;
+            _azureTools = new(students, teachers, admins);
         }
         // GET: Profile
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var person = await azureTools.RegisterAzureUser(User);
+            var person = await _azureTools.RegisterAzureUser(User);
             if (person is Student)
             {
+                ProfileViewModel.PersonType = Role.Student;
                 ProfileViewModel.Person = person;
                 ProfileViewModel.Groups = (await _groups.GetAllAsync()).Where(g => g.Students.Contains(person as Student)).ToList();
                 ProfileViewModel.Courses = ProfileViewModel.Groups.SelectMany(g => g.Courses).ToList();
@@ -63,8 +67,17 @@ namespace Application.Controllers
             }
             else if (person is Teacher)
             {
-                //traitement
-                return View(person);
+                ProfileViewModel.PersonType = Role.Teacher;
+                ProfileViewModel.Person = person;
+                ProfileViewModel.Courses = (await _courses.GetAllAsync()).Where(c => c.Teacher == person).ToList();
+                ProfileViewModel.Groups = ProfileViewModel.Courses.SelectMany(c => c.Groups.Where(g => g.HomeRoomTeacher == person)).ToList();
+                return View(ProfileViewModel);
+            }
+            else if (person is Administrator)
+            {
+                ProfileViewModel.PersonType = Role.Administrator;
+                ProfileViewModel.Person = person;
+                return View(ProfileViewModel);
             }
             else
             {
