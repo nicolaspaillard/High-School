@@ -36,7 +36,7 @@ namespace Application
         {
             services.AddScoped<IRepositoryAsync<Student>, StudentsRepository>();
             services.AddScoped<IRepositoryAsync<Teacher>, TeachersRepository>();
-            services.AddScoped<IRepositoryAsync<Administrator>, AdminsRepository>();
+            services.AddScoped<IRepositoryAsync<Admin>, AdminsRepository>();
             services.AddScoped<IRepositoryAsync<Classroom>, ClassroomsRepository>();
             services.AddScoped<IRepositoryAsync<Course>, CoursesRepository>();
             services.AddScoped<IRepositoryAsync<Grade>, GradesRepository>();

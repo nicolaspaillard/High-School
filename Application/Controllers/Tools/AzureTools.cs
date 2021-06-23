@@ -15,9 +15,9 @@ namespace Application.Controllers.Tools
     {
         private readonly IRepositoryAsync<Student> _students;
         private readonly IRepositoryAsync<Teacher> _teachers;
-        private readonly IRepositoryAsync<Administrator> _admins;
+        private readonly IRepositoryAsync<Admin> _admins;
 
-        public AzureTools(IRepositoryAsync<Student> students, IRepositoryAsync<Teacher> teachers, IRepositoryAsync<Administrator> admins)
+        public AzureTools(IRepositoryAsync<Student> students, IRepositoryAsync<Teacher> teachers, IRepositoryAsync<Admin> admins)
         {
             _students = students;
             _teachers = teachers;
@@ -50,7 +50,7 @@ namespace Application.Controllers.Tools
                 switch (azurePersonRole)
                 {
                     case "Administrator":
-                        person = await GetPerson(_admins, person as Administrator, azurePersonClaims, azurePersonGuid);
+                        person = await GetPerson(_admins, person as Admin, azurePersonClaims, azurePersonGuid);
                         break;
                     case "Teacher":
                         person = await GetPerson(_teachers, person as Teacher, azurePersonClaims, azurePersonGuid);

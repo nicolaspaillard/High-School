@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Repositories
 {
-    public class AdminsRepository : IRepositoryAsync<Administrator>
+    public class AdminsRepository : IRepositoryAsync<Admin>
     {
         private HighSchoolContext context;
         public AdminsRepository(HighSchoolContext context)
@@ -17,24 +17,24 @@ namespace Application.Repositories
             this.context = context;
         }
 
-        public async Task<int> CreateAsync(Administrator obj)
+        public async Task<int> CreateAsync(Admin obj)
         {
             await context.Admins.AddAsync(obj);
             return await context.SaveChangesAsync();
         }
 
-        public async Task<int> DeleteAsync(Administrator obj)
+        public async Task<int> DeleteAsync(Admin obj)
         {
             context.Admins.Remove(obj);
             return await context.SaveChangesAsync();
         }
 
-        public async Task<List<Administrator>> GetAllAsync() => await context.Admins.ToListAsync();
+        public async Task<List<Admin>> GetAllAsync() => await context.Admins.ToListAsync();
 
-        public async Task<Administrator> GetAsync(int id) => await context.Admins.FirstOrDefaultAsync(s => s.PersonID == id);
+        public async Task<Admin> GetAsync(int id) => await context.Admins.FirstOrDefaultAsync(s => s.PersonID == id);
 
-        public async Task<Administrator> GetAsync(Guid guid) => await context.Admins.FirstOrDefaultAsync(s => s.AzureID == guid);
-        public async Task<int> UpdateAsync(Administrator obj)
+        public async Task<Admin> GetAsync(Guid guid) => await context.Admins.FirstOrDefaultAsync(s => s.AzureID == guid);
+        public async Task<int> UpdateAsync(Admin obj)
         {
             var admin = await GetAsync(obj.PersonID);
             admin.LastName = obj.LastName;

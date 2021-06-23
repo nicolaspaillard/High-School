@@ -18,7 +18,7 @@ namespace Models
     }
     public enum Role
     {
-        Administrator = 0,
+        Admin = 0,
         Teacher = 1,
         Student = 2
     }

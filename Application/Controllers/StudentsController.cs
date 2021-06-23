@@ -20,7 +20,7 @@ namespace Application.Controllers
         private readonly IRepositoryAsync<Student> _repository;
         private AzureTools azureTools;
 
-        public StudentsController(IRepositoryAsync<Student> students, IRepositoryAsync<Teacher> teachers, IRepositoryAsync<Administrator> admins)
+        public StudentsController(IRepositoryAsync<Student> students, IRepositoryAsync<Teacher> teachers, IRepositoryAsync<Admin> admins)
         {
             _repository = students;
             azureTools = new(students, teachers, admins);

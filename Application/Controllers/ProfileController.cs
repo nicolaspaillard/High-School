@@ -20,7 +20,7 @@ namespace Application.Controllers
     {
         private readonly IRepositoryAsync<Student> _students;
         private readonly IRepositoryAsync<Teacher> _teachers;
-        private readonly IRepositoryAsync<Administrator> _admins;
+        private readonly IRepositoryAsync<Admin> _admins;
         private readonly IRepositoryAsync<Group> _groups;
         private readonly IRepositoryAsync<Grade> _grades;
         private readonly IRepositoryAsync<Course> _courses;
@@ -31,7 +31,7 @@ namespace Application.Controllers
         ProfileViewModel ProfileViewModel = new();
         public ProfileController(IRepositoryAsync<Student> students,
                                 IRepositoryAsync<Teacher> teachers,
-                                IRepositoryAsync<Administrator> admins,
+                                IRepositoryAsync<Admin> admins,
                                 IRepositoryAsync<Group> groups,
                                 IRepositoryAsync<Grade> grades,
                                 IRepositoryAsync<Course> courses,
@@ -73,9 +73,9 @@ namespace Application.Controllers
                 ProfileViewModel.Groups = ProfileViewModel.Courses.SelectMany(c => c.Groups.Where(g => g.HomeRoomTeacher == person)).ToList();
                 return View(ProfileViewModel);
             }
-            else if (person is Administrator)
+            else if (person is Admin)
             {
-                ProfileViewModel.PersonType = Role.Administrator;
+                ProfileViewModel.PersonType = Role.Admin;
                 ProfileViewModel.Person = person;
                 return View(ProfileViewModel);
             }
