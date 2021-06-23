@@ -34,25 +34,20 @@ namespace Application.Controllers
         [Authorize]
         public async Task<IActionResult> Details()
         {
-
-            /*if (id == null)
-            {
-                return NotFound();
-            }*/
-
-
             Guid currentGuid = Guid.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimConstants.ObjectId).Value);
-
             var student = await _repository.GetAsync(currentGuid);
             if (student == null)
             {
-                var student = new Student()
+                var studentCreated = new Student()
                 {
-                    Email = User.Claims.
-                }
-
-                await _repository.CreateAsync(student);
-                return NotFound();
+                    LastName = User.FindFirst("name").Value.Split(' ')[1].ToUpper(),
+                    FirstName = User.FindFirst("name").Value.Split(' ')[0].First().ToString().ToUpper() + User.FindFirst("name").Value.Split(' ')[0].Substring(1).ToLower(),
+                    AzureId = currentGuid,
+                    Email = User.Identity.Name,
+                };
+                await _repository.CreateAsync(studentCreated);
+                if (studentCreated == null) return NotFound();
+                return View(studentCreated);
             }
             return View(student);
         }
