@@ -46,9 +46,15 @@ namespace Application.Controllers
             var student = await _repository.GetAsync(currentGuid);
             if (student == null)
             {
+                var student = new Student()
+                {
+                    Email = User.Claims.
+                }
+
+                await _repository.CreateAsync(student);
                 return NotFound();
             }
-
+            return View(student);
         }
 
         // GET: Students/Create

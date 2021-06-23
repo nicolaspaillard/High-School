@@ -42,6 +42,11 @@ namespace Application.Repositories
             throw new NotImplementedException();
         }
 
+        public Task<Teacher> GetAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<int> UpdateAsync(Teacher obj)
         {
             var teacher = await GetAsync(obj.PersonID);
