@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -48,8 +49,6 @@ namespace Application
             services.AddDbContext<HighSchoolContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("HighSchoolDb"))
             );
-            
-
             services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme).AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
             services.AddControllersWithViews(options =>
             {
