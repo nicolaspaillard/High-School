@@ -1,4 +1,6 @@
 ﻿@model Models.Person
+@using Application.Controllers.Services
+@inject RepositoryService<Models.Group> groupService
 <h4></h4>
 <hr />
 <div class="row">
@@ -32,7 +34,10 @@
                     //create a student ui
                     <div class="form-group">
                         <label asp-for="@(Model as Models.Student).GroupID" class="control-label"></label>
-                        <select asp-for="@(Model as Models.Student).GroupID" class="form-control" asp-items=""></select>
+                        @{ 
+                            List<SelectListItem> items = (await groupService.GetAllAsync())?.Select(g => new SelectListItem() { Text = g.GroupID.ToString(), Value = g.GroupID.ToString() }).ToList();
+                        }
+                        <select asp-for="@(Model as Models.Student).GroupID" class="form-control" asp-items="items"></select>
                     </div>
                     break;
                 default:
