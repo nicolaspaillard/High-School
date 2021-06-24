@@ -54,7 +54,11 @@
 @switch (Model.Role)
 {
     case Models.Role.Admin:
-
+        //  Bouton popup
+        //  ajax + tard
+        <button onclick="@await Component.InvokeAsync("CreatePersonViewComponent", new Models.Student());">Ajouter un étudiant</button>
+        <button onclick="@await Component.InvokeAsync("CreatePersonViewComponent", new Models.Teacher());">Ajouter un professeur</button>
+        <button onclick="@await Component.InvokeAsync("CreatePersonViewComponent", new Models.Admin());">Ajouter un administrateur</button>
         break;
     case Models.Role.Teacher:
 

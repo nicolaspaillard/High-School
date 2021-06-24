@@ -62,7 +62,7 @@ namespace Application.Controllers
         {
             Guid currentGuid = Guid.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimConstants.ObjectId).Value);
             student.Email = User.Identity.Name;
-            student.AzureId = currentGuid;
+            student.AzureID = currentGuid;
 
             if (ModelState.IsValid)
             {

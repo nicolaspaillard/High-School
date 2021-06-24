@@ -14,7 +14,7 @@ namespace Application.Repositories
         private HighSchoolContext _context;
         public StudentsRepository(HighSchoolContext context)
         {
-            _context = context;
+            this._context = context;
         }
         public async Task<int> CreateAsync(Student obj)
         {
@@ -34,10 +34,10 @@ namespace Application.Repositories
             _context.Students.Remove(student);
             return await _context.SaveChangesAsync();
         }
-
         public async Task<List<Student>> GetAllAsync() => await _context.Students.ToListAsync();
         
         public async Task<Student> GetAsync(int id) => await _context.Students.FirstOrDefaultAsync(s => s.PersonID == id);
+        public async Task<Student> GetAsync(Guid guid) => await _context.Students.FirstOrDefaultAsync(s => s.AzureID == guid);
 
         public async Task<int> UpdateAsync(Student obj)
         {
