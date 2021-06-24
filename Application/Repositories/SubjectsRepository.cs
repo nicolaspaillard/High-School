@@ -28,9 +28,9 @@ namespace Application.Repositories
             return await context.SaveChangesAsync();
         }
 
-        public async Task<List<Subject>> GetAllAsync() => await context.Subjects.ToListAsync();
+        public async Task<List<Subject>> GetAllAsync() => await context.Subjects.AnyAsync() ? await context.Subjects.ToListAsync() : null; 
 
-        public async Task<Subject> GetAsync(int id) => await context.Subjects.FindAsync((SubjectMatter)id);
+        public async Task<Subject> GetAsync(int id) => await context.Subjects.FirstOrDefaultAsync(s => s.SubjectID == (SubjectMatter)id);
 
         public Task<Subject> GetAsync(Guid guid)
         {

@@ -11,16 +11,19 @@ using Application.Repositories.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web;
 using Application.Repositories;
+using Application.Controllers.Tools;
 
 namespace Application.Controllers
 {
     public class StudentsController : Controller
     {
-        private readonly StudentsRepository _repository;
+        private readonly IRepositoryAsync<Student> _repository;
+        private AzureTools azureTools;
 
-        public StudentsController(StudentsRepository repository)
+        public StudentsController(IRepositoryAsync<Student> students, IRepositoryAsync<Teacher> teachers, IRepositoryAsync<Admin> admins)
         {
-            _repository = repository;
+            _repository = students;
+            azureTools = new(students, teachers, admins);
         }
 
         // GET: Students
@@ -85,7 +88,7 @@ namespace Application.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,Email,BirthDate")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,Email,BirthDate,GroupID")] Student student)
         {
             if (id != student.PersonID)
             {

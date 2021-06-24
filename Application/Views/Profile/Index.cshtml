@@ -1,4 +1,4 @@
-﻿@model List<string>
+﻿@model Application.Models.ProfileViewModel
 
 @{
     Layout = null;
@@ -11,12 +11,61 @@
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
 </head>
+
 <body>
-    <ul>
-    @foreach (string item in Model)
+    <h3>@Model.Role</h3>
+    <a href="https://localhost:44321/signout-@Model.Person.AzureID">Déconnexion</a>
+    <table>
+        <thead>
+            <tr>
+                <td>Prénom</td>
+                <td>Nom</td>
+                <td>Email</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Person.FirstName</td>
+                <td>@Model.Person.LastName</td>
+                <td>@Model.Person.Email</td>
+            </tr>
+        </tbody>
+    </table>
+    @if (Model.Role == Models.Role.Student && Model.Courses != null && Model.Courses.Count > 0)
     {
-        <li><p>@item</p></li>
+        <h3>Emploi du temps : </h3>
+        <table>
+            <thead>
+                <tr>
+                    <td>Date</td>
+                    <td>Salle</td>
+                    <td>Professeur</td>
+                    <td>Matière</td>
+                    <td>Classes</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Models.Course course in Model.Courses.OrderBy(c => c.Date))
+                {
+                    <tr>
+                        <td>@course.Date.ToString("G")</td>
+                        <td>@course.Classroom.Name</td>
+                        <td>Mr/Mme. @course.Teacher.LastName</td>
+                        <td>@course.Subject.SubjectID.ToString()</td>
+                        <td>@course.Groups.ToString()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        //invokeasync components
     }
-    </ul>
+    else if (Model.Role == Models.Role.Student)
+    {
+
+    }
+    else if (Model.Role == Models.Role.Admin)
+    {
+
+    }
 </body>
 </html>

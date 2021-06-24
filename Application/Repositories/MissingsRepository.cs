@@ -28,15 +28,11 @@ namespace Application.Repositories
             return await context.SaveChangesAsync();
         }
 
-        public async Task<List<Missing>> GetAllAsync() => await context.Missings.ToListAsync();
+        public async Task<List<Missing>> GetAllAsync() => await context.Missings.AnyAsync() ? await context.Missings.ToListAsync() : null;
 
         public async Task<Missing> GetAsync(int id) => await context.Missings.FirstOrDefaultAsync(m => m.MissingID == id);
 
-        public Task<Missing> GetAsync(Guid guid)
-        {
-            throw new NotImplementedException();
-        }
-
+        public Task<Missing> GetAsync(Guid guid) => null;
         public async Task<int> UpdateAsync(Missing obj)
         {
             var missing = await GetAsync(obj.MissingID);

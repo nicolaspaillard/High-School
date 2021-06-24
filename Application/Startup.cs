@@ -36,6 +36,7 @@ namespace Application
         {
             services.AddScoped<IRepositoryAsync<Student>, StudentsRepository>();
             services.AddScoped<IRepositoryAsync<Teacher>, TeachersRepository>();
+            services.AddScoped<IRepositoryAsync<Admin>, AdminsRepository>();
             services.AddScoped<IRepositoryAsync<Classroom>, ClassroomsRepository>();
             services.AddScoped<IRepositoryAsync<Course>, CoursesRepository>();
             services.AddScoped<IRepositoryAsync<Grade>, GradesRepository>();
@@ -47,6 +48,7 @@ namespace Application
             services.AddTransient<SubjectsService>();
             services.AddTransient<ClassroomsService>();
             services.AddTransient<CoursesService>();
+            services.AddTransient<StudentsService>();
             services.AddDbContext<HighSchoolContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("HighSchoolDb"))
             );

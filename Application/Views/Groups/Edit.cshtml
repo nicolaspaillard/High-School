@@ -1,7 +1,31 @@
 ﻿@model Models.Group
+@using Application.Controllers.Services
+@inject StudentsService studentsService
+@inject TeachersService teachersService
+@inject CoursesService coursesService 
 
 @{
     ViewData["Title"] = "Edit";
+
+
+
+    List<SelectListItem> students = new List<SelectListItem>();
+    foreach (var item in studentsService.GetAll())
+    {
+        students.Add(new SelectListItem { Text = $"{item.FirstName} {item.LastName}", Value = $"{item.PersonID}" });
+    }
+
+    List<SelectListItem> teachers = new List<SelectListItem>();
+    foreach (var item in teachersService.GetAll())
+    {
+        teachers.Add(new SelectListItem { Text = $"{item.FirstName} {item.LastName}", Value = $"{item.PersonID}" });
+    }
+
+    List<SelectListItem> courses = new List<SelectListItem>();
+    foreach (var item in coursesService.GetAll())
+    {
+        teachers.Add(new SelectListItem { Text = $"{item.Subject.SubjectID}", Value = $"{item.CourseID}" });
+    }
 }
 
 <h1>Edit</h1>
@@ -13,6 +37,35 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="@Model.GroupID" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="HomeRoomTeacherID" class="control-label">Teachers</label><br />
+                <select asp-for="HomeRoomTeacherID" asp-items="teachers"></select>
+            </div>
+
+                <table>
+                    <tr>
+                        <th>
+                            @foreach (var student in students)
+                            {
+                                <input type="checkbox" name="StudentsID" value="@student.Value" checked="@student.Selected" />
+                                <label asp-for="@student.Value">@student.Text</label><br />
+                            }
+                        </th>
+                        <th>
+                            @*@foreach (var course in courses)
+                            {
+                                <input type="checkbox" name="CoursesID" value="@course.Value" checked="@course.Selected" />
+                                <label asp-for="@course.Value">@course.Text</label><br />
+                            }*@
+                        </th>
+                    </tr>
+                </table>
+            
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

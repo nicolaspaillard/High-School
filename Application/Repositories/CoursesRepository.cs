@@ -28,14 +28,11 @@ namespace Application.Repositories
             return await context.SaveChangesAsync();
         }
 
-        public async Task<List<Course>> GetAllAsync() => await context.Courses.ToListAsync();
+        public async Task<List<Course>> GetAllAsync() => await context.Courses.AnyAsync() ? await context.Courses.ToListAsync() : null;
 
         public async Task<Course> GetAsync(int id) => await context.Courses.FirstOrDefaultAsync(c => c.CourseID == id);
 
-        public Task<Course> GetAsync(Guid guid)
-        {
-            throw new NotImplementedException();
-        }
+        public Task<Course> GetAsync(Guid guid) => null;
 
         public async Task<int> UpdateAsync(Course obj)
         {
