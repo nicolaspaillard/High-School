@@ -8,7 +8,7 @@ namespace Application.Models
 {
     public class ProfileViewModel
     {
-        public Role PersonType { get; set; } = Role.Student;
+        public Role Role { get; set; } = Role.Student;
         public Person Person { get; set; } = null;
         public Teacher HomeRoomTeacher { get; set; } = null;
         public List<Course> Courses { get; set; } = null;

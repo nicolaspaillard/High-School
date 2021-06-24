@@ -57,28 +57,30 @@ namespace Application.Controllers
             var person = await _azureTools.RegisterAzureUser(User);
             if (person is Student)
             {
-                ProfileViewModel.PersonType = Role.Student;
+                ProfileViewModel.Role = Role.Student;
                 ProfileViewModel.Person = person;
-                ProfileViewModel.Groups = (await _groups.GetAllAsync()).Where(g => g.Students.Contains(person as Student)).ToList();
-                ProfileViewModel.HomeRoomTeacher = ProfileViewModel.Groups.Select(g => g.HomeRoomTeacher).First();
-                ProfileViewModel.Courses = ProfileViewModel.Groups.SelectMany(g => g.Courses).ToList();
-                ProfileViewModel.Teachers = ProfileViewModel.Courses.Select(c => c.Teacher).ToList();
-                ProfileViewModel.Subjects = ProfileViewModel.Courses.Select(c => c.Subject).ToList();
-                ProfileViewModel.Grades = (await _grades.GetAllAsync()).Where(g => g.StudentID == person.PersonID).ToList();
-                ProfileViewModel.Missings = (await _missings.GetAllAsync()).Where(m => m.StudentID == person.PersonID).ToList();
+                List<Group> allGroups = await _groups.GetAllAsync();
+                ProfileViewModel.Groups = allGroups?.Where(g => g.Students.Contains((Student)person))?.ToList();
+                ProfileViewModel.HomeRoomTeacher = ProfileViewModel.Groups.Count > 0 ? ProfileViewModel.Groups.Select(g => g.HomeRoomTeacher).First() : null;
+                List<Course> courses = ProfileViewModel.Groups.SelectMany(g => g.Courses).ToList();
+                ProfileViewModel.Courses = courses.Count > 0 ? courses : null;
+                ProfileViewModel.Teachers = ProfileViewModel.Courses?.Select(c => c.Teacher).ToList();
+                ProfileViewModel.Subjects = ProfileViewModel.Courses?.Select(c => c.Subject).ToList();
+                ProfileViewModel.Grades = (await _grades.GetAllAsync())?.Where(g => g.StudentID == person.PersonID).ToList();
+                ProfileViewModel.Missings = (await _missings.GetAllAsync())?.Where(m => m.StudentID == person.PersonID).ToList();
                 return View(ProfileViewModel);
             }
             else if (person is Teacher)
             {
-                ProfileViewModel.PersonType = Role.Teacher;
+                ProfileViewModel.Role = Role.Teacher;
                 ProfileViewModel.Person = person;
-                ProfileViewModel.Courses = (await _courses.GetAllAsync()).Where(c => c.Teacher == person).ToList();
-                ProfileViewModel.Groups = ProfileViewModel.Courses.SelectMany(c => c.Groups.Where(g => g.HomeRoomTeacher == person)).ToList();
+                ProfileViewModel.Courses = (await _courses.GetAllAsync())?.Where(c => c.Teacher.PersonID == person.PersonID)?.ToList();
+                ProfileViewModel.Groups = ProfileViewModel.Courses?.SelectMany(c => c.Groups.Where(g => g.HomeRoomTeacher == person)).ToList();
                 return View(ProfileViewModel);
             }
             else if (person is Admin)
             {
-                ProfileViewModel.PersonType = Role.Admin;
+                ProfileViewModel.Role = Role.Admin;
                 ProfileViewModel.Person = person;
                 return View(ProfileViewModel);
             }

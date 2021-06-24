@@ -38,37 +38,55 @@ namespace Application.Controllers.Tools
             }
             else
             {
-                //  Récupération des infos utilisateur dans les Claims
-                Person person = new()
-                {
-                    Email = azurePersonClaims.FindFirst("preferred_username").Value,
-                    FirstName = azurePersonClaims.FindFirst("name").Value.Split(' ')[0],
-                    LastName = azurePersonClaims.FindFirst("name").Value.Split(' ')[1]
-                };
                 //  Récupération et traitement du rôle
                 var azurePersonRole = ((ClaimsIdentity)azurePersonClaims.Identity).Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
                 switch (azurePersonRole)
                 {
                     case "Administrator":
-                        person = await GetPerson(_admins, person as Admin, azurePersonClaims, azurePersonGuid);
-                        break;
+                        //  Récupération des infos utilisateur dans les Claims
+                        Admin admin = new()
+                        {
+                            Email = azurePersonClaims.FindFirst("preferred_username").Value,
+                            FirstName = azurePersonClaims.FindFirst("name").Value.Split('_').First()[0].ToString().ToUpper() + azurePersonClaims.FindFirst("name").Value.Split('_').First().Substring(1).ToLower(),
+                            LastName = azurePersonClaims.FindFirst("name").Value.Split('_').Last().ToUpper(),
+                            AzureID = azurePersonGuid,
+                            Role = Role.Admin
+                        };
+                        admin = await GetPerson(_admins, admin, azurePersonClaims, azurePersonGuid);
+                        return admin;
                     case "Teacher":
-                        person = await GetPerson(_teachers, person as Teacher, azurePersonClaims, azurePersonGuid);
-                        break;
+                        //  Récupération des infos utilisateur dans les Claims
+                        Teacher teacher = new()
+                        {
+                            Email = azurePersonClaims.FindFirst("preferred_username").Value,
+                            FirstName = azurePersonClaims.FindFirst("name").Value.Split('_').First()[0].ToString().ToUpper() + azurePersonClaims.FindFirst("name").Value.Split('_').First().Substring(1).ToLower(),
+                            LastName = azurePersonClaims.FindFirst("name").Value.Split('_').Last().ToUpper(),
+                            AzureID = azurePersonGuid,
+                            Role = Role.Teacher
+                        };
+                        teacher = await GetPerson(_teachers, teacher, azurePersonClaims, azurePersonGuid);
+                        return teacher;
                     case "Student":
-                        person = await GetPerson(_students, person as Student, azurePersonClaims, azurePersonGuid);
-                        break;
+                        Student student = new()
+                        {
+                            Email = azurePersonClaims.FindFirst("preferred_username").Value,
+                            FirstName = azurePersonClaims.FindFirst("name").Value.Split('_').First()[0].ToString().ToUpper() + azurePersonClaims.FindFirst("name").Value.Split('_').First().Substring(1).ToLower(),
+                            LastName = azurePersonClaims.FindFirst("name").Value.Split('_').Last().ToUpper(),
+                            AzureID = azurePersonGuid,
+                            Role = Role.Student
+                        };
+                        student = await GetPerson(_students, student, azurePersonClaims, azurePersonGuid);
+                        return student;
                     default:
                         //ATTENTION personne non ajoutée par défaut si aucun rôle défini !
-                        break;
+                        return null;
                 }
-                return person;
             } 
         }
         //  Récupère la personne connectée en base si
         //  elle existe, l'y ajoute si elle n'exsiste pas,
         //  puis la retourne   
-        private static async Task<Person> GetPerson<T>(IRepositoryAsync<T> repository, T azurePerson, ClaimsPrincipal user, Guid azurePersonGuid) where T : Person
+        private static async Task<T> GetPerson<T>(IRepositoryAsync<T> repository, T azurePerson, ClaimsPrincipal user, Guid azurePersonGuid) where T : Person
         {
             T appPerson = await repository.GetAsync(azurePersonGuid);            
             if (appPerson == null)

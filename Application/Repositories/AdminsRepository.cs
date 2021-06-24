@@ -16,7 +16,6 @@ namespace Application.Repositories
         {
             this.context = context;
         }
-
         public async Task<int> CreateAsync(Admin obj)
         {
             await context.Admins.AddAsync(obj);
@@ -29,7 +28,7 @@ namespace Application.Repositories
             return await context.SaveChangesAsync();
         }
 
-        public async Task<List<Admin>> GetAllAsync() => await context.Admins.ToListAsync();
+        public async Task<List<Admin>> GetAllAsync() => await context.Admins.AnyAsync() ? await context.Admins.ToListAsync() : null;
 
         public async Task<Admin> GetAsync(int id) => await context.Admins.FirstOrDefaultAsync(s => s.PersonID == id);
 
