@@ -12,13 +12,12 @@ namespace Models
         public virtual List<Teacher> Teachers { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
     }
-}
-
-public enum SubjectMatter
-{
-    French = 0,
-    Csharp = 1,
-    Maths = 2,
-    ASP_NET = 3,
-    English = 4
+    public enum SubjectMatter
+    {
+        French = 0,
+        Csharp = 1,
+        Maths = 2,
+        ASP_NET = 3,
+        English = 4
+    }
 }

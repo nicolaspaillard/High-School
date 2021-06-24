@@ -13,6 +13,5 @@ namespace Models
         public virtual List<Course> Courses { get; set; }
         public int? HomeRoomTeacherID { get; set; }
         public virtual Teacher HomeRoomTeacher { get; set; }
-
     }
 }
