@@ -38,16 +38,7 @@ namespace Application.Controllers
             var student = await _repository.GetAsync(currentGuid);
             if (student == null)
             {
-                var studentCreated = new Student()
-                {
-                    LastName = User.FindFirst("name").Value.Split(' ')[1].ToUpper(),
-                    FirstName = User.FindFirst("name").Value.Split(' ')[0].First().ToString().ToUpper() + User.FindFirst("name").Value.Split(' ')[0].Substring(1).ToLower(),
-                    AzureId = currentGuid,
-                    Email = User.Identity.Name,
-                };
-                await _repository.CreateAsync(studentCreated);
-                if (studentCreated == null) return NotFound();
-                return View(studentCreated);
+                return RedirectToAction(nameof(Create));
             }
             return View(student);
         }
@@ -61,10 +52,15 @@ namespace Application.Controllers
         // POST: Students/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Email,BirthDate")] Student student)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,BirthDate")] Student student)
         {
+            Guid currentGuid = Guid.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimConstants.ObjectId).Value);
+            student.Email = User.Identity.Name;
+            student.AzureId = currentGuid;
+
             if (ModelState.IsValid)
             {
                 await _repository.CreateAsync(student);
@@ -76,11 +72,6 @@ namespace Application.Controllers
         // GET: Students/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            /*if (id == null)
-            {
-                return NotFound();
-            }*/
-
             var student = await _repository.GetAsync(id);
             if (student == null)
             {
