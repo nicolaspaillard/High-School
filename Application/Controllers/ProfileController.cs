@@ -61,8 +61,8 @@ namespace Application.Controllers
                 ProfileViewModel.Person = person;
                 List<Group> allGroups = await _groups.GetAllAsync();
                 ProfileViewModel.Groups = allGroups?.Where(g => g.Students.Contains((Student)person))?.ToList();
-                ProfileViewModel.HomeRoomTeacher = ProfileViewModel.Groups.Count > 0 ? ProfileViewModel.Groups.Select(g => g.HomeRoomTeacher).First() : null;
-                List<Course> courses = ProfileViewModel.Groups.SelectMany(g => g.Courses).ToList();
+                ProfileViewModel.HomeRoomTeacher = ProfileViewModel.Groups?.Count > 0 ? ProfileViewModel.Groups?.Select(g => g.HomeRoomTeacher).First() : null;
+                List<Course> courses = ProfileViewModel.Groups?.SelectMany(g => g.Courses).ToList();
                 ProfileViewModel.Courses = courses.Count > 0 ? courses : null;
                 ProfileViewModel.Teachers = ProfileViewModel.Courses?.Select(c => c.Teacher).ToList();
                 ProfileViewModel.Subjects = ProfileViewModel.Courses?.Select(c => c.Subject).ToList();
