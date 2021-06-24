@@ -40,6 +40,11 @@ namespace Application.Repositories
         public async Task<Teacher> GetAsync(int id) => await context.Teachers.FirstOrDefaultAsync(t => t.PersonID == id);
         public async Task<Teacher> GetAsync(Guid guid) => await context.Teachers.FirstOrDefaultAsync(t => t.AzureID == guid);
 
+        public Task<Teacher> GetAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<int> UpdateAsync(Teacher obj)
         {
             var teacher = await GetAsync(obj.PersonID);

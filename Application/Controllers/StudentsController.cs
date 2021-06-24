@@ -37,11 +37,12 @@ namespace Application.Controllers
         [Authorize]
         public async Task<IActionResult> Details()
         {
-            var student = await azureTools.RegisterAzureUser(User);
-            //if (student == null)
-            //{
-            //    return NotFound();
-            //}
+            Guid currentGuid = Guid.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimConstants.ObjectId).Value);
+            var student = await _repository.GetAsync(currentGuid);
+            if (student == null)
+            {
+                return RedirectToAction(nameof(Create));
+            }
             return View(student);
         }
 
@@ -54,10 +55,15 @@ namespace Application.Controllers
         // POST: Students/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Email,BirthDate,GroupID")] Student student)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,BirthDate")] Student student)
         {
+            Guid currentGuid = Guid.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimConstants.ObjectId).Value);
+            student.Email = User.Identity.Name;
+            student.AzureId = currentGuid;
+
             if (ModelState.IsValid)
             {
                 await _repository.CreateAsync(student);
@@ -69,11 +75,6 @@ namespace Application.Controllers
         // GET: Students/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            /*if (id == null)
-            {
-                return NotFound();
-            }*/
-
             var student = await _repository.GetAsync(id);
             if (student == null)
             {
