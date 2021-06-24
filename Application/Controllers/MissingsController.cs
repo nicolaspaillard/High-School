@@ -53,7 +53,7 @@ namespace Application.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID")] Missing missing)
+        public async Task<IActionResult> Create([Bind(nameof(Missing.MissingID), nameof(Missing.StudentID), nameof(Missing.CourseID))] Missing missing)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace Application.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID")] Missing missing)
+        public async Task<IActionResult> Edit(int id, [Bind(nameof(Missing.MissingID), nameof(Missing.StudentID), nameof(Missing.CourseID))] Missing missing)
         {
             if (id != missing.MissingID)
             {

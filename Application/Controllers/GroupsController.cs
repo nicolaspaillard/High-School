@@ -140,7 +140,7 @@ namespace Application.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TeacherExists(group.GroupID))
+                    if (!GroupExists(group.GroupID))
                     {
                         return NotFound();
                     }
@@ -181,7 +181,7 @@ namespace Application.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TeacherExists(int id)
+        private bool GroupExists(int id)
         {
             var listGroups = _groups.GetAllAsync();
             return listGroups.Result.Any(t => t.GroupID == id);
