@@ -1,0 +1,75 @@
+﻿@model Application.Models.ProfileViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Mon profil : </h1>
+<a href="https://localhost:44321/signout-">Déconnexion</a>
+<table>
+    <thead>
+        <tr>
+            <td>Prénom</td>
+            <td>Nom</td>
+            <td>Email</td>
+            <td>Rôle</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.Person.FirstName</td>
+            <td>@Model.Person.LastName</td>
+            <td>@Model.Person.Email</td>
+            @{
+                string role = Model.Role.ToString() == "Student" ? "Étudiant" : Model.Role.ToString() == "Teacher" ? "Professeur" : "Administrateur";
+            }
+            <td>@role</td>
+        </tr>
+    </tbody>
+</table>
+@if (Model.Role == Models.Role.Student && Model.Courses != null && Model.Courses.Count > 0)
+{
+    <h2>Emploi du temps : </h2>
+    <table>
+        <thead>
+            <tr>
+                <td>Date</td>
+                <td>Salle</td>
+                <td>Professeur</td>
+                <td>Matière</td>
+                <td>Classes</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Models.Course course in Model.Courses.OrderBy(c => c.Date))
+            {
+                <tr>
+                    <td>@course.Date.ToString("G")</td>
+                    <td>@course.Classroom.Name</td>
+                    <td>Mr/Mme. @course.Teacher.LastName</td>
+                    <td>@course.Subject.SubjectID.ToString()</td>
+                    <td>@course.Groups.ToString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    //invokeasync components
+}
+else if (Model.Role == Models.Role.Teacher)
+{
+
+}
+else if (Model.Role == Models.Role.Admin)
+{
+
+}
+<style scoped>
+    table {
+        width: 100%;
+        vertical-align: middle;
+    }
+
+        table thead {
+            font-weight: bold;
+        }
+</style>

@@ -2,13 +2,18 @@ using Application.Controllers.Services;
 using Application.Repositories;
 using Application.Repositories.IRepositories;
 using Dal;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -31,6 +36,7 @@ namespace Application
         {
             services.AddScoped<IRepositoryAsync<Student>, StudentsRepository>();
             services.AddScoped<IRepositoryAsync<Teacher>, TeachersRepository>();
+            services.AddScoped<IRepositoryAsync<Admin>, AdminsRepository>();
             services.AddScoped<IRepositoryAsync<Classroom>, ClassroomsRepository>();
             services.AddScoped<IRepositoryAsync<Course>, CoursesRepository>();
             services.AddScoped<IRepositoryAsync<Grade>, GradesRepository>();
@@ -38,13 +44,23 @@ namespace Application
             services.AddScoped<IRepositoryAsync<Missing>, MissingsRepository>();
             services.AddScoped<IRepositoryAsync<Subject>, SubjectsRepository>();
             services.AddTransient<TeachersService>();
+            services.AddTransient<StudentsRepository>();
             services.AddTransient<SubjectsService>();
             services.AddTransient<ClassroomsService>();
             services.AddTransient<CoursesService>();
+            services.AddTransient<StudentsService>();
             services.AddDbContext<HighSchoolContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("HighSchoolDb"))
             );
-            services.AddControllersWithViews();
+            services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme).AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
+            services.AddControllersWithViews(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            });
+            services.AddRazorPages().AddMicrosoftIdentityUI();
         } 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +81,7 @@ namespace Application
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

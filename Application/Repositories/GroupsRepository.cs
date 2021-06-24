@@ -28,9 +28,11 @@ namespace Application.Repositories
             return await context.SaveChangesAsync();
         }
 
-        public async Task<List<Group>> GetAllAsync() => await context.Groups.ToListAsync();
+        public async Task<List<Group>> GetAllAsync() => await context.Groups.AnyAsync() ? await context.Groups.ToListAsync() : null;
 
         public async Task<Group> GetAsync(int id) => await context.Groups.FirstOrDefaultAsync(g => g.GroupID == id);
+
+        public Task<Group> GetAsync(Guid guid) => null;
 
         public async Task<int> UpdateAsync(Group obj)
         {
