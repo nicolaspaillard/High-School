@@ -11,25 +11,33 @@ namespace Application.Repositories
 {
     public class StudentsRepository : IRepositoryAsync<Student>
     {
-        private HighSchoolContext context;
+        private HighSchoolContext _context;
         public StudentsRepository(HighSchoolContext context)
         {
-            this.context = context;
+            _context = context;
         }
         public async Task<int> CreateAsync(Student obj)
         {
-            await context.Students.AddAsync(obj);
-            return await context.SaveChangesAsync();
+            await _context.Students.AddAsync(obj);
+            return await _context.SaveChangesAsync();
         }
         public async Task<int> DeleteAsync(Student obj)
         {
-            context.Students.Remove(obj);
-            return await context.SaveChangesAsync();
-        }
-        public async Task<List<Student>> GetAllAsync() => await context.Students.AnyAsync() ? await context.Students.ToListAsync() : null; 
-        public async Task<Student> GetAsync(int id) => await context.Students.FirstOrDefaultAsync(s => s.PersonID == id);
+            var student = await _context.Students.FindAsync(obj.PersonID);          
+            var grades = await _context.Grades.Where(g => g.StudentID == student.PersonID).ToListAsync(); //Suppression des notes associées à l'élève
+            grades.ForEach(grade => _context.Grades.Remove(grade));        
+            var missings = await _context.Missings.Where(m => m.StudentID == student.PersonID).ToListAsync(); //Suppression des absences associées à l'élève
+            missings.ForEach(missing => _context.Missings.Remove(missing));        
+            var groups = await _context.Groups.Where(g => g.HomeRoomTeacherID == student.PersonID).ToListAsync(); //Suppression de la liaison avec la table groups
+            groups.ForEach(group => group.HomeRoomTeacherID = null);
 
-        public async Task<Student> GetAsync(Guid id) => await context.Students.FirstOrDefaultAsync(s => s.AzureID == id);
+            _context.Students.Remove(student);
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Student>> GetAllAsync() => await _context.Students.ToListAsync();
+        
+        public async Task<Student> GetAsync(int id) => await _context.Students.FirstOrDefaultAsync(s => s.PersonID == id);
 
         public async Task<int> UpdateAsync(Student obj)
         {
@@ -39,7 +47,7 @@ namespace Application.Repositories
             temp.Email = obj.Email;
             temp.BirthDate = obj.BirthDate;
             temp.Grades = obj.Grades;
-            return await context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
 
         }
     }
