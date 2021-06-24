@@ -25,18 +25,22 @@
                 case Models.Role.Admin:
                     //  Bouton popup
                     //  ajax + tard
-                    <td><button onclick="@await Component.InvokeAsync("EditPerson", new { Model.Person });">Modifier</button></td>
+                    <td><button onclick="">Modifier</button></td>
+
                     break;
                 case Models.Role.Teacher:
-                    <td><button onclick="@await Component.InvokeAsync("EditPerson", new { Model.Person });">Modifier</button></td>
+                    <td><button onclick="">Modifier</button></td>
+
                     break;
                 case Models.Role.Student:
-                    <td><button onclick="@await Component.InvokeAsync("EditPerson",new { Model.Person });">Modifier</button></td>
+                    <td><button onclick="">Modifier</button></td>
+
                     break;
             }
         </tr>
     </tbody>
 </table>
+@await Component.InvokeAsync("EditPerson", new { Model.Person })
 
 
 

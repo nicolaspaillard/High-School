@@ -1,5 +1,6 @@
 ﻿@model Models.Person
 @using Application.Controllers.Services
+@using Models 
 @inject RepositoryService<Models.Group> groupService
 <h4></h4>
 <hr />
@@ -22,6 +23,11 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="BirthDate" class="control-label"></label>
+                <input asp-for="BirthDate" class="form-control" />
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
             @switch (Model.Role)
             {
                 case Models.Role.Admin:
@@ -32,36 +38,20 @@
                     break;
                 case Models.Role.Student:
                     //create a student ui
+                    Student student = (Student)Model;
                     <div class="form-group">
-                        <label asp-for="@(Model as Models.Student).GroupID" class="control-label"></label>
-                        @{ 
+                        <label asp-for="@student.GroupID" class="control-label"></label>
+                        @{
                             List<SelectListItem> items = (await groupService.GetAllAsync())?.Select(g => new SelectListItem() { Text = g.GroupID.ToString(), Value = g.GroupID.ToString() }).ToList();
                         }
-                        <select asp-for="@(Model as Models.Student).GroupID" class="form-control" asp-items="items"></select>
+                        <select asp-for="@student.GroupID" class="form-control" asp-items="items"></select>
                     </div>
                     break;
                 default:
                     break;
             }
-
-
             <div class="form-group">
-                <label asp-for="BirthDate" class="control-label"></label>
-                <input asp-for="BirthDate" class="form-control" />
-                <span asp-validation-for="BirthDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AzureID" class="control-label"></label>
-                <input asp-for="AzureID" class="form-control" />
-                <span asp-validation-for="AzureID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Role" class="control-label"></label>
-                <select asp-for="Role" class="form-control"></select>
-                <span asp-validation-for="Role" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Edit" class="btn btn-primary" />
             </div>
         </form>
     </div>

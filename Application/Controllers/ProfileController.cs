@@ -57,7 +57,6 @@ namespace Application.Controllers
             var person = await _azureTools.RegisterAzureUser(User);
             if (person is Student)
             {
-                ProfileViewModel.Role = Role.Student;
                 ProfileViewModel.Person = person;
                 List<Group> allGroups = await _groups.GetAllAsync();
                 ProfileViewModel.Groups = allGroups?.Where(g => g.Students.Contains((Student)person))?.ToList();
@@ -72,7 +71,6 @@ namespace Application.Controllers
             }
             else if (person is Teacher)
             {
-                ProfileViewModel.Role = Role.Teacher;
                 ProfileViewModel.Person = person;
                 ProfileViewModel.Courses = (await _courses.GetAllAsync())?.Where(c => c.Teacher.PersonID == person.PersonID)?.ToList();
                 ProfileViewModel.Groups = ProfileViewModel.Courses?.SelectMany(c => c.Groups.Where(g => g.HomeRoomTeacher == person)).ToList();
@@ -80,7 +78,6 @@ namespace Application.Controllers
             }
             else if (person is Admin)
             {
-                ProfileViewModel.Role = Role.Admin;
                 ProfileViewModel.Person = person;
                 return View(ProfileViewModel);
             }
