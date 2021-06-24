@@ -15,6 +15,6 @@ namespace Application.Controllers.Services
             _repository = repository;
         }
         public async Task<List<T>> GetAllAsync() => await _repository.GetAllAsync();
-        public async Task<T> GetClassroom(int id) => await _repository.GetAsync(id);
+        public async Task<T> GetAsync(int id) => await _repository.GetAsync(id);
     }
 }

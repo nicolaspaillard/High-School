@@ -49,6 +49,14 @@ namespace Application
             services.AddTransient<ClassroomsService>();
             services.AddTransient<CoursesService>();
             services.AddTransient<StudentsService>();
+            services.AddTransient<RepositoryService<Student>>();
+            services.AddTransient<RepositoryService<Teacher>>();
+            services.AddTransient<RepositoryService<Admin>>();
+            services.AddTransient<RepositoryService<Group>>();
+            services.AddTransient<RepositoryService<Grade>>();
+            services.AddTransient<RepositoryService<Missing>>();
+            services.AddTransient<RepositoryService<Subject>>();
+            services.AddTransient<RepositoryService<Course>>();
 
             services.AddDbContext<HighSchoolContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("HighSchoolDb"))
