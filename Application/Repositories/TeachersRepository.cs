@@ -24,15 +24,13 @@ namespace Application.Repositories
 
         public async Task<int> DeleteAsync(Teacher obj)
         {
-            var teacher = await context.Teachers.FindAsync(obj.PersonID);
-            var courses = await context.Courses.Where(c => c.TeacherID == teacher.PersonID).ToListAsync();
-            foreach (var course in courses)
-            {
-                course.TeacherID = null;
-            }
-         
-            context.Teachers.Remove(teacher);
-            return await context.SaveChangesAsync();
+            var teacher = await _context.Teachers.FindAsync(obj.PersonID);      
+            var courses = await _context.Courses.Where(c => c.TeacherID == teacher.PersonID).ToListAsync(); //Suppression de la liaison avec la table courses
+            courses.ForEach(course => course.TeacherID = null);
+            var groups = await _context.Groups.Where(g => g.HomeRoomTeacherID == teacher.PersonID).ToListAsync(); //Suppression de la liaison avec la table groups
+            groups.ForEach(group => group.HomeRoomTeacherID = null);      
+            _context.Teachers.Remove(teacher);
+            return await _context.SaveChangesAsync();
         }
 
         public async Task<List<Teacher>> GetAllAsync() => await context.Teachers.AnyAsync() ? await context.Teachers.ToListAsync() : null;

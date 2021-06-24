@@ -11,26 +11,25 @@ namespace Application.Repositories
 {
     public class GroupsRepository : IRepositoryAsync<Group>
     {
-        private HighSchoolContext context;
+        private HighSchoolContext _context;
         public GroupsRepository(HighSchoolContext context)
         {
-            this.context = context;
+            _context = context;
         }
         public async Task<int> CreateAsync(Group obj)
         {
-            await context.Groups.AddAsync(obj);
-            return await context.SaveChangesAsync();
+            await _context.Groups.AddAsync(obj);
+            return await _context.SaveChangesAsync();
         }
 
         public async Task<int> DeleteAsync(Group obj)
         {
-            context.Groups.Remove(obj);
-            return await context.SaveChangesAsync();
+            _context.Groups.Remove(obj);
+            return await _context.SaveChangesAsync();
         }
+        public async Task<List<Group>> GetAllAsync() => await _context.Groups.ToListAsync();
 
-        public async Task<List<Group>> GetAllAsync() => await context.Groups.AnyAsync() ? await context.Groups.ToListAsync() : null;
-
-        public async Task<Group> GetAsync(int id) => await context.Groups.FirstOrDefaultAsync(g => g.GroupID == id);
+        public async Task<Group> GetAsync(int id) => await _context.Groups.FirstOrDefaultAsync(g => g.GroupID == id);
 
         public Task<Group> GetAsync(Guid guid) => null;
 
@@ -39,8 +38,9 @@ namespace Application.Repositories
             var group = await GetAsync(obj.GroupID);
             group.Students = obj.Students;
             group.Courses = obj.Courses;
+            group.HomeRoomTeacherID = obj.HomeRoomTeacherID;
             group.HomeRoomTeacher = obj.HomeRoomTeacher;
-            return await context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
     }
 }
