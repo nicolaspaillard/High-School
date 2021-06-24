@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Application.Controllers.ViewComponents
 {
-    public class CreatePersonViewComponent : ViewComponent
+    public class EditPersonViewComponent : ViewComponent
     {
         IRepositoryAsync<Student> _students;
         IRepositoryAsync<Teacher> _teachers;
         IRepositoryAsync<Admin> _admins;
 
-        public CreatePersonViewComponent(IRepositoryAsync<Student> students, IRepositoryAsync<Teacher> teachers, IRepositoryAsync<Admin> admins)
+        public EditPersonViewComponent(IRepositoryAsync<Student> students, IRepositoryAsync<Teacher> teachers, IRepositoryAsync<Admin> admins)
         {
             _students = students;
             _teachers = teachers;

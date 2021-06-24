@@ -1,30 +1,18 @@
 ﻿@model Application.Models.ProfileViewModel
-
+@using Application.Controllers.ViewComponents
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Mon profil : </h1>
-<a href="https://localhost:44321/signout-">Déconnexion</a>
+@*bouton déconnexion*@
 <table>
     <thead>
         <tr>
             <td>Prénom</td>
             <td>Nom</td>
             <td>Email</td>
-            <td>Rôle</td>
-            @switch (Model.Role)
-            {
-                case Models.Role.Admin:
-                    break;
-                case Models.Role.Teacher:
-                    <td>Classes</td>
-                    break;
-                case Models.Role.Student:
-                    <td>Classe</td>
-                    <td>Professeur principal</td>
-                    break;
-            }
+            <td></td>
         </tr>
     </thead>
     <tbody>
@@ -32,68 +20,27 @@
             <td>@Model.Person.FirstName</td>
             <td>@Model.Person.LastName</td>
             <td>@Model.Person.Email</td>
-            @{
-                string role = Model.Role.ToString() == "Student" ? "Étudiant" : Model.Role.ToString() == "Teacher" ? "Professeur" : "Administrateur";
-            }
-            <td>@role</td>
-            @switch (Model.Role)
+            @switch (Model.Person.Role)
             {
                 case Models.Role.Admin:
+                    //  Bouton popup
+                    //  ajax + tard
+                    <td><button onclick="@await Component.InvokeAsync("EditPerson", new { Model.Person });">Modifier</button></td>
                     break;
                 case Models.Role.Teacher:
-                    <td>@Model.Groups.Select(g => g.GroupID)</td>
+                    <td><button onclick="@await Component.InvokeAsync("EditPerson", new { Model.Person });">Modifier</button></td>
                     break;
                 case Models.Role.Student:
-                    <td>@Model.Groups.Select(g => g.GroupID).First()</td>
-                    <td>Mr/Mme. @Model.HomeRoomTeacher.LastName</td>
+                    <td><button onclick="@await Component.InvokeAsync("EditPerson",new { Model.Person });">Modifier</button></td>
                     break;
             }
         </tr>
     </tbody>
 </table>
-@switch (Model.Role)
-{
-    case Models.Role.Admin:
-        //  Bouton popup
-        //  ajax + tard
-        <button onclick="@await Component.InvokeAsync("CreatePersonViewComponent", new Models.Student());">Ajouter un étudiant</button>
-        <button onclick="@await Component.InvokeAsync("CreatePersonViewComponent", new Models.Teacher());">Ajouter un professeur</button>
-        <button onclick="@await Component.InvokeAsync("CreatePersonViewComponent", new Models.Admin());">Ajouter un administrateur</button>
-        break;
-    case Models.Role.Teacher:
 
-        break;
-    case Models.Role.Student:
-        @if (Model.Courses != null && Model.Courses.Count > 0)
-        {
-            <h2>Emploi du temps : </h2>
-            <table>
-                <thead>
-                    <tr>
-                        <td>Date</td>
-                        <td>Salle</td>
-                        <td>Professeur</td>
-                        <td>Matière</td>
-                        <td>Classes</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (Models.Course course in Model.Courses.OrderBy(c => c.Date))
-                    {
-                        <tr>
-                            <td>@course.Date.ToString("G")</td>
-                            <td>@course.Classroom.Name</td>
-                            <td>Mr/Mme. @course.Teacher.LastName</td>
-                            <td>@course.Subject.SubjectID.ToString()</td>
-                            <td>@course.Groups.ToString()</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            //invokeasync components
-        }
-        break;
-}
+
+
+
 
 <style scoped>
     table {
