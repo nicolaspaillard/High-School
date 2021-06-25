@@ -1,5 +1,7 @@
 ﻿@model Models.Student
-
+@using Application.Controllers.Services
+@using Models
+@inject RepositoryService<Grade> gradesService
 @{
     Layout = null;
 }
@@ -13,39 +15,54 @@
 </head>
 <body>
 
-<div>
-    <h4>Student</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BirthDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BirthDate)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.PersonID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <h4>Student</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.BirthDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.BirthDate)
+            </dd>
+        </dl>
+    </div>
+        @{
+            var gradesBySubject = (await gradesService.GetAllAsync()).Where(g=>g.StudentID == Model.PersonID)
+                .GroupBy(g=>g.Course.SubjectID).ToList();
+
+            
+            foreach(var gradeBySub in gradesBySubject)
+            {
+                <p>
+                    @gradeBySub.ToString();
+                </p>
+            }
+    }
+    <div>
+      
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.PersonID">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
 </body>
 </html>
