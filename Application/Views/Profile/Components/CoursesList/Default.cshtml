@@ -4,7 +4,7 @@
 @inject RepositoryService<Course> coursesService
 @inject RoleService roleService
 @{
-    Role role = await roleService.GetRoleAsync(User); 
+    Role role = await roleService.GetRoleAsync(User);
 }
 <div id="modal-placeholder"></div>
 <table class="table">
@@ -21,14 +21,14 @@
         </tr>
     </thead>
     <tbody>
-            @foreach (var item in Model)
-            {
+        @foreach (var item in Model)
+        {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
                 @if (await roleService.GetRoleAsync(User) != Role.Teacher)
-                    {
+                {
                     <td>
                         Mr/Mme. @Html.DisplayFor(modelItem => item.Teacher.LastName)
                     </td>
@@ -41,10 +41,10 @@
                 </td>
                 <td>
                     @if (await roleService.GetRoleAsync(User) == Role.Admin)
-                        {
-                    <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#edit-course" data-url="@Url.Action("EditCourse", item)">
-                        Modifier
-                    </button>
+                    {
+                        <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#edit-course" data-url="@Url.Action("EditCourse", item)">
+                            Modifier
+                        </button>
                         <a asp-action="Delete" asp-route-id="@item.CourseID">Supprimer</a>
                     }
                     else if (await roleService.GetRoleAsync(User) == Role.Teacher)

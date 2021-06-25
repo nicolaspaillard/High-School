@@ -44,7 +44,6 @@ namespace Application
             services.AddScoped<IRepositoryAsync<Missing>, MissingsRepository>();
             services.AddScoped<IRepositoryAsync<Subject>, SubjectsRepository>();
             services.AddScoped<GroupsRepository>();
-            //services.AddTransient<StudentsRepository>();
             services.AddTransient<RepositoryService<Student>>();
             services.AddTransient<RepositoryService<Teacher>>();
             services.AddTransient<RepositoryService<Admin>>();
@@ -53,6 +52,7 @@ namespace Application
             services.AddTransient<RepositoryService<Missing>>();
             services.AddTransient<RepositoryService<Subject>>();
             services.AddTransient<RepositoryService<Course>>();
+            services.AddTransient<RepositoryService<Classroom>>();
             services.AddTransient<RoleService>();
 
             services.AddDbContext<HighSchoolContext>(options =>

@@ -1,35 +1,50 @@
-﻿@model Models.Course
-<div class="row modal" id="edit-course" role="dialog">
-    <h4>Course</h4> 
-    <hr />
-    <div class="col-md-4">
-        <form asp-action="Default">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CourseID" />
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
+﻿@using Models
+@model Models.Course
+@using Application.Controllers.Services
+@inject RepositoryService<Teacher> _teachers;
+@inject RepositoryService<Subject> _subjects;
+@inject RepositoryService<Classroom> _classrooms;
+
+
+<div class="row modal fade" id="edit-course" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addContactLabel">Modifier le cours : </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
-            <div class="form-group">
-                <label asp-for="TeacherID" class="control-label"></label>
-                <select asp-for="TeacherID" class="form-control" asp-items="ViewBag.TeacherID"></select>
-                <span asp-validation-for="TeacherID" class="text-danger"></span>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" asp-for="CourseID" />
+                    <div class="form-group">
+                        <label asp-for="Date" class="control-label"></label>
+                        <input asp-for="Date" class="form-control" />
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Teacher.LastName" class="control-label"></label>
+                        <select asp-for="TeacherID" class="form-control" asp-items="@(await _teachers.GetAllAsync()).Select(t => new SelectListItem() { Text=t.LastName, Value=t.PersonID.ToString() })"></select>
+                        <span asp-validation-for="TeacherID" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Subject.SubjectID" class="control-label"></label>
+                        <select asp-for="SubjectID" class="form-control" asp-items="@(await _subjects.GetAllAsync()).Select(s => new SelectListItem() { Text=s.SubjectID.ToString(), Value=s.SubjectID.ToString() })"></select>
+                        <span asp-validation-for="SubjectID" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ClassroomID" class="control-label"></label>
+                        <select asp-for="ClassroomID" class="form-control" asp-items="@(await _classrooms.GetAllAsync()).Select(c => new SelectListItem() { Text=c.Name, Value=c.ClassroomID.ToString() })"></select>
+                        <span asp-validation-for="ClassroomID" class="text-danger"></span>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="SubjectID" class="control-label"></label>
-                <select asp-for="SubjectID" class="form-control" asp-items="ViewBag.SubjectID"></select>
-                <span asp-validation-for="SubjectID" class="text-danger"></span>
+            <div class="form-group modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary">Sauvegarder</button>
             </div>
-            <div class="form-group">
-                <label asp-for="ClassroomID" class="control-label"></label>
-                <select asp-for="ClassroomID" class="form-control" asp-items="ViewBag.ClassroomID"></select>
-                <span asp-validation-for="ClassroomID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 @section Scripts {
