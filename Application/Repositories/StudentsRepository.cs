@@ -27,9 +27,9 @@ namespace Application.Repositories
             var grades = await _context.Grades.Where(g => g.StudentID == student.PersonID).ToListAsync(); //Suppression des notes associées à l'élève
             grades.ForEach(grade => _context.Grades.Remove(grade));        
             var missings = await _context.Missings.Where(m => m.StudentID == student.PersonID).ToListAsync(); //Suppression des absences associées à l'élève
-            missings.ForEach(missing => _context.Missings.Remove(missing));        
-            var groups = await _context.Groups.Where(g => g.HomeRoomTeacherID == student.PersonID).ToListAsync(); //Suppression de la liaison avec la table groups
-            groups.ForEach(group => group.HomeRoomTeacherID = null);
+            missings.ForEach(missing => _context.Missings.Remove(missing));
+            var groups = await _context.Groups.Where(g => g.Students.Contains(obj)).ToListAsync(); //Suppression de la liaison avec la table groups
+            groups.ForEach(group => group.Students.Remove(obj));
 
             _context.Students.Remove(student);
             return await _context.SaveChangesAsync();
