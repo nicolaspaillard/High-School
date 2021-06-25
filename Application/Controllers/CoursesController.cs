@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Application.Repositories.IRepositories;
 using Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Application.Controllers
 {
@@ -19,7 +20,8 @@ namespace Application.Controllers
             _repository = repository;
         }
 
-        // GET: Teachers
+        // GET: Teachers    
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _repository.GetAllAsync());
@@ -53,7 +55,7 @@ namespace Application.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Date")] Course course)
+        public async Task<IActionResult> Create([Bind("CourseID,Date")] Course course)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +86,7 @@ namespace Application.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Date,TeacherID,SubjectID,ClassroomID")] Course course)
+        public async Task<IActionResult> Edit(int id, [Bind("CourseID,Date,TeacherID,SubjectID,ClassroomID")] Course course)
         {
             if (id != course.CourseID)
             {

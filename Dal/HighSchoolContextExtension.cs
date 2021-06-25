@@ -126,7 +126,8 @@ namespace Dal
                 new() { FirstName = "Burks", LastName = "Grady", Email = "pede.sagittis.augue@arcuetpede.org", BirthDate = DateTime.ParseExact("28/10/2007", "dd/MM/yyyy", CultureInfo.InvariantCulture) },
                 new() { FirstName = "Mckinney", LastName = "Violet", Email = "mollis.Duis@ligulaAliquam.org", BirthDate = DateTime.ParseExact("30/04/2008", "dd/MM/yyyy", CultureInfo.InvariantCulture) },
                 new() { FirstName = "Jensen", LastName = "Erin", Email = "Curabitur@Suspendisse.co.uk", BirthDate = DateTime.ParseExact("26/05/2009", "dd/MM/yyyy", CultureInfo.InvariantCulture) },
-                new() { FirstName = "Burch", LastName = "Abel", Email = "libero@egestas.edu", BirthDate = DateTime.ParseExact("27/05/2012", "dd/MM/yyyy", CultureInfo.InvariantCulture) }
+                new() { FirstName = "Burch", LastName = "Abel", Email = "libero@egestas.edu", BirthDate = DateTime.ParseExact("27/05/2012", "dd/MM/yyyy", CultureInfo.InvariantCulture) },
+                new() { FirstName = "Martin", LastName = "Tintin", Email ="Martin@nicpaillegmail.onmicrosoft.com", AzureId = new Guid("1bd8def6-7654-4d71-9dc7-250109818a6b"), BirthDate = DateTime.ParseExact("11/04/2016", "dd/MM/yyyy", CultureInfo.InvariantCulture)}
             };
             #endregion
             #region SUBJECTS

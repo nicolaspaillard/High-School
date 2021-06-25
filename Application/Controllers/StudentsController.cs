@@ -8,38 +8,41 @@ using Microsoft.EntityFrameworkCore;
 using Dal;
 using Models;
 using Application.Repositories.IRepositories;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Identity.Web;
+using Application.Repositories;
+using Application.Controllers.Tools;
 
 namespace Application.Controllers
 {
     public class StudentsController : Controller
     {
         private readonly IRepositoryAsync<Student> _repository;
+        private AzureTools azureTools;
 
-        public StudentsController(IRepositoryAsync<Student> repository)
+        public StudentsController(IRepositoryAsync<Student> students, IRepositoryAsync<Teacher> teachers, IRepositoryAsync<Admin> admins)
         {
-            _repository = repository;
+            _repository = students;
+            azureTools = new(students, teachers, admins);
         }
 
         // GET: Students
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _repository.GetAllAsync());
         }
 
         // GET: Students/Details/5
-        public async Task<IActionResult> Details(int id)
+        [Authorize]
+        public async Task<IActionResult> Details()
         {
-            /*if (id == null)
-            {
-                return NotFound();
-            }*/
-
-            var student = await _repository.GetAsync(id);
+            Guid currentGuid = Guid.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimConstants.ObjectId).Value);
+            var student = await _repository.GetAsync(currentGuid);
             if (student == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Create));
             }
-
             return View(student);
         }
 
@@ -52,10 +55,15 @@ namespace Application.Controllers
         // POST: Students/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Email,BirthDate,GroupID")] Student student)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,BirthDate")] Student student)
         {
+            Guid currentGuid = Guid.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimConstants.ObjectId).Value);
+            student.Email = User.Identity.Name;
+            student.AzureId = currentGuid;
+
             if (ModelState.IsValid)
             {
                 await _repository.CreateAsync(student);
@@ -67,11 +75,6 @@ namespace Application.Controllers
         // GET: Students/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            /*if (id == null)
-            {
-                return NotFound();
-            }*/
-
             var student = await _repository.GetAsync(id);
             if (student == null)
             {
@@ -148,3 +151,4 @@ namespace Application.Controllers
         }
     }
 }
+// mdp  ad Sellers Chava = Vajo6106

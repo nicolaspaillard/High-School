@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Application.Repositories;
 using Application.Repositories.IRepositories;
 using Models;
 
@@ -12,11 +13,11 @@ namespace Application.Controllers
 {
     public class GroupsController : Controller
     {
-        private readonly IRepositoryAsync<Group> _groups;
+        private readonly GroupsRepository _groups;
         private readonly IRepositoryAsync<Student> _students;
         private readonly IRepositoryAsync<Course> _courses;
 
-        public GroupsController(IRepositoryAsync<Group> groups, IRepositoryAsync<Student> students, IRepositoryAsync<Course> courses)
+        public GroupsController(GroupsRepository groups, IRepositoryAsync<Student> students, IRepositoryAsync<Course> courses)
         {
             _groups = groups;
             _students = students;
@@ -119,7 +120,7 @@ namespace Application.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("GroupID, HomeRoomTeacherID, SubjectID")] Group group, List<int> StudentsID, List<int> CoursesID)
+        public async Task<IActionResult> Edit(int id, [Bind(nameof(Group.GroupID), nameof(Group.HomeRoomTeacherID))] Group group, List<int> studentsID, List<int> coursesID)
         {
             if (id != group.GroupID)
             {
@@ -130,17 +131,17 @@ namespace Application.Controllers
             {
                 try
                 {
-                    group.Students = new List<Student>();
+                    /*group.Students = new List<Student>();
                     group.Courses = new List<Course>();
                     var students = await _students.GetAllAsync();
                     var courses = await _courses.GetAllAsync();
                     StudentsID.ForEach(id => group.Students.Add(students.FirstOrDefault(s => s.PersonID == id)));
-                    CoursesID.ForEach(id => group.Courses.Add(courses.FirstOrDefault(c => c.CourseID == id)));
-                    await _groups.UpdateAsync(group);
+                    CoursesID.ForEach(id => group.Courses.Add(courses.FirstOrDefault(c => c.CourseID == id)));*/
+                    await _groups.UpdateAsyncGroup(group, studentsID, coursesID);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TeacherExists(group.GroupID))
+                    if (!GroupExists(group.GroupID))
                     {
                         return NotFound();
                     }
@@ -181,7 +182,7 @@ namespace Application.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TeacherExists(int id)
+        private bool GroupExists(int id)
         {
             var listGroups = _groups.GetAllAsync();
             return listGroups.Result.Any(t => t.GroupID == id);

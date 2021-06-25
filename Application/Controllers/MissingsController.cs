@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Application.Repositories.IRepositories;
 using Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Application.Controllers
 {
@@ -22,12 +23,15 @@ namespace Application.Controllers
         // GET: Teachers
         public async Task<IActionResult> Index()
         {
+
             return View(await _repository.GetAllAsync());
         }
 
         // GET: Teachers/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int id)
         {
+
             /*if (id == null)
             {
                 return NotFound();
@@ -53,7 +57,7 @@ namespace Application.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID")] Missing missing)
+        public async Task<IActionResult> Create([Bind(nameof(Missing.MissingID), nameof(Missing.StudentID), nameof(Missing.CourseID))] Missing missing)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +88,7 @@ namespace Application.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID")] Missing missing)
+        public async Task<IActionResult> Edit(int id, [Bind(nameof(Missing.MissingID), nameof(Missing.StudentID), nameof(Missing.CourseID))] Missing missing)
         {
             if (id != missing.MissingID)
             {
