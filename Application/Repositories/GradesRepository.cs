@@ -28,10 +28,12 @@ namespace Application.Repositories
             return await context.SaveChangesAsync();
         }
 
-        public async Task<List<Grade>> GetAllAsync() => await context.Grades.ToListAsync();
+        public async Task<List<Grade>> GetAllAsync() => await context.Grades.AnyAsync() ? await context.Grades.ToListAsync() : null;
 
 
         public async Task<Grade> GetAsync(int id) => await context.Grades.FirstOrDefaultAsync(g => g.GradeID == id);
+
+        public Task<Grade> GetAsync(Guid guid) => null;
 
         public async Task<int> UpdateAsync(Grade obj)
         {

@@ -27,10 +27,11 @@ namespace Application.Repositories
             _context.Groups.Remove(obj);
             return await _context.SaveChangesAsync();
         }
-
         public async Task<List<Group>> GetAllAsync() => await _context.Groups.ToListAsync();
 
         public async Task<Group> GetAsync(int id) => await _context.Groups.FirstOrDefaultAsync(g => g.GroupID == id);
+
+        public Task<Group> GetAsync(Guid guid) => null;
 
         public async Task<int> UpdateAsync(Group obj)
         {

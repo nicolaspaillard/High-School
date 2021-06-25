@@ -21,7 +21,6 @@ namespace Application.Repositories
             await _context.Students.AddAsync(obj);
             return await _context.SaveChangesAsync();
         }
-
         public async Task<int> DeleteAsync(Student obj)
         {
             var student = await _context.Students.FindAsync(obj.PersonID);          
