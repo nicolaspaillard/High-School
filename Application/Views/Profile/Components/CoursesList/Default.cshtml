@@ -1,31 +1,38 @@
 ﻿@using Models
-@model Person
+@model List<Course>
 @using Application.Controllers.Services
 @inject RepositoryService<Course> coursesService
 @inject RoleService roleService
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@{
+    Role role = await roleService.GetRoleAsync(User); 
+}
+<div id="modal-placeholder"></div>
 <table class="table">
     <thead>
         <tr>
             <th>Date</th>
-            <th>Professeur</th>
+            @if (role != Role.Teacher)
+            {
+                <th>Professeur</th>
+            }
             <th>Matière</th>
             <th>Salle</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in await coursesService.GetAllAsync())
-        {
+            @foreach (var item in Model)
+            {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Teacher.PersonID)
-                </td>
+                @if (await roleService.GetRoleAsync(User) != Role.Teacher)
+                    {
+                    <td>
+                        Mr/Mme. @Html.DisplayFor(modelItem => item.Teacher.LastName)
+                    </td>
+                }
                 <td>
                     @Html.DisplayFor(modelItem => item.Subject.SubjectID)
                 </td>
@@ -33,11 +40,18 @@
                     @Html.DisplayFor(modelItem => item.Classroom.ClassroomID)
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.CourseID">Details</a>
                     @if (await roleService.GetRoleAsync(User) == Role.Admin)
-                    {
-                        <a asp-action="Edit" asp-route-id="@item.CourseID">Modifier</a>
+                        {
+                    <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#edit-course" data-url="@Url.Action("EditCourse", item)">
+                        Modifier
+                    </button>
                         <a asp-action="Delete" asp-route-id="@item.CourseID">Supprimer</a>
+                    }
+                    else if (await roleService.GetRoleAsync(User) == Role.Teacher)
+                    {
+                        @* V to popups V *@
+                        <a asp-action="Edit" asp-route-id="@item.CourseID">Absences</a>
+                        <a asp-action="Delete" asp-route-id="@item.CourseID">Notes</a>
                     }
                 </td>
             </tr>

@@ -1,65 +1,65 @@
 ﻿@model Models.Person
-<h1>Mon profil : </h1>
 @using Models
-    <div>
-        <hr />
-        <dl class="row">
-            @switch (Model.Role)
-            {
-                case Models.Role.Admin:
-                    break;
-                case Models.Role.Teacher:
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => ((Teacher)model).Subjects)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => ((Teacher)model).Subjects)
-                    </dd>
-                    break;
-                case Models.Role.Student:
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => ((Student)model).Group)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => ((Student)model).Group.GroupID)
-                    </dd>
-                    break;
-            }
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.FirstName)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.FirstName)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.LastName)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.LastName)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Email)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Email)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.BirthDate)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.BirthDate)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.AzureID)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.AzureID)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Role)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Role)
-            </dd>
-        </dl>
-    </div>
+<div>
+    <h1>Mon profil : </h1>
+    <hr />
+    <dl class="row">
+        @switch (Model.Role)
+        {
+            case Models.Role.Admin:
+                break;
+            case Models.Role.Teacher:
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => ((Teacher)model).Subjects)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => ((Teacher)model).Subjects)
+                </dd>
+                break;
+            case Models.Role.Student:
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => ((Student)model).Group)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => ((Student)model).Group.GroupID)
+                </dd>
+                break;
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AzureID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AzureID)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Role)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Role)
+        </dd>
+    </dl>
+</div>

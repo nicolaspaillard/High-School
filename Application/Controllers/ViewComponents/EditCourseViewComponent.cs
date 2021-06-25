@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace Application.Controllers.ViewComponents
 {
-    public class PersonDetailsViewComponent : ViewComponent
+    public class EditCourseViewComponent : ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync(Person person)
+        public async Task<IViewComponentResult> InvokeAsync(Course course)
         {
-            return View(person);
-        }
+            return View(course);
+        }   
     }
 }
-

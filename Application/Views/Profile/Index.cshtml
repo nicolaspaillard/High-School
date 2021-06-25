@@ -1,5 +1,7 @@
 ﻿@model Application.Models.ProfileViewModel
 @using Application.Controllers.ViewComponents
+@using Application.Controllers.Services
+@inject RoleService roleService
 @{
     ViewData["Title"] = "Index";
 }
@@ -7,16 +9,38 @@
 
 @*bouton déconnexion*@
 @await Component.InvokeAsync("PersonDetails", new { Model.Person })
-@*popup
+@*popups :
     @await Component.InvokeAsync("EditPerson", new { Model.Person })
-*@
-@if (Model.Person.Role != Models.Role.Admin) {
-    @*show teacher & student courses*@
 
+*@
+
+
+@if (await roleService.GetRoleAsync(User) != Models.Role.Admin)
+{
+    @*view daily courses : *@
+    @await Component.InvokeAsync("CoursesList", Model.Courses.Where(c => c.Date.Day == DateTime.Now.Day));
+    @*
+        view all courses
+        teacher:
+            edit missing for his courses
+            edit grades for his courses
+            groups
+            groups.courses
+
+        student :
+
+            group
+    *@
 }
 else
 {
+    @await Component.InvokeAsync("CoursesList", Model.Courses);
+    @*admin components
+        view list students/teachers / edit students/teachers
+        view list courses / edit courses
+        view list classrooms / edit classrooms
 
+    *@
 }
 
 

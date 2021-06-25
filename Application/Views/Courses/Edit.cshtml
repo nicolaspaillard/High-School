@@ -1,26 +1,27 @@
-﻿@model Models.Course
+﻿@using Models
+@model Models.Course
 @using Application.Controllers.Services
-@inject TeachersService teachersService
-@inject SubjectsService subjectsService
-@inject ClassroomsService classroomsService
+@inject RepositoryService<Teacher> teachersService
+@inject RepositoryService<Subject> subjectsService
+@inject RepositoryService<Classroom> classroomsService
 
 @{
     ViewData["Title"] = "Edit";
 
     List<SelectListItem> teachers = new List<SelectListItem>();
-    foreach (var item in teachersService.GetAll())
+    foreach (var item in await teachersService.GetAllAsync())
     {
         teachers.Add(new SelectListItem { Text = $"{item.FirstName} {item.LastName}", Value = $"{item.PersonID}" });
     }
 
     List<SelectListItem> subjects = new List<SelectListItem>();
-    foreach (var item in subjectsService.GetAll())
+    foreach (var item in await subjectsService.GetAllAsync())
     {
         subjects.Add(new SelectListItem { Text = $"{item.SubjectID}", Value = $"{item.SubjectID}" });
     }
 
     List<SelectListItem> classrooms = new List<SelectListItem>();
-    foreach (var item in classroomsService.GetAll())
+    foreach (var item in await classroomsService.GetAllAsync())
     {
         classrooms.Add(new SelectListItem { Text = $"{item.Name}", Value = $"{item.ClassroomID}" });
     }

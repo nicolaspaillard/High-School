@@ -79,12 +79,17 @@ namespace Application.Controllers
             else if (person is Admin)
             {
                 ProfileViewModel.Person = person;
+                ProfileViewModel.Courses = await _courses.GetAllAsync();
                 return View(ProfileViewModel);
             }
             else
             {
                 return NotFound();
             }
+        }
+        public async Task<IActionResult> EditCourse(Course course)
+        {
+            return ViewComponent("EditCourse", course);
         }
     }
 }

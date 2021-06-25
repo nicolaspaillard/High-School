@@ -42,5 +42,27 @@ namespace Application.Repositories
             group.HomeRoomTeacher = obj.HomeRoomTeacher;
             return await _context.SaveChangesAsync();
         }
+        public async Task<int> UpdateAsyncGroup(Group obj, List<int> studentsID, List<int> coursesID)
+        {
+            var group = await GetAsync(obj.GroupID);
+            var courses = new List<Course>();
+            var students = new List<Student>();
+
+            coursesID.ForEach(id => courses.Add(_context.Courses.FirstOrDefaultAsync(c => c.CourseID == id).Result));
+            studentsID.ForEach(id => students.Add(_context.Students.FirstOrDefaultAsync(s => s.PersonID == id).Result));
+
+            //group.Courses.ForEach(c => c.Groups.Clear());
+            group.Courses.Clear();
+            group.Courses = courses;
+            group.Students = students;
+
+            return await _context.SaveChangesAsync();
+            /*var group = await GetAsync(obj.GroupID);
+            group.Students = obj.Students;
+            group.Courses = obj.Courses;
+            group.HomeRoomTeacherID = obj.HomeRoomTeacherID;
+            group.HomeRoomTeacher = obj.HomeRoomTeacher;
+            return await _context.SaveChangesAsync();*/
+        }
     }
 }

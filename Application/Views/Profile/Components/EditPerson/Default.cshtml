@@ -1,11 +1,9 @@
 ﻿@using Models 
 @model Person
 @using Application.Controllers.Services
-
 @inject RepositoryService<Group> groupService
-<h4></h4>
-<hr />
-<div class="row">
+
+<div class="row" id="edit-person">
     <div class="col-md-4">
         <form asp-action="Default">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
