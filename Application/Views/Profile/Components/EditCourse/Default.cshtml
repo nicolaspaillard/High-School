@@ -1,12 +1,11 @@
 ﻿@using Models
 @model Models.Course
 @using Application.Controllers.Services
-@inject RepositoryService<Teacher> _teachers;
-@inject RepositoryService<Subject> _subjects;
-@inject RepositoryService<Classroom> _classrooms;
+@inject RepositoryService<Teacher> _teachers
+@inject RepositoryService<Subject> _subjects
+@inject RepositoryService<Classroom> _classrooms
 
-
-<div class="row modal fade" id="edit-course" role="dialog">
+<div class="row modal fade" id="edit-course" role="dialog"> 
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,7 +15,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form asp-action="EditCourse">
+                    <input type="hidden" name="IsValid" value="@ViewData.ModelState.IsValid.ToString()" />
                     <input type="hidden" asp-for="CourseID" />
                     <div class="form-group">
                         <label asp-for="Date" class="control-label"></label>
@@ -42,7 +42,7 @@
             </div>
             <div class="form-group modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                <button type="button" class="btn btn-primary">Sauvegarder</button>
+                <button type="button" class="btn btn-primary" data-save="modal">Sauvegarder</button>
             </div>
         </div>
     </div>

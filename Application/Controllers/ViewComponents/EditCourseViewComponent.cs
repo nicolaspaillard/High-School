@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.Repositories.IRepositories;
+using Microsoft.AspNetCore.Mvc;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,6 @@ namespace Application.Controllers.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(Course course)
         {
             return View(course);
-        }   
+        }
     }
 }

@@ -87,8 +87,23 @@ namespace Application.Controllers
                 return NotFound();
             }
         }
+        public async Task<IActionResult> EditCourseModal(Course course)
+        {
+            return ViewComponent("EditCourse", course);
+        }
+        [HttpPost]
         public async Task<IActionResult> EditCourse(Course course)
         {
+            ModelState.Remove("Subject");
+            ModelState.Remove("Teacher");
+            ModelState.Remove("Classroom");
+            course.Subject = (await _subjects.GetAllAsync()).FirstOrDefault(s => s.SubjectID == course.SubjectID);
+            course.Teacher = (await _teachers.GetAllAsync()).FirstOrDefault(t => t.PersonID == course.TeacherID);
+            course.Classroom = (await _classrooms.GetAllAsync()).FirstOrDefault(c => c.ClassroomID == course.ClassroomID);
+            if (ModelState.IsValid)
+            {
+                await _courses.UpdateAsync(course);
+            }
             return ViewComponent("EditCourse", course);
         }
     }

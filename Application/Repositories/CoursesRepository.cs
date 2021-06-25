@@ -37,7 +37,6 @@ namespace Application.Repositories
         public async Task<int> UpdateAsync(Course obj)
         {
             var course = await GetAsync(obj.CourseID);
-
             course.Date = obj.Date;
             course.Missings = obj.Missings;
             course.Groups = obj.Groups;

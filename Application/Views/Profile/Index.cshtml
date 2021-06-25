@@ -34,7 +34,12 @@
 }
 else
 {
-    @await Component.InvokeAsync("CoursesList", Model.Courses);
+    <a for="coursesList" data-toggle="collapse" href="#coursesList" aria-expanded="true" aria-controls="coursesList" class="btn btn-primary">Modifier les cours</a>
+    <div id="coursesList" class="collapse">
+        @await Component.InvokeAsync("CoursesList", Model.Courses);
+    </div>
+
+
     @*admin components
         view list students/teachers / edit students/teachers
         view list courses / edit courses
