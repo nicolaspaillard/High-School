@@ -16,6 +16,9 @@
                 @Html.DisplayNameFor(model => model.Students)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Courses)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.HomeRoomTeacher)
             </th>
             <th></th>
@@ -24,22 +27,28 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @foreach (var student in item.Students)
-                    {
-                        @Html.DisplayFor(modelItem => student.LastName)<br />
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HomeRoomTeacher.LastName)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.GroupID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.GroupID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.GroupID">Delete</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @foreach (var student in item.Students)
+                {
+                    @Html.DisplayFor(modelItem => student.LastName)<br />
+                }
+            </td>
+            <td>
+                @foreach (var course in item.Courses)
+                {
+                    @Html.DisplayFor(modelItem => course.Date)<br />
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HomeRoomTeacher.LastName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.GroupID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.GroupID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.GroupID">Delete</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
