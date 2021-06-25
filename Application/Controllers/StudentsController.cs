@@ -62,7 +62,7 @@ namespace Application.Controllers
         {
             Guid currentGuid = Guid.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimConstants.ObjectId).Value);
             student.Email = User.Identity.Name;
-            student.AzureId = currentGuid;
+            student.AzureID = currentGuid;
 
             if (ModelState.IsValid)
             {
@@ -149,6 +149,11 @@ namespace Application.Controllers
             var listStudents = _repository.GetAllAsync();
             return listStudents.Result.Any(s => s.PersonID == id);
         }
+
+        //private List<Teacher> GetStudentTeachers(int id)
+        //{
+        //    return _repository.;
+        //}
     }
 }
 // mdp  ad Sellers Chava = Vajo6106

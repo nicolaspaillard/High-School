@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Repositories
 {
-    public class StudentsRepository : IRepositoryAsync<Student>
+    public class StudentsRepository : IRepositoryAsync<Student>, StudentRepositoryExtension
     {
         private HighSchoolContext _context;
         public StudentsRepository(HighSchoolContext context)
@@ -23,11 +23,11 @@ namespace Application.Repositories
         }
         public async Task<int> DeleteAsync(Student obj)
         {
-            var student = await _context.Students.FindAsync(obj.PersonID);          
+            var student = await _context.Students.FindAsync(obj.PersonID);
             var grades = await _context.Grades.Where(g => g.StudentID == student.PersonID).ToListAsync(); //Suppression des notes associées à l'élève
-            grades.ForEach(grade => _context.Grades.Remove(grade));        
+            grades.ForEach(grade => _context.Grades.Remove(grade));
             var missings = await _context.Missings.Where(m => m.StudentID == student.PersonID).ToListAsync(); //Suppression des absences associées à l'élève
-            missings.ForEach(missing => _context.Missings.Remove(missing));        
+            missings.ForEach(missing => _context.Missings.Remove(missing));
             var groups = await _context.Groups.Where(g => g.HomeRoomTeacherID == student.PersonID).ToListAsync(); //Suppression de la liaison avec la table groups
             groups.ForEach(group => group.HomeRoomTeacherID = null);
 
@@ -36,8 +36,10 @@ namespace Application.Repositories
         }
 
         public async Task<List<Student>> GetAllAsync() => await _context.Students.ToListAsync();
-        
+
         public async Task<Student> GetAsync(int id) => await _context.Students.FirstOrDefaultAsync(s => s.PersonID == id);
+
+        public async Task<Student> GetAsync(Guid guid) => await _context.Students.FirstOrDefaultAsync(s => s.AzureID == guid);
 
         public async Task<int> UpdateAsync(Student obj)
         {
@@ -49,6 +51,18 @@ namespace Application.Repositories
             temp.Grades = obj.Grades;
             return await _context.SaveChangesAsync();
 
+        }
+
+        public async Task<List<Teacher>> GetTeachersAsync(int id)
+        {
+            var student = await GetAsync(id);
+            var courses = _context.Groups.Where(g => g.Students.Contains(student)).SelectMany(g => g.Courses).ToList();
+            var teachers = new List<Teacher>();
+            foreach (var course in courses)
+            {
+                teachers.Add(course.Teacher);
+            }
+            return teachers;
         }
     }
 }

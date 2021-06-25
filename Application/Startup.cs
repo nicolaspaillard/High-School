@@ -51,7 +51,7 @@ namespace Application
             services.AddTransient<CoursesService>();
             services.AddTransient<StudentsService>();
             services.AddDbContext<HighSchoolContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("HighSchoolDb"))
+                options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("HighSchoolDb"))
             );
             services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme).AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
             services.AddControllersWithViews(options =>
@@ -60,7 +60,7 @@ namespace Application
                     .RequireAuthenticatedUser()
                     .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
-            });
+            }).AddRazorRuntimeCompilation();
             services.AddRazorPages().AddMicrosoftIdentityUI();
         } 
 
