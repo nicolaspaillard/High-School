@@ -1,0 +1,46 @@
+﻿@using Models
+@model Person
+@using Application.Controllers.Services
+@inject RepositoryService<Course> coursesService
+@inject RoleService roleService
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Professeur</th>
+            <th>Matière</th>
+            <th>Salle</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in await coursesService.GetAllAsync())
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.PersonID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject.SubjectID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Classroom.ClassroomID)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.CourseID">Details</a>
+                    @if (await roleService.GetRoleAsync(User) == Role.Admin)
+                    {
+                        '|'+<a asp-action="Edit" asp-route-id="@item.CourseID">Modifier</a>'|'
+                         < a asp - action = "Delete" asp - route - id = "@item.CourseID" > Delete </ a >"
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

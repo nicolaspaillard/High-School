@@ -4,44 +4,20 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Mon profil : </h1>
+
 @*bouton déconnexion*@
-<table>
-    <thead>
-        <tr>
-            <td>Prénom</td>
-            <td>Nom</td>
-            <td>Email</td>
-            <td></td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>@Model.Person.FirstName</td>
-            <td>@Model.Person.LastName</td>
-            <td>@Model.Person.Email</td>
-            @switch (Model.Person.Role)
-            {
-                case Models.Role.Admin:
-                    //  Bouton popup
-                    //  ajax + tard
-                    <td><button onclick="">Modifier</button></td>
+@await Component.InvokeAsync("PersonDetails", new { Model.Person })
+@*popup
+    @await Component.InvokeAsync("EditPerson", new { Model.Person })
+*@
+@if (Model.Person.Role != Models.Role.Admin) {
+    @*show teacher & student courses*@
 
-                    break;
-                case Models.Role.Teacher:
-                    <td><button onclick="">Modifier</button></td>
+}
+else
+{
 
-                    break;
-                case Models.Role.Student:
-                    <td><button onclick="">Modifier</button></td>
-
-                    break;
-            }
-        </tr>
-    </tbody>
-</table>
-@await Component.InvokeAsync("EditPerson", new { Model.Person })
-
+}
 
 
 

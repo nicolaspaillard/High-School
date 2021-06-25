@@ -1,7 +1,8 @@
-﻿@model Models.Person
+﻿@using Models 
+@model Person
 @using Application.Controllers.Services
-@using Models 
-@inject RepositoryService<Models.Group> groupService
+
+@inject RepositoryService<Group> groupService
 <h4></h4>
 <hr />
 <div class="row">
