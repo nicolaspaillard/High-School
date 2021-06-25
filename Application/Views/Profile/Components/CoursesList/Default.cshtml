@@ -36,8 +36,8 @@
                     <a asp-action="Details" asp-route-id="@item.CourseID">Details</a>
                     @if (await roleService.GetRoleAsync(User) == Role.Admin)
                     {
-                        '|'+<a asp-action="Edit" asp-route-id="@item.CourseID">Modifier</a>'|'
-                         < a asp - action = "Delete" asp - route - id = "@item.CourseID" > Delete </ a >"
+                        <a asp-action="Edit" asp-route-id="@item.CourseID">Modifier</a>
+                        <a asp-action="Delete" asp-route-id="@item.CourseID">Supprimer</a>
                     }
                 </td>
             </tr>
