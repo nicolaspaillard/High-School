@@ -13,7 +13,8 @@
     List<SelectListItem> students = new List<SelectListItem>();
     foreach (var item in studentsService.GetAll())
     {
-        students.Add(new SelectListItem { Text = $"{item.FirstName} {item.LastName}", Value = $"{item.PersonID}" });
+        bool areChecked = item.GroupID == Model.GroupID ? true : false;
+        students.Add(new SelectListItem { Text = $"{item.FirstName} {item.LastName}", Value = $"{item.PersonID}", Selected = areChecked });
     }
 
     List<SelectListItem> teachers = new List<SelectListItem>();
@@ -25,12 +26,18 @@
     List<SelectListItem> courses = new List<SelectListItem>();
     foreach (var item in coursesService.GetAll())
     {
-        courses.Add(new SelectListItem { Text = $"{item.Date} - {item.Classroom.Name} - {item.SubjectID}", Value = $"{item.CourseID}" });
+        bool areChecked = false;
+        var group = item.Groups.FirstOrDefault(g => g.GroupID == Model.GroupID);
+
+        //var group = item.Groups.Where(g => g.GroupID == Model.GroupID).FirstOrDefault();
+        areChecked = group is null ? false : true;
+        //item.Groups.ForEach(g => AreChecked = g.GroupID == Model.GroupID ? true : false);
+        courses.Add(new SelectListItem { Text = $"{item.Date} - {item.Classroom.Name} - {item.SubjectID}", Value = $"{item.CourseID}", Selected = areChecked });
     }
 }
 
 <h1>Edit</h1>
-
+<vc:courses-details-view-components>
 <h4>Group</h4>
 <hr />
 <div class="row">
@@ -94,7 +101,7 @@
                             {
                                 <input type="checkbox" name="StudentsID" value="@student.Value" checked="@student.Selected" />
                                 <label asp-for="@student.Value">@student.Text</label>
-                            }
+                            }                         
                         </div>
                     </div>
                 </div>
@@ -102,7 +109,7 @@
                     <div class="collapse multi-collapse" id="multiCollapseCourses">
                         <div class="card card-body">
                             @foreach (var course in courses)
-                            {                                
+                            {
                                 <input type="checkbox" name="CoursesID" value="@course.Value" checked="@course.Selected"/>
                                 <label asp-for="@course.Value">@course.Text</label>
                             }
