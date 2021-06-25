@@ -40,9 +40,16 @@ namespace Application
             services.AddScoped<IRepositoryAsync<Classroom>, ClassroomsRepository>();
             services.AddScoped<IRepositoryAsync<Course>, CoursesRepository>();
             services.AddScoped<IRepositoryAsync<Grade>, GradesRepository>();
-            services.AddScoped<IRepositoryAsync<Group>, GroupsRepository>();
+            //services.AddScoped<IRepositoryAsync<Group>, GroupsRepository>();
             services.AddScoped<IRepositoryAsync<Missing>, MissingsRepository>();
             services.AddScoped<IRepositoryAsync<Subject>, SubjectsRepository>();
+            services.AddScoped<GroupsRepository>();
+            services.AddTransient<TeachersService>();
+            services.AddTransient<StudentsRepository>();
+            services.AddTransient<SubjectsService>();
+            services.AddTransient<ClassroomsService>();
+            services.AddTransient<CoursesService>();
+            services.AddTransient<StudentsService>();
             services.AddTransient<RepositoryService<Student>>();
             services.AddTransient<RepositoryService<Teacher>>();
             services.AddTransient<RepositoryService<Admin>>();
