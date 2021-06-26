@@ -35,10 +35,8 @@
     </dl>
 </div>
 @{  
-    double listeNotes = 0;
-
-    var courses = Model.Grades.Select(g => g.Course).ToList();
-    var coursesStudent = Model.Group.Courses;
+    double listeNotesBySub = 0;
+    double globalNotesAverage = 0;
 
     var teacherEmpty = new Models.Teacher();
 
@@ -47,28 +45,11 @@
     var teachers = new List<Teacher>();
 
     foreach (var gradesBySubject in gradesBySubjects)
-    {   
+    {
         <hr />
         <h4>
             @gradesBySubject.Key
-
         </h4>
-        <p>
-                   @foreach (var course in courses.Where(c=>c.SubjectID == @gradesBySubject.Key))
-                   {
-                       foreach (var courseStudent in coursesStudent)
-                       {
-                           if(course.Teacher == courseStudent.Teacher)
-                           {
-                               teacherEmpty = course.Teacher;
-                           }
-                       }
-
-                   }
-                   Teacher : @teacherEmpty.LastName
-            
-        </p>
-         
         <table>
             <tr>
                 <th>Date</th>
@@ -82,18 +63,20 @@
                     <td>@grade.Course.Date.ToShortDateString()</td>
                     <td>@grade.Value</td>
                     <td>@grade.Assessment</td>
-                    <td>@teacherEmpty.LastName</td>
+                    <td> Mr / Mrs @grade.Course.Teacher.LastName</td>
                     
 
                 </tr>
-                listeNotes += grade.Value;
+                listeNotesBySub += grade.Value;
+                globalNotesAverage += grade.Value;
             }
         </table>
         <br />
-        <p> Average : @String.Format("{0:0.00}", (listeNotes / gradesBySubject.Count()))</p>
-        listeNotes = 0;
-        <br/>
+        <p> Average : @String.Format("{0:0.00}", (listeNotesBySub / gradesBySubject.Count()))</p>
+        listeNotesBySub = 0;
     }
+        <hr />
+        <p>Global Average : @String.Format("{0:0.00}", (globalNotesAverage / Model.Group.Courses.Count()))</p>
 }
 <div>
 
