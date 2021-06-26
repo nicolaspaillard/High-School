@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Repositories
 {
-    public class StudentsRepository : IRepositoryAsync<Student>, StudentRepositoryExtension
+    public class StudentsRepository : IRepositoryAsync<Student>
     {
         private HighSchoolContext _context;
         public StudentsRepository(HighSchoolContext context)
@@ -51,18 +51,6 @@ namespace Application.Repositories
             temp.Grades = obj.Grades;
             return await _context.SaveChangesAsync();
 
-        }
-
-        public async Task<List<Teacher>> GetTeachersAsync(int id)
-        {
-            var student = await GetAsync(id);
-            var courses = _context.Groups.Where(g => g.Students.Contains(student)).SelectMany(g => g.Courses).ToList();
-            var teachers = new List<Teacher>();
-            foreach (var course in courses)
-            {
-                teachers.Add(course.Teacher);
-            }
-            return teachers;
         }
     }
 }

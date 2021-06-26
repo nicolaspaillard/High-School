@@ -149,11 +149,5 @@ namespace Application.Controllers
             var listStudents = _repository.GetAllAsync();
             return listStudents.Result.Any(s => s.PersonID == id);
         }
-
-        //private List<Teacher> GetStudentTeachers(int id)
-        //{
-        //    return _repository.;
-        //}
     }
 }
-// mdp  ad Sellers Chava = Vajo6106

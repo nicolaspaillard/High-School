@@ -71,9 +71,10 @@
          
         <table>
             <tr>
-                <th >Date</th>
-                <th >Grade</th>
-                <th >Assessment</th>
+                <th>Date</th>
+                <th>Grade</th>
+                <th>Assessment</th>
+                <th>Teacher</th>
             </tr>
             @foreach (var grade in gradesBySubject)
             {
@@ -81,6 +82,7 @@
                     <td>@grade.Course.Date.ToShortDateString()</td>
                     <td>@grade.Value</td>
                     <td>@grade.Assessment</td>
+                    <td>@teacherEmpty.LastName</td>
                     
 
                 </tr>
