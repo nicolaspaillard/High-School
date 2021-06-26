@@ -34,7 +34,11 @@
         </dd>
     </dl>
 </div>
-@{  
+<hr />
+
+<p>@Html.DisplayNameFor(model => model.Group.HomeRoomTeacher) : Mr/Mrs @Html.DisplayFor(model => model.Group.HomeRoomTeacher.LastName)</p>
+
+@{
     double listeNotesBySub = 0;
     double globalNotesAverage = 0;
 
@@ -47,41 +51,45 @@
     foreach (var gradesBySubject in gradesBySubjects)
     {
         <hr />
-        <h4>
-            @gradesBySubject.Key
-        </h4>
-        <table>
-            <tr>
-                <th>Date</th>
-                <th>Grade</th>
-                <th>Assessment</th>
-                <th>Teacher</th>
-            </tr>
-            @foreach (var grade in gradesBySubject)
-            {
-                <tr>
-                    <td>@grade.Course.Date.ToShortDateString()</td>
-                    <td>@grade.Value</td>
-                    <td>@grade.Assessment</td>
-                    <td> Mr / Mrs @grade.Course.Teacher.LastName</td>
-                    
+        <a class="btn btn-outline-dark" data-toggle="collapse" href="#@gradesBySubject.Key" role="button" aria-expanded="false">
+            <h4>
+                @gradesBySubject.Key
+            </h4>
+        </a>
 
+        <div class="collapse" id="@gradesBySubject.Key">
+            <table class="container">
+                <tr >
+                    <th align="right" class="text-right">Date</th>
+                    <th align="right" class="text-right">Grade</th>
+                    <th align="right" class="text-right">Assessment</th>
+                    <th align="right" class="text-right">Teacher</th>
                 </tr>
-                listeNotesBySub += grade.Value;
-                globalNotesAverage += grade.Value;
-            }
-        </table>
-        <br />
+                @foreach (var grade in gradesBySubject)
+                {
+                    <tr>
+                        <td align="right">@grade.Course.Date.ToShortDateString()</td>
+                        <td align="right">@grade.Value</td>
+                        <td align="right">@grade.Assessment</td>
+                        <td align="right">Mr / Mrs @grade.Course.Teacher.LastName</td>
+
+
+                    </tr>
+                    listeNotesBySub += grade.Value;
+                    globalNotesAverage += grade.Value;
+                }
+            </table>
+        </div>
         <p> Average : @String.Format("{0:0.00}", (listeNotesBySub / gradesBySubject.Count()))</p>
         listeNotesBySub = 0;
     }
-        <hr />
-        <p>Global Average : @String.Format("{0:0.00}", (globalNotesAverage / Model.Group.Courses.Count()))</p>
+    <hr />
+    <p>Global Average : @String.Format("{0:0.00}", (globalNotesAverage / Model.Group.Courses.Count()))</p>
 }
 <div>
 
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.PersonID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+@*<div>
+        <a asp-action="Edit" asp-route-id="@Model.PersonID">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>*@
