@@ -19,6 +19,10 @@
 {
     @*view daily courses : *@
     @await Component.InvokeAsync("CoursesList", Model.Courses.Where(c => c.Date.Day == DateTime.Now.Day));
+    <a for="coursesList" data-toggle="collapse" href="#coursesList" aria-expanded="true" aria-controls="coursesList" class="btn btn-primary">Tous les cours</a>
+    <div id="coursesList" class="collapse">
+        @await Component.InvokeAsync("CoursesList", Model.Courses);
+    </div>
     @*
         view all courses
         teacher:
