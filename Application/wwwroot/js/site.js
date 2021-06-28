@@ -6,6 +6,7 @@ $(function () {
     var placeholderElement = $('#modal-placeholder');
     $('button[data-toggle="ajax-modal"]').click(function (event) {
         var url = $(this).data('url');
+        //var decodeUrl = decodeURIComponent(url);
         $.get(url).done(function (data) {
             placeholderElement.html(data);
             placeholderElement.find('.modal').modal('show');
@@ -24,6 +25,7 @@ $(function () {
             if (isValid) {
                 placeholderElement.find('.modal').modal('hide');
             }
+            return false;
         });
     });
 });

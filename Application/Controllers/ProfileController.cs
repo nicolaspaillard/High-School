@@ -104,7 +104,12 @@ namespace Application.Controllers
             course.Subject = (await _subjects.GetAllAsync()).FirstOrDefault(s => s.SubjectID == course.SubjectID);
             course.Teacher = (await _teachers.GetAllAsync()).FirstOrDefault(t => t.PersonID == course.TeacherID);
             course.Classroom = (await _classrooms.GetAllAsync()).FirstOrDefault(c => c.ClassroomID == course.ClassroomID);
+
+            var groups = new List<Group>();
+            GroupID.ForEach(id => groups.Add(_groups.GetAllAsync().Result.FirstOrDefault(g => g.GroupID == id)));
             course.Groups = new();
+
+            course.Groups = groups;
             GroupID.ForEach(g => course.Groups.Add(_groups.GetAsync(g).Result));
             if (ModelState.IsValid) await _courses.UpdateAsync(course);
             return ViewComponent("EditCourse", course);

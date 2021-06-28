@@ -39,6 +39,7 @@ namespace Application.Repositories
             var course = await GetAsync(obj.CourseID);
             course.Date = obj.Date;
             course.Missings = obj.Missings;
+            course.Groups.Clear();
             course.Groups = obj.Groups;
             course.Classroom = obj.Classroom;
             course.ClassroomID = obj.ClassroomID;
