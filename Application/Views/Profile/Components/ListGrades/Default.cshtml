@@ -20,9 +20,9 @@
                     @foreach (var item in Model)
                     {
                         <div class="form-group">
+                            <input type="hidden" asp-for="@item.StudentID class=" form-control" />
                             <table>
                                 <tr>
-                                    <input type="hidden" asp-for="@item.StudentID class=" form-control" />
                                     <td>
                                         <label asp-for="@(item.Student.FirstName +' '+ item.Student.LastName) class=" control-label"></label>
                                     </td>
@@ -32,9 +32,6 @@
                                     </td>
                                 </tr>
                             </table>
-
-
-
                         </div>
                     }
                 </form>

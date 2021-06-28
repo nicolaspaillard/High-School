@@ -10,7 +10,7 @@
 
 
 @*bouton déconnexion*@
-@await Component.InvokeAsync("DetailsPerson", new { Model.Person })
+@await Component.InvokeAsync("DetailsPerson", Model.Person)
 @*popups :
     @await Component.InvokeAsync("EditPerson", new { Model.Person })
 
@@ -25,7 +25,6 @@
     <div id="coursesList" class="collapse">
         @await Component.InvokeAsync("ListCourses", Model.Courses)
     </div>
-    
 
     @*
         view all courses
@@ -34,9 +33,7 @@
             edit grades for his courses
             groups
             groups.courses
-
         student :
-
             group
     *@
 }

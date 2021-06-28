@@ -6,7 +6,9 @@
 @inject RepositoryService<Classroom> _classrooms
 @inject RepositoryService<Group> _groups
 @inject RepositoryService<Course> _courses
-
+@{
+    Model.Groups = (await _courses.GetAsync(Model.CourseID)).Groups;
+}
 <div class="row modal fade" id="edit-course" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
