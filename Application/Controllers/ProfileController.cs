@@ -93,7 +93,7 @@ namespace Application.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> EditCourse(Course course)
-        {
+        {   
             ModelState.Remove("Subject");
             ModelState.Remove("Teacher");
             ModelState.Remove("Classroom");
