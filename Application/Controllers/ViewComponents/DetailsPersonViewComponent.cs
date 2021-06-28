@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Controllers.ViewComponents
 {
-    public class PersonDetailsViewComponent : ViewComponent
+    public class DetailsPersonViewComponent : ViewComponent
     {
         public async Task<IViewComponentResult> InvokeAsync(Person person)
         {

@@ -1,11 +1,13 @@
 ﻿@using Models
-@model Models.Course
+@model Course
 @using Application.Controllers.Services
 @inject RepositoryService<Teacher> _teachers
 @inject RepositoryService<Subject> _subjects
 @inject RepositoryService<Classroom> _classrooms
+@inject RepositoryService<Group> _groups
+@inject RepositoryService<Course> _courses
 
-<div class="row modal fade" id="edit-course" role="dialog"> 
+<div class="row modal fade" id="edit-course" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -37,6 +39,15 @@
                         <label asp-for="ClassroomID" class="control-label"></label>
                         <select asp-for="ClassroomID" class="form-control" asp-items="@(await _classrooms.GetAllAsync()).Select(c => new SelectListItem() { Text=c.Name, Value=c.ClassroomID.ToString() })"></select>
                         <span asp-validation-for="ClassroomID" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        @foreach (var item in (await _groups.GetAllAsync()).Select(g => new SelectListItem() { Text = g.GroupID.ToString(), Value = g.GroupID.ToString() }))
+                        {
+                            item.Selected = Model.Groups.Select(g => g.GroupID).Contains(Int32.Parse(item.Value));
+                            <label asp-for="@item.Text">Groupe @item.Text</label>
+                            <input type="checkbox" name="GroupID" value="@item.Value" checked="@item.Selected" />
+                        }
+                        <span asp-validation-for="Groups" class="text-danger"></span>
                     </div>
                 </form>
             </div>

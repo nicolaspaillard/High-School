@@ -1,6 +1,8 @@
-﻿@model Application.Models.ProfileViewModel
+﻿@using Models
+@model ProfileViewModel
 @using Application.Controllers.ViewComponents
 @using Application.Controllers.Services
+
 @inject RoleService roleService
 @{
     ViewData["Title"] = "Index";
@@ -8,21 +10,23 @@
 
 
 @*bouton déconnexion*@
-@await Component.InvokeAsync("PersonDetails", new { Model.Person })
+@await Component.InvokeAsync("DetailsPerson", new { Model.Person })
 @*popups :
     @await Component.InvokeAsync("EditPerson", new { Model.Person })
 
 *@
 
-
-@if (await roleService.GetRoleAsync(User) != Models.Role.Admin)
+@{Role role = await roleService.GetRoleAsync(User);}
+@if (role != Models.Role.Admin)
 {
     @*view daily courses : *@
-    @await Component.InvokeAsync("CoursesList", Model.Courses.Where(c => c.Date.Day == DateTime.Now.Day));
+    @await Component.InvokeAsync("ListCourses", Model.Courses.Where(c => c.Date.Day == DateTime.Now.Day))
     <a for="coursesList" data-toggle="collapse" href="#coursesList" aria-expanded="true" aria-controls="coursesList" class="btn btn-primary">Tous les cours</a>
     <div id="coursesList" class="collapse">
-        @await Component.InvokeAsync("CoursesList", Model.Courses);
+        @await Component.InvokeAsync("ListCourses", Model.Courses)
     </div>
+    
+
     @*
         view all courses
         teacher:
@@ -40,7 +44,7 @@ else
 {
     <a for="coursesList" data-toggle="collapse" href="#coursesList" aria-expanded="true" aria-controls="coursesList" class="btn btn-primary">Modifier les cours</a>
     <div id="coursesList" class="collapse">
-        @await Component.InvokeAsync("CoursesList", Model.Courses);
+        @await Component.InvokeAsync("ListCourses", Model.Courses);
     </div>
 
 

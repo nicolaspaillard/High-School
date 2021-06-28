@@ -14,6 +14,7 @@ namespace Models
         public DateTime Date { get; set; }
         public virtual List<Group> Groups { get; set; }
         public virtual List<Missing> Missings { get; set; }
+        public virtual List<Grade> Grades { get; set; }
 
         public int? TeacherID { get; set; }
         [Required]

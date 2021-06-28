@@ -29,11 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Profile\Components\ClassroomsList\" />
+    <Folder Include="Views\Profile\Components\ListClassrooms\" />
     <Folder Include="Views\Profile\Components\EditClassroom\" />
-    <Folder Include="Views\Profile\Components\MissingsList\" />
-    <Folder Include="Views\Profile\Components\GradesList\" />
-    <Folder Include="Views\Profile\Components\PeopleList\" />
+    <Folder Include="Views\Profile\Components\ListMissings\" />
+    <Folder Include="Views\Profile\Components\ListPeople\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

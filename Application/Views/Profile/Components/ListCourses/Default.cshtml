@@ -42,6 +42,9 @@
                 <td>
                     @if (await roleService.GetRoleAsync(User) == Role.Admin)
                     {
+                        <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#list-grades" data-url="@Url.Action("ListGradesModal", item)">
+                            Notes
+                        </button>
                         <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#edit-course" data-url="@Url.Action("EditCourseModal", item)">
                             Modifier
                         </button>
