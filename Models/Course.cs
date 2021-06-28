@@ -11,6 +11,7 @@ namespace Models
         [Key]
         public int CourseID { get; set; }
         public DateTime Date { get; set; }
+        //[JsonIgnore]                                          solution alternative à la gestion du lazyloading en Courserepository -> check  context.ChangeTracker.LazyLoadingEnabled = false;
         public virtual List<Group> Groups { get; set; }
         public virtual List<Missing> Missings { get; set; }
 
