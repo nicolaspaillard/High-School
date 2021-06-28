@@ -127,7 +127,7 @@ namespace Dal
                 new() { FirstName = "Mckinney", LastName = "Violet", Email = "mollis.Duis@ligulaAliquam.org", BirthDate = DateTime.ParseExact("30/04/2008", "dd/MM/yyyy", CultureInfo.InvariantCulture) },
                 new() { FirstName = "Jensen", LastName = "Erin", Email = "Curabitur@Suspendisse.co.uk", BirthDate = DateTime.ParseExact("26/05/2009", "dd/MM/yyyy", CultureInfo.InvariantCulture) },
                 new() { FirstName = "Burch", LastName = "Abel", Email = "libero@egestas.edu", BirthDate = DateTime.ParseExact("27/05/2012", "dd/MM/yyyy", CultureInfo.InvariantCulture) },
-                new() { FirstName = "Martin", LastName = "Tintin", Email ="Martin@nicpaillegmail.onmicrosoft.com", AzureID = new Guid("1bd8def6-7654-4d71-9dc7-250109818a6b"), BirthDate = DateTime.ParseExact("11/04/2016", "dd/MM/yyyy", CultureInfo.InvariantCulture)}
+                new() { FirstName = "Casimir", LastName = "Monstre-Gentil", Email ="Casimir_Monstre-Gentil@nicpaillegmail.onmicrosoft.com", AzureID = new Guid("08584E66-0B5C-43A9-A9DE-754C11731229"), BirthDate = DateTime.ParseExact("11/04/2016", "dd/MM/yyyy", CultureInfo.InvariantCulture) }
             };
             #endregion
             #region SUBJECTS
@@ -139,7 +139,7 @@ namespace Dal
             #region TEACHERS
             List<Teacher> teachers = new List<Teacher>()
             {
-                new() { FirstName = "Cassady", LastName = "Wagner", Email = "tellus@turpisIncondimentum.co.uk", BirthDate = DateTime.ParseExact("09/26/1987", "MM/dd/yyyy", CultureInfo.InvariantCulture),Subjects = new List<Subject>(){ context.Subjects.Find(subjectMatters.GetValue(rand.Next(subjectMatters.Length))) } },
+                new() { FirstName = "Michel", LastName = "Paul_Nareff", Email = "Michel_Paul_Nareff@nicpaillegmail.onmicrosoft.com", BirthDate = DateTime.ParseExact("09/26/1987", "MM/dd/yyyy", CultureInfo.InvariantCulture),AzureID=new Guid("3461d294-cdbf-430a-8281-a56e80d00b71"),Subjects = new List<Subject>(){ context.Subjects.Find(subjectMatters.GetValue(rand.Next(subjectMatters.Length))) } },
                 new() { FirstName = "Camilla", LastName = "Walsh", Email = "Donec@sit.co.uk", BirthDate = DateTime.ParseExact("10/21/1981", "MM/dd/yyyy", CultureInfo.InvariantCulture),Subjects = new List<Subject>(){ context.Subjects.Find(subjectMatters.GetValue(rand.Next(subjectMatters.Length))) } },
                 new() { FirstName = "Stuart", LastName = "Bush", Email = "lorem@metusAeneansed.net", BirthDate = DateTime.ParseExact("05/05/1972", "MM/dd/yyyy", CultureInfo.InvariantCulture),Subjects = new List<Subject>(){ context.Subjects.Find(subjectMatters.GetValue(rand.Next(subjectMatters.Length))) } },
                 new() { FirstName = "Rowan", LastName = "Obrien", Email = "dapibus@porttitorinterdum.net", BirthDate = DateTime.ParseExact("11/28/1981", "MM/dd/yyyy", CultureInfo.InvariantCulture),Subjects = new List<Subject>(){ context.Subjects.Find(subjectMatters.GetValue(rand.Next(subjectMatters.Length))), context.Subjects.Find(subjectMatters.GetValue(rand.Next(subjectMatters.Length))) } },
@@ -230,6 +230,10 @@ namespace Dal
                 new Classroom(){ Name = "C301" },
             };
             #endregion
+            context.Students.AddRange(students);
+            context.Teachers.AddRange(teachers);
+            context.Classrooms.AddRange(classrooms);
+            context.SaveChanges();
 
             #region GROUPS
             var gpTeachers = context.Teachers.ToList();
@@ -237,7 +241,7 @@ namespace Dal
             var gpStudents1 = gpStudents.Take(15).ToList();
             var gpStudents2 = gpStudents.Skip(15).Take(25).ToList();
             var gpStudents3 = gpStudents.Skip(40).Take(35).ToList();
-            var gpStudents4 = gpStudents.Skip(75).Take(25).ToList();
+            var gpStudents4 = gpStudents.Skip(75).Take(27).ToList();
 
 
             List<Group> groups = new List<Group>()
@@ -669,13 +673,10 @@ namespace Dal
             };
             #endregion
 
-            context.Students.AddRange(students);
-            context.Teachers.AddRange(teachers);
-            context.Classrooms.AddRange(classrooms);
+            context.Groups.AddRange(groups);
             context.Courses.AddRange(courses);
             context.Grades.AddRange(grades);
             context.Missings.AddRange(missings);
-            context.Groups.AddRange(groups);
             context.SaveChanges();
         }
     }

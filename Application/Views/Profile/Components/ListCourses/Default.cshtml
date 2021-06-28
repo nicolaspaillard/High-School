@@ -17,6 +17,7 @@
             }
             <th>Matière</th>
             <th>Salle</th>
+            <th>Classe</th>
             <th></th>
         </tr>
     </thead>
@@ -39,6 +40,15 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Classroom.ClassroomID)
                 </td>
+
+                <td>
+                    @foreach (Group i in item.Groups)
+                    {
+                        @Html.DisplayFor(modelItem => i.GroupID)
+                    }
+                </td>
+
+
                 <td>
                     @if (await roleService.GetRoleAsync(User) == Role.Admin)
                     {

@@ -20,22 +20,30 @@
 @if (role != Models.Role.Admin)
 {
     @*view daily courses : *@
-    @await Component.InvokeAsync("ListCourses", Model.Courses.Where(c => c.Date.Day == DateTime.Now.Day))
     <a for="coursesList" data-toggle="collapse" href="#coursesList" aria-expanded="true" aria-controls="coursesList" class="btn btn-primary">Tous les cours</a>
     <div id="coursesList" class="collapse">
         @await Component.InvokeAsync("ListCourses", Model.Courses)
     </div>
+    @if (role == Models.Role.Student)
+    {
+        <a for="studentsList" data-toggle="collapse" href="#studentsList" aria-expanded="true" aria-controls="studentsList" class="btn btn-primary">Tous les élèves</a>
+        <div id="studentsList" class="collapse">
+            @await Component.InvokeAsync("ListPeople", Model.Groups)
+        </div> }
+    else if (role != Models.Role.Teacher)
+    {
 
-    @*
-        view all courses
-        teacher:
-            edit missing for his courses
-            edit grades for his courses
-            groups
-            groups.courses
-        student :
-            group
-    *@
+        @*
+            view all courses
+            teacher:
+                edit missing for his courses
+                edit grades for his courses
+                groups
+                groups.courses
+
+        *@
+    }
+
 }
 else
 {
