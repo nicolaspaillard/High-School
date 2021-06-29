@@ -1,0 +1,48 @@
+﻿@using Models
+@model Course
+@using Application.Controllers.Services
+@inject RepositoryService<Student> _student
+
+@inject RepositoryService<Teacher> _teachers
+@inject RepositoryService<Subject> _subjects
+@inject RepositoryService<Classroom> _classrooms
+@inject RepositoryService<Group> _groups
+@inject RepositoryService<Course> _courses
+@{
+    Model.Groups = (await _courses.GetAsync(Model.CourseID)).Groups;
+    
+}
+<div class="row modal fade" id="edit-missing" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addContactLabel">Notifier les absences : </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="EditMissing">
+                    <input type="hidden" name="IsValid" value="@ViewData.ModelState.IsValid.ToString()" />
+                    <input type="hidden" asp-for="CourseID" />
+                    <div class="form-group">
+                        @foreach (var item in (await _student.GetAllAsync()).Select(s => new SelectListItem() { Text = $"{s.FirstName} {s.LastName}", Value = s.PersonID.ToString() }))
+                        {
+                            Model.Groups.ForEach(g => item.Selected = g.Students.Select(s => s.PersonID).Contains(int.Parse(item.Value)));
+                            <label asp-for="@item.Text">@item.Text</label>
+                            <input type="checkbox" name="StudentID" value="@item.Value" checked="@item.Selected" />
+                        }
+                        <span asp-validation-for="Groups" class="text-danger"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="form-group modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary" data-save="modal">Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

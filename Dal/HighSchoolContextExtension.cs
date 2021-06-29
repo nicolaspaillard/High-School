@@ -677,6 +677,7 @@ namespace Dal
             context.Courses.AddRange(courses);
             context.Grades.AddRange(grades);
             context.Missings.AddRange(missings);
+            context.Groups.AddRange(groups);
             context.SaveChanges();
         }
     }
