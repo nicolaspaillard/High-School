@@ -52,6 +52,10 @@ else
     <div id="coursesList" class="collapse">
         @await Component.InvokeAsync("ListCourses", Model.Courses)
     </div>
+    <a for="groupsList" data-toggle="collapse" href="#groupsList" aria-expanded="true" aria-controls="groupsList" class="btn btn-primary">Gérer les groupes</a>
+    <div id="groupsList" class="collapse">
+        @await Component.InvokeAsync("ListGroups", Model.Groups)
+    </div>
 
 
 

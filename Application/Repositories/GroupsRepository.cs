@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Repositories.IRepositories;
@@ -35,12 +36,21 @@ namespace Application.Repositories
 
         public async Task<int> UpdateAsync(Group obj)
         {
+            try { 
             var group = await GetAsync(obj.GroupID);
+            group.Students.Clear();
+            group.Courses.Clear();
             group.Students = obj.Students;
             group.Courses = obj.Courses;
             group.HomeRoomTeacherID = obj.HomeRoomTeacherID;
             group.HomeRoomTeacher = obj.HomeRoomTeacher;
             return await _context.SaveChangesAsync();
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine(e);
+                return -1;
+            }
         }
         public async Task<int> UpdateAsyncGroup(Group obj, List<int> studentsID, List<int> coursesID)
         {

@@ -1,0 +1,50 @@
+﻿@using Models
+@model Group
+@using Application.Controllers.Services
+@inject RepositoryService<Teacher> _teachers
+@inject RepositoryService<Student> _students
+
+
+<div class="row modal fade" id="create-group" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addContactLabel">Créer un groupe : </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="CreateGroup">
+                    <input type="hidden" name="IsValid" value="@ViewData.ModelState.IsValid.ToString()" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="HomeRoomTeacher.LastName" class="control-label">Professeur principal</label>
+                        <select asp-for="HomeRoomTeacherID" class="form-control" asp-items="@(await _teachers.GetAllAsync()).Select(t => new SelectListItem() { Text=@String.Join(" ",t.LastName,t.FirstName), Value=t.PersonID.ToString() })"></select>
+                        <span asp-validation-for="HomeRoomTeacherID" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        @foreach (var item in (await _students.GetAllAsync()).Select(g => new SelectListItem() { Text = g.LastName, Value = g.PersonID.ToString() }))
+                        {
+
+                            <label asp-for="@item.Text">@item.Text</label>
+                            <input type="checkbox" name="StudentID" value="@item.Value" />
+                        }
+                        <span asp-validation-for="Students" class="text-danger"></span>
+                    </div>
+
+                </form>
+            </div>
+            <div class="form-group modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary" data-save="modal">Créer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

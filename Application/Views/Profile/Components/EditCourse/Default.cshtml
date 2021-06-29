@@ -24,7 +24,7 @@
                     <input type="hidden" asp-for="CourseID" />
                     <div class="form-group">
                         <label class="control-label" for="Date">Date</label>
-                        <input class="form-control" type="datetime-local" data-val="true" data-val-required="The Date field is required." id="Date" name="Date" value="@Model.Date.ToString("yyyy-MM-dd hh:mm")">
+                        <input class="form-control" type="datetime-local" data-val="true" data-val-required="The Date field is required." id="Date" name="Date" value="Date.ToString(" yyyy-MM-dd hh:mm")">
                         <span asp-validation-for="Date" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -45,7 +45,7 @@
                     <div class="form-group">
                         @foreach (var item in (await _groups.GetAllAsync()).Select(g => new SelectListItem() { Text = g.GroupID.ToString(), Value = g.GroupID.ToString() }))
                         {
-                            item.Selected = Model.Groups.Select(g => g.GroupID).Contains(Int32.Parse(item.Value));
+                            item.Selected = (Model.Groups).Select(g => g.GroupID).Contains(Int32.Parse(item.Value));
                             <label asp-for="@item.Text">Groupe @item.Text</label>
                             <input type="checkbox" name="GroupID" value="@item.Value" checked="@item.Selected" />
                         }
