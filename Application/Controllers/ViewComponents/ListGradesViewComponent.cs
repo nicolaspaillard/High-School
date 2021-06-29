@@ -14,7 +14,7 @@ namespace Application.Controllers.ViewComponents
             List<Grade> grades = new();
             foreach (var item in course.Groups.SelectMany(g => g.Students))
             {
-                grades.Add(new Grade() {Student = item, StudentID = item.PersonID});
+                grades.Add(new Grade() {Student = item, StudentID = item.PersonID, Course=course, CourseID=course.CourseID});
             }
             return View(grades);
         }
