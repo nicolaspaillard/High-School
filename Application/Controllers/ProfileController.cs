@@ -130,12 +130,12 @@ namespace Application.Controllers
         }
         public async Task<IActionResult> CreateCourse(Course course, List<int> GroupID)
         {
-            course.Subject = (await _subjects.GetAllAsync()).FirstOrDefault(s => s.SubjectID == course.SubjectID);
-            course.Teacher = (await _teachers.GetAllAsync()).FirstOrDefault(t => t.PersonID == course.TeacherID);
-            course.Classroom = (await _classrooms.GetAllAsync()).FirstOrDefault(c => c.ClassroomID == course.ClassroomID);
+            course.Subject = (await _subjects.GetAsync((int)course.SubjectID));
+            course.Teacher = (await _teachers.GetAsync((int)course.TeacherID));
+            course.Classroom = (await _classrooms.GetAsync((int)course.ClassroomID));
             course.Groups = new();
             GroupID.ForEach(g => course.Groups.Add(_groups.GetAsync(g).Result));
-            if (ModelState.IsValid) await _courses.CreateAsync(course);
+            await _courses.CreateAsync(course);
             return ViewComponent("ListCourses", course);
 
         }
