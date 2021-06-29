@@ -6,6 +6,9 @@
 @{
     Role role = await roleService.GetRoleAsync(User);
 }
+<button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#create-course" data-url="@Url.Action("CreateCourseModal")">
+    Créer un Cours
+</button>
 <div id="modal-placeholder"></div>
 <table class="table">
     <thead>

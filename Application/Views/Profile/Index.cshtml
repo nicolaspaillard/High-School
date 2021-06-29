@@ -48,13 +48,11 @@
 else
 {
     <div id="modal-placeholder"></div>
-    <a for="coursesList" data-toggle="collapse" href="#coursesList" aria-expanded="true" aria-controls="coursesList" class="btn btn-primary">Modifier les cours</a>
+    <a for="coursesList" data-toggle="collapse" href="#coursesList" aria-expanded="true" aria-controls="coursesList" class="btn btn-primary">Gérer les cours</a>
     <div id="coursesList" class="collapse">
         @await Component.InvokeAsync("ListCourses", Model.Courses)
     </div>
-    <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#create-course" data-url="@Url.Action("CreateCourseModal")">
-        Créer un Cours
-    </button>
+
 
 
     @*admin components
