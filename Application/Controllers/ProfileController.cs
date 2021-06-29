@@ -96,6 +96,17 @@ namespace Application.Controllers
             course = await _courses.GetAsync(course.CourseID);
             return ViewComponent("ListGrades", course);
         }
+        public async Task<IActionResult> EditMissingModal(Course course)
+        {
+            return ViewComponent("EditMissing", course);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditMissing(Course course, List<int> StudentID)
+        {
+            return ViewComponent("EditMissing", course);
+        }
+
         [HttpPost]
         public async Task<IActionResult> EditCourse(Course course, List<int> GroupID)
         {   
