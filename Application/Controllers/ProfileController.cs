@@ -136,7 +136,7 @@ namespace Application.Controllers
             course.Groups = new();
             GroupID.ForEach(g => course.Groups.Add(_groups.GetAsync(g).Result));
             await _courses.CreateAsync(course);
-            return ViewComponent("ListCourses", course);
+            return ViewComponent("CreateCourse", course);
 
         }
 
