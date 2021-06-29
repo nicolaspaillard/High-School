@@ -101,6 +101,7 @@ namespace Application.Controllers
             ModelState.Remove("Subject");
             ModelState.Remove("Teacher");
             ModelState.Remove("Classroom");
+            ModelState.Remove("Groups");
             course.Subject = (await _subjects.GetAllAsync()).FirstOrDefault(s => s.SubjectID == course.SubjectID);
             course.Teacher = (await _teachers.GetAllAsync()).FirstOrDefault(t => t.PersonID == course.TeacherID);
             course.Classroom = (await _classrooms.GetAllAsync()).FirstOrDefault(c => c.ClassroomID == course.ClassroomID);
@@ -109,11 +110,19 @@ namespace Application.Controllers
             if (ModelState.IsValid) await _courses.UpdateAsync(course);
             return ViewComponent("EditCourse", course);
         }
-
+        public async Task<IActionResult> CreateCourseModal(Course course)
+        {
+            return ViewComponent("CreateCourse", course);
+        }
         public async Task<IActionResult> CreateCourse(Course course, List<int> GroupID)
         {
+            course.Subject = (await _subjects.GetAllAsync()).FirstOrDefault(s => s.SubjectID == course.SubjectID);
+            course.Teacher = (await _teachers.GetAllAsync()).FirstOrDefault(t => t.PersonID == course.TeacherID);
+            course.Classroom = (await _classrooms.GetAllAsync()).FirstOrDefault(c => c.ClassroomID == course.ClassroomID);
+            course.Groups = new();
+            GroupID.ForEach(g => course.Groups.Add(_groups.GetAsync(g).Result));
             if (ModelState.IsValid) await _courses.CreateAsync(course);
-            return ViewComponent("EditCourse", course);
+            return ViewComponent("ListCourses", course);
 
         }
     }
