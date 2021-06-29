@@ -17,18 +17,27 @@
             <div class="modal-body">
                 <form asp-action="ListGrades">
                     <input type="hidden" name="IsValid" value="@ViewData.ModelState.IsValid.ToString()" />
+                    <p>@Model.Count élèves</p>
                     @foreach (var item in Model)
                     {
+                        <hr />
                         <div class="form-group">
                             <input type="hidden" asp-for="@item.StudentID class=" form-control" />
                             <table>
                                 <tr>
                                     <td>
-                                        <label asp-for="@(item.Student.FirstName +' '+ item.Student.LastName) class=" control-label"></label>
+                                        <label class="control-label">@(item.Student.FirstName +' '+ item.Student.LastName)</label>
                                     </td>
                                     <td>
-                                        <input asp-for="@item.Value" class="form-control" />
+                                        <input type="number" asp-for="@item.Value" class="form-control" />
                                         <span asp-validation-for="@item.Value" class="text-danger"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <textarea asp-for="@item.Assessment" class="form-control" placeholder="Appréciation"></textarea>
+                                        <span asp-validation-for="@item.Assessment" class="text-danger"></span>
+
                                     </td>
                                 </tr>
                             </table>
@@ -46,3 +55,8 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<style scoped>
+    table{
+        width: 100%;
+    }
+</style>
