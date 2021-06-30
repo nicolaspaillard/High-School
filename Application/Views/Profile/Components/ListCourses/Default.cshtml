@@ -6,6 +6,9 @@
 @{
     Role role = await roleService.GetRoleAsync(User);
 }
+<button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#create-course" data-url="@Url.Action("CreateCourseModal")">
+    Créer un Cours
+</button>
 <div id="modal-placeholder"></div>
 <table class="table">
     <thead>
@@ -17,6 +20,7 @@
             }
             <th>Matière</th>
             <th>Salle</th>
+            <th>Classe</th>
             <th></th>
         </tr>
     </thead>
@@ -39,6 +43,15 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Classroom.ClassroomID)
                 </td>
+
+                <td>
+                    @foreach (Group i in item.Groups)
+                    {
+                        @Html.DisplayFor(modelItem => i.GroupID)
+                    }
+                </td>
+
+
                 <td>
                     @if (await roleService.GetRoleAsync(User) == Role.Admin)
                     {

@@ -1,0 +1,84 @@
+﻿@using Models
+@model Group
+@using Application.Controllers.Services
+@inject RepositoryService<Student> studentsService
+@inject RepositoryService<Teacher> teachersService
+@inject RepositoryService<Group> groupsService
+
+
+@{
+    Model.Students = studentsService.GetAllAsync().Result.Where(c => c.GroupID == Model.GroupID).ToList();
+
+    List < SelectListItem > students = new List<SelectListItem>();
+    foreach (var item in await studentsService.GetAllAsync())
+    {
+        bool areChecked = item.GroupID == Model.GroupID ? true : false;
+        students.Add(new SelectListItem { Text = $"{item.FirstName} {item.LastName}", Value = $"{item.PersonID}", Selected = areChecked });
+    }
+
+    List<SelectListItem> teachers = new List<SelectListItem>();
+    foreach (var item in await teachersService.GetAllAsync())
+    {
+        teachers.Add(new SelectListItem { Text = $"{item.FirstName} {item.LastName}", Value = $"{item.PersonID}" });
+    }
+
+}
+
+
+<div class="row modal fade" id="edit-group" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addContactLabel">Modifier le groupe : </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="EditGroup">
+                    <input type="hidden" name="IsValid" value="@ViewData.ModelState.IsValid.ToString()" />
+                    <input type="hidden" asp-for="GroupID" />
+
+
+                    <div class="form-group">
+                        <label asp-for="HomeRoomTeacher" class="control-label">Professeur Principal</label><br />
+                        <select asp-for="HomeRoomTeacherID" asp-items="teachers"></select>
+                    </div>
+
+                    <p>
+                        <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseStudents" role="button" aria-expanded="false" aria-controls="multiCollapseStudents">Students</a>
+                    </p>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="collapse multi-collapse" id="multiCollapseStudents">
+                                <div class="card card-body container">
+                                    @foreach (var student in (await studentsService.GetAllAsync()).Select(g => new SelectListItem() { Text = @String.Join(" ", g.LastName, g.FirstName), Value = g.PersonID.ToString() }))
+
+                                    {
+                                        student.Selected = (Model.Students).Select(g => g.PersonID).Contains(Int32.Parse(student.Value));
+                                        <label asp-for="@student.Text"> @student.Text</label>
+                                        <input type="checkbox" name="StudentID" value="@student.Value" checked="@student.Selected" />
+                                               }
+                                    <span asp-validation-for="Students" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="form-group modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary" data-save="modal">Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

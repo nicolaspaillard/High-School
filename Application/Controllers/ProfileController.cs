@@ -80,6 +80,8 @@ namespace Application.Controllers
             {
                 ProfileViewModel.Person = person;
                 ProfileViewModel.Courses = await _courses.GetAllAsync();
+                ProfileViewModel.Groups = await _groups.GetAllAsync();
+
                 return View(ProfileViewModel);
             }
             else
@@ -100,7 +102,31 @@ namespace Application.Controllers
         {
             return ViewComponent("EditMissing", course);
         }
+        public async Task<IActionResult> EditGroupModal(int groupID)
+        {
+            var group = await _groups.GetAsync(groupID);
+            return ViewComponent("EditGroup", group);
+        }
 
+        
+        public async Task<IActionResult> EditGroup(int groupID)
+        {
+            var group = await _groups.GetAsync(groupID);
+            return ViewComponent("EditGroup", group);
+        }
+        [HttpPost]        public async Task<IActionResult> EditGroup(Group group, List<int> StudentID)
+        {
+            ModelState.Remove("HomeRoomTeacher");
+            ModelState.Remove("Students");
+            group.HomeRoomTeacher = await _teachers.GetAsync((int)group.HomeRoomTeacherID);
+
+            var students = new List<Student>();
+            StudentID.ForEach(id => students.Add(_students.GetAsync(id).Result));
+            group.Students = new();
+            group.Students = students;
+            if (ModelState.IsValid) await _groups.UpdateAsync(group);
+            return ViewComponent("EditGroup", group);
+        }
         [HttpPost]
         public async Task<IActionResult> EditMissing(Course course, List<int> StudentID)
         {
@@ -127,7 +153,7 @@ namespace Application.Controllers
 
         [HttpPost]
         public async Task<IActionResult> EditCourse(Course course, List<int> GroupID)
-        {   
+        {
             ModelState.Remove("Subject");
             ModelState.Remove("Teacher");
             ModelState.Remove("Classroom");
@@ -142,5 +168,48 @@ namespace Application.Controllers
             if (ModelState.IsValid) await _courses.UpdateAsync(course);
             return ViewComponent("EditCourse", course);
         }
+        public async Task<IActionResult> CreateCourseModal(Course course)
+        {
+            return ViewComponent("CreateCourse", course);
+        }
+        public async Task<IActionResult> CreateCourse(Course course, List<int> GroupID)
+        {
+            course.Subject = (await _subjects.GetAsync((int)course.SubjectID));
+            course.Teacher = (await _teachers.GetAsync((int)course.TeacherID));
+            course.Classroom = (await _classrooms.GetAsync((int)course.ClassroomID));
+            course.Groups = new();
+            GroupID.ForEach(g => course.Groups.Add(_groups.GetAsync(g).Result));
+            await _courses.CreateAsync(course);
+            return ViewComponent("CreateCourse", course);
+
+        }
+
+        public async Task<IActionResult> CreateGroupModal(Group group)
+        {
+            return ViewComponent("CreateGroup", group);
+        }
+        public async Task<IActionResult> CreateGroup(Group group, List<int> StudentID)
+        {
+            group.HomeRoomTeacher = (await _teachers.GetAsync((int)group.HomeRoomTeacherID));
+            group.Students= new();
+            StudentID.ForEach(g => group.Students.Add(_students.GetAsync(g).Result));
+            await _groups.CreateAsync(group);
+            return ViewComponent("CreateGroup", group);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ListGrades(List<Grade> grades)
+        {
+            Course course = await _courses.GetAsync(grades.Select(g => (int)g.CourseID).FirstOrDefault());
+            course.Grades = grades;
+            if (ModelState.IsValid) await _courses.UpdateAsync(course);
+            return ViewComponent("ListGrades", course);
+        }
+
     }
-}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+
+
+}
+
+
