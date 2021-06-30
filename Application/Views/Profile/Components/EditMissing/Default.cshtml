@@ -2,14 +2,13 @@
 @model Course
 @using Application.Controllers.Services
 @inject RepositoryService<Student> _student
-
-@inject RepositoryService<Teacher> _teachers
-@inject RepositoryService<Subject> _subjects
-@inject RepositoryService<Classroom> _classrooms
-@inject RepositoryService<Group> _groups
+@inject RepositoryService<Missing> _missing 
 @inject RepositoryService<Course> _courses
 @{
     Model.Groups = (await _courses.GetAsync(Model.CourseID)).Groups;
+    Model.Missings = (await _courses.GetAsync(Model.CourseID)).Missings;
+    List<SelectListItem> students = new List<SelectListItem>();
+    Model.Groups.SelectMany(g => g.Students).ToList().ForEach(s => students.Add(new SelectListItem() { Text = $"{s.FirstName} {s.LastName}", Value = s.PersonID.ToString()}));
 
 }
 <div class="row modal fade" id="edit-missing" role="dialog">
@@ -26,22 +25,13 @@
                     <input type="hidden" name="IsValid" value="@ViewData.ModelState.IsValid.ToString()" />
                     <input type="hidden" asp-for="CourseID" />
                     <div class="form-group">
-                        @foreach (var item in (Model.Groups))
+                        @foreach (var item in students)
                         {
-                            List<SelectListItem> k = new();
-                            @foreach (Student s in item.Students)
-                            {
-                                k.Add(new SelectListItem(String.Join(" ", s.FirstName, s.LastName), s.PersonID.ToString()));
-                            }
-                            @foreach (var o in k)
-                            {
-                                Model.Groups.ForEach(g => o.Selected = g.Students.Select(s => s.PersonID).Contains(int.Parse(o.Value)));
-                                <label asp-for="@o.Text">@o.Text</label>
-                                <input type="checkbox" name="StudentID" value="@o.Value" checked="@o.Selected" />
-                            }
-
+                            item.Selected = Model.Missings.Select(m => m.StudentID).Contains(int.Parse(item.Value));
+                            //Model.Groups.ForEach(g => item.Selected = g.Students.Select(s => s.PersonID).Contains(int.Parse(item.Value)));
+                            <label asp-for="@item.Text">@item.Text</label>
+                            <input type="checkbox" name="StudentID" value="@item.Value" checked="@item.Selected" /><br /> 
                         }
-                        <span asp-validation-for="Groups" class="text-danger"></span>
                     </div>
                 </form>
             </div>
