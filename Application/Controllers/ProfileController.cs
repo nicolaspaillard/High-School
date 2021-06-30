@@ -55,12 +55,12 @@ namespace Application.Controllers
         public async Task<IActionResult> Index()
         {
             var person = await _azureTools.RegisterAzureUser(User);
-            if (person is Student)
+            if (person.Role == Role.Student)
             {
                 ProfileViewModel.Person = person;
-                List<Group> allGroups = await _groups.GetAllAsync();
-                ProfileViewModel.Groups = allGroups?.Where(g => g.Students.Contains((Student)person))?.ToList();
-                ProfileViewModel.HomeRoomTeacher = ProfileViewModel.Groups?.Count > 0 ? ProfileViewModel.Groups?.Select(g => g.HomeRoomTeacher).First() : null;
+                var group = ((Student)person).Group;
+                if (group != null) ProfileViewModel.Groups.Add(group);
+                ProfileViewModel.HomeRoomTeacher = ProfileViewModel.Groups?.Select(g => g.HomeRoomTeacher).First();
                 List<Course> courses = ProfileViewModel.Groups?.SelectMany(g => g.Courses).ToList();
                 ProfileViewModel.Courses = courses.Count > 0 ? courses : null;
                 ProfileViewModel.Subjects = ProfileViewModel.Courses?.Select(c => c.Subject).ToList();
@@ -68,14 +68,14 @@ namespace Application.Controllers
                 ProfileViewModel.Missings = (await _missings.GetAllAsync())?.Where(m => m.StudentID == person.PersonID).ToList();
                 return View(ProfileViewModel);
             }
-            else if (person is Teacher)
+            else if (person.Role == Role.Teacher)
             {
                 ProfileViewModel.Person = person;
                 ProfileViewModel.Courses = (await _courses.GetAllAsync())?.Where(c => c.Teacher.PersonID == person.PersonID)?.ToList();
-                ProfileViewModel.Groups = ProfileViewModel.Courses?.SelectMany(c => c.Groups.Where(g => g.HomeRoomTeacher == person)).ToList();
+                ProfileViewModel.Groups = ProfileViewModel.Courses?.SelectMany(c => c.Groups.Where(g => g.HomeRoomTeacher.PersonID == person.PersonID)).ToList();
                 return View(ProfileViewModel);
             }
-            else if (person is Admin)
+            else if (person.Role == Role.Admin)
             {
                 ProfileViewModel.Person = person;
                 ProfileViewModel.Courses = await _courses.GetAllAsync();
