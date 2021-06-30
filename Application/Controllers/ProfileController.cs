@@ -104,6 +104,24 @@ namespace Application.Controllers
         [HttpPost]
         public async Task<IActionResult> EditMissing(Course course, List<int> StudentID)
         {
+            ModelState.Remove("Subject");
+            ModelState.Remove("Teacher");
+            ModelState.Remove("Classroom");
+            course = await _courses.GetAsync(course.CourseID);
+            List<Missing> tempMissings = course.Missings;
+
+            //course.Missings.ForEach(m => _missings.DeleteAsync(m));
+            foreach (var missing in course.Missings.ToList())
+            {
+                await _missings.DeleteAsync(missing);
+            }
+
+            foreach (var id in StudentID)
+            {
+                if (!course.Missings.Select(m => m.StudentID).Contains((int)id))
+                    await _missings.CreateAsync(new Missing { CourseID = course.CourseID, StudentID = id });
+            }
+            //MissingID.ForEach(id => missings.Add(_missings.GetAsync(id).Result));
             return ViewComponent("EditMissing", course);
         }
 

@@ -18,12 +18,14 @@ namespace Application.Repositories
         }
         public async Task<int> CreateAsync(Missing obj)
         {
+
             context.Missings.Add(obj);
             return await context.SaveChangesAsync();
         }
 
         public async Task<int> DeleteAsync(Missing obj)
         {
+            
             context.Missings.Remove(obj);
             return await context.SaveChangesAsync();
         }
@@ -37,7 +39,9 @@ namespace Application.Repositories
         {
             var missing = await GetAsync(obj.MissingID);
             missing.MissingID = obj.MissingID;
+            missing.StudentID = obj.StudentID;
             missing.Student = obj.Student;
+            missing.CourseID = obj.CourseID;
             missing.Course = obj.Course;
             return await context.SaveChangesAsync();
         }
