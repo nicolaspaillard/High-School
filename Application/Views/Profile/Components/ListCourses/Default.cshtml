@@ -6,9 +6,7 @@
 @{
     Role role = await roleService.GetRoleAsync(User);
 }
-<button type="button" class="btn btn-secondary" data-toggle="ajax-modal" data-target="#create-course" data-url="@Url.Action("CreateCourseModal")">
-    Créer un Cours
-</button>
+<button type="button" class="btn btn-success" data-toggle="ajax-modal" data-target="#edit-course" data-url="@Url.Action("EditCourseModal")">Créer un Cours</button>
 <div id="modal-placeholder"></div>
 <table class="table">
     <thead>
@@ -29,48 +27,44 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Date)
+                    @item.Date
                 </td>
                 @if (await roleService.GetRoleAsync(User) != Role.Teacher)
                 {
                     <td>
-                        Mr/Mme. @Html.DisplayFor(modelItem => item.Teacher.LastName)
+                        Mr/Mme. @item.Teacher.LastName
                     </td>
                 }
                 <td>
-                    @Html.DisplayFor(modelItem => item.Subject.SubjectID)
+                    @item.Subject.SubjectID
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Classroom.ClassroomID)
+                    @item.Classroom.ClassroomID
                 </td>
 
                 <td>
                     @foreach (Group i in item.Groups)
                     {
-                        @Html.DisplayFor(modelItem => i.GroupID)
+                        <div>@i.GroupID</div>
                     }
                 </td>
 
 
                 <td>
-                    @if (await roleService.GetRoleAsync(User) == Role.Admin)
+                    @if (role != Role.Student)
                     {
-                        <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#edit-missing" data-url="@Url.Action("EditMissingModal", item)">
-                            Absent
+                        <button type="button" class="btn btn-warning" data-toggle="ajax-modal" data-target="#edit-missing" data-url="@Url.Action("EditMissingModal", item)">
+                            Absences
                         </button>
-                        <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#list-grades" data-url="@Url.Action("ListGradesModal", item)">
+                        <button type="button" class="btn btn-secondary" data-toggle="ajax-modal" data-target="#list-grades" data-url="@Url.Action("ListGradesModal", item)">
                             Notes
                         </button>
-                        <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#edit-course" data-url="@Url.Action("EditCourseModal", item)">
+                        <button type="button" class="btn btn-secondary" data-toggle="ajax-modal" data-target="#edit-course" data-url="@Url.Action("EditCourseModal", item)">
                             Modifier
                         </button>
-                        <a asp-action="Delete" asp-route-id="@item.CourseID">Supprimer</a>
-                    }
-                    else if (await roleService.GetRoleAsync(User) == Role.Teacher)
-                    {
-                        @* V to popups V *@
-                        <a asp-action="Edit" asp-route-id="@item.CourseID">Absences</a>
-                        <a asp-action="Delete" asp-route-id="@item.CourseID">Notes</a>
+                        <button type="button" class="btn btn-danger" href="#modal-placeholder">
+                            Supprimer
+                        </button>
                     }
                 </td>
             </tr>

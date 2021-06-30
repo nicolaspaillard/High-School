@@ -24,6 +24,7 @@
     {
         <a for="dailycoursesList" data-toggle="collapse" href="#dailycoursesList" aria-expanded="true" aria-controls="dailycoursesList" class="btn btn-primary">Cours du jour</a>
         <a for="coursesList" data-toggle="collapse" href="#coursesList" aria-expanded="true" aria-controls="coursesList" class="btn btn-primary">Tous les cours</a>
+        <hr />
         <div id="dailycoursesList" class="collapse">
             @await Component.InvokeAsync("ListCourses", Model.Courses.Where(c => c.Date.Day == DateTime.Now.Day && c.Date.Month == DateTime.Now.Month))
         </div>
@@ -51,13 +52,18 @@ else
 {
     <a for="teachersList" data-toggle="collapse" href="#teachersList" aria-expanded="true" aria-controls="teachersList" class="btn btn-primary">Gérer les professeurs</a>
     <a for="studentsList" data-toggle="collapse" href="#studentsList" aria-expanded="true" aria-controls="studentsList" class="btn btn-primary">Gérer les étudiants</a>
+    <a for="classroomsList" data-toggle="collapse" href="#classroomsList" aria-expanded="true" aria-controls="classroomsList" class="btn btn-primary">Gérer les salles</a>
     <a for="groupsList" data-toggle="collapse" href="#groupsList" aria-expanded="true" aria-controls="groupsList" class="btn btn-primary">Gérer les classes</a>
     <a for="coursesList" data-toggle="collapse" href="#coursesList" aria-expanded="true" aria-controls="coursesList" class="btn btn-primary">Gérer les cours</a>
+    <hr />
     <div id="teachersList" class="collapse">
         @await Component.InvokeAsync("ListPeople", Model.Teachers)
     </div>
     <div id="studentsList" class="collapse">
         @await Component.InvokeAsync("ListPeople", Model.Students)
+    </div>
+    <div id="classroomsList" class="collapse">
+        @await Component.InvokeAsync("ListClassrooms", Model.Classrooms)
     </div>
     <div id="groupsList" class="collapse">
         @await Component.InvokeAsync("ListGroups", Model.Groups)
@@ -65,13 +71,26 @@ else
     <div id="coursesList" class="collapse">
         @await Component.InvokeAsync("ListCourses", Model.Courses)
     </div>
-
-
-
     @*admin components
         view list students/teachers / edit students/teachers
         view list courses / edit courses
         view list classrooms / edit classrooms
-
     *@
 }
+<style>
+    .collapsing > table {
+        margin-top: 16px;
+    }
+
+    .collapse > table {
+        margin-top: 16px;
+    }
+
+    table {
+        width: 100%;
+    }
+
+        table th, table td {
+            vertical-align: middle !important;
+        }
+</style>

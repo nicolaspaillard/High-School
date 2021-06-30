@@ -35,7 +35,7 @@ namespace Application.Repositories
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Student>> GetAllAsync() => await _context.Students.ToListAsync();
+        public async Task<List<Student>> GetAllAsync() => await _context.Students.AnyAsync() ? await _context.Students.ToListAsync() : null;
 
         public async Task<Student> GetAsync(int id) => await _context.Students.FirstOrDefaultAsync(s => s.PersonID == id);
 

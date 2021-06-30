@@ -12,7 +12,7 @@ namespace Application.Controllers.ViewComponents
     {
         public async Task<IViewComponentResult> InvokeAsync(Course course)
         {
-            return View(course);
+            return View(course );
         }
     }
 }

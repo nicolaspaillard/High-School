@@ -63,11 +63,11 @@ namespace Application.Controllers
                 {
                     ProfileViewModel.Groups.Add(group);
                     ProfileViewModel.HomeRoomTeacher = group.HomeRoomTeacher;
-                    List<Course> courses = ProfileViewModel.Groups?.SelectMany(g => g.Courses).ToList();
+                    List<Course> courses = ProfileViewModel.Groups.SelectMany(g => g.Courses)?.ToList();
                     if (courses != null)
                     {
                         ProfileViewModel.Courses = courses;
-                        ProfileViewModel.Subjects = courses?.Select(c => c.Subject).ToList();
+                        ProfileViewModel.Subjects = courses.Select(c => c.Subject).ToList();
                         ProfileViewModel.Grades = (await _grades.GetAllAsync())?.Where(g => g.StudentID == person.PersonID).ToList();
                         ProfileViewModel.Missings = (await _missings.GetAllAsync())?.Where(m => m.StudentID == person.PersonID).ToList();
                     }
@@ -77,10 +77,10 @@ namespace Application.Controllers
             else if (person.Role == Role.Teacher)
             {
                 List<Course> courses = ((Teacher)person).Courses;
-                if (courses.Count > 0)
+                if (courses != null)
                 {
                     ProfileViewModel.Courses = courses;
-                    ProfileViewModel.Groups = courses.SelectMany(c => c.Groups.Where(g => g.HomeRoomTeacher.PersonID == person.PersonID)).ToList();
+                    ProfileViewModel.Groups = courses.SelectMany(c => c.Groups?.Where(g => g.HomeRoomTeacher.PersonID == person.PersonID)).ToList();
                 }
                 return View(ProfileViewModel);
             }
@@ -88,8 +88,9 @@ namespace Application.Controllers
             {
                 ProfileViewModel.Courses = await _courses.GetAllAsync();
                 ProfileViewModel.Groups = await _groups.GetAllAsync();
-                ProfileViewModel.Students = (await _students.GetAllAsync()).Select(s => (Person)s).ToList();
-                ProfileViewModel.Teachers = (await _teachers.GetAllAsync()).Select(t => (Person)t).ToList();
+                ProfileViewModel.Students = (await _students.GetAllAsync())?.Select(s => (Person)s).ToList();
+                ProfileViewModel.Teachers = (await _teachers.GetAllAsync())?.Select(t => (Person)t).ToList();
+                ProfileViewModel.Classrooms = await _classrooms.GetAllAsync();
                 return View(ProfileViewModel);
             }
             else
@@ -215,10 +216,16 @@ namespace Application.Controllers
             if (ModelState.IsValid) await _courses.UpdateAsync(course);
             return ViewComponent("ListGrades", course);
         }
+        public async Task<IActionResult> EditClassroomModal(Classroom classroom)
+        {
+            return ViewComponent("EditClassroom", classroom);
+        }
 
-    }
-
-
+        public async Task<IActionResult> ListClassrooms(List<Classroom> classrooms)
+        {
+            return ViewComponent("ListClassrooms", classrooms);
+        }
+    }   
 }
 
 

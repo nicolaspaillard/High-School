@@ -30,8 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Profile\Components\ListClassrooms\" />
-    <Folder Include="Views\Profile\Components\EditClassroom\" />
     <Folder Include="Views\Profile\Components\ListMissings\" />
   </ItemGroup>
 

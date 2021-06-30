@@ -11,11 +11,13 @@
 
             <th>Prénom</th>
             <th>Nom</th>
-            @switch (Model.FirstOrDefault().Role)
+            @switch (Model.First().Role)
             {
                 case Role.Admin:
                     break;
                 case Role.Teacher:
+                    <th>Professeur principal</th>
+                    <th>Classes</th>
                     break;
                 case Role.Student:
                     <th>Classe</th>
@@ -26,27 +28,26 @@
     <tbody>
         @foreach (Person p in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => p.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => p.LastName)
-            </td>
-            
-            @switch (Model.FirstOrDefault().Role)
-            {
-                case Role.Admin:
-                    break;
-                case Role.Teacher:
-                    break;
-                case Role.Student:
-                    <td>
-                        @Html.DisplayFor(modelItem => ((Student)p).GroupID)
-                    </td>
-                    break;
-            }
-        </tr>
+            <tr>
+                <td>@p.FirstName</td>
+                <td>@p.LastName</td>
+                @switch (p.Role)
+                {
+                    case Role.Admin:
+                        break;
+                    case Role.Teacher:
+                        var homerooms = ((Teacher)p).Courses?.SelectMany(c => c.Groups.Where(g => g.HomeRoomTeacherID == p.PersonID)?.Distinct());
+                        var classes = ((Teacher)p).Courses?.SelectMany(c => c.Groups)?.Distinct();
+                        <td>@foreach (var item in homerooms) { Html.Raw($"{item} "); }</td>
+                        <td>@foreach (var item in homerooms) { Html.Raw($"{item} "); }</td>
+                        break;
+                    case Role.Student:
+                        <td>
+                            @(((Student)p).GroupID)
+                        </td>
+                        break;
+                }
+            </tr>
         }
     </tbody>
 </table>
