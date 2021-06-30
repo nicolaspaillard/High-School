@@ -14,7 +14,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using Microsoft.OpenApi.Models;
 using Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +45,6 @@ namespace Application
             services.AddScoped<IRepositoryAsync<Group>, GroupsRepository>();
             services.AddScoped<IRepositoryAsync<Missing>, MissingsRepository>();
             services.AddScoped<IRepositoryAsync<Subject>, SubjectsRepository>();
-            services.AddScoped<GroupsRepository>();
             services.AddTransient<RepositoryService<Student>>();
             services.AddTransient<RepositoryService<Teacher>>();
             services.AddTransient<RepositoryService<Admin>>();
@@ -54,7 +55,8 @@ namespace Application
             services.AddTransient<RepositoryService<Course>>();
             services.AddTransient<RepositoryService<Classroom>>();
             services.AddTransient<RoleService>();
-
+            services.AddTransient<CourseApiRepository>();
+          
             services.AddDbContext<HighSchoolContext>(options =>
                 options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("HighSchoolDb"))
             );
@@ -65,9 +67,16 @@ namespace Application
                     .RequireAuthenticatedUser()
                     .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
-            }).AddRazorRuntimeCompilation();
+            }).AddRazorRuntimeCompilation().AddNewtonsoftJson(x =>
+            {
+                x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
             services.AddRazorPages().AddMicrosoftIdentityUI();
-        } 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -84,6 +93,11 @@ namespace Application
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseRouting();
 
