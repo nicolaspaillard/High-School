@@ -1,0 +1,62 @@
+﻿@using Models
+@model List<Grade>
+@using Application.Controllers.Services
+@inject RepositoryService<Teacher> _teachers
+@inject RepositoryService<Subject> _subjects
+@inject RepositoryService<Classroom> _classrooms
+
+<div class="row modal fade" id="list-grades" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modifier les notes : </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="ListGrades">
+                    <input type="hidden" name="IsValid" value="@ViewData.ModelState.IsValid.ToString()" />
+                    <p>@Model.Count élèves</p>
+                    @foreach (var item in Model)
+                    {
+                        <hr />
+                        <div class="form-group">
+                            <input type="hidden" asp-for="@item.StudentID class=" form-control" />
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label class="control-label">@(item.Student.FirstName +' '+ item.Student.LastName)</label>
+                                    </td>
+                                    <td>
+                                        <input type="number" asp-for="@item.Value" class="form-control" />
+                                        <span asp-validation-for="@item.Value" class="text-danger"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <textarea asp-for="@item.Assessment" class="form-control" placeholder="Appréciation"></textarea>
+                                        <span asp-validation-for="@item.Assessment" class="text-danger"></span>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    }
+                </form>
+            </div>
+            <div class="form-group modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary" data-save="modal">Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<style scoped>
+    table{
+        width: 100%;
+    }
+</style>

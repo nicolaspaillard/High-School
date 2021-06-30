@@ -1,25 +1,12 @@
-﻿@model Models.Student
+﻿@using Models 
+@model Person
+@using Application.Controllers.Services
+@inject RepositoryService<Group> groupService
 
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Edit</title>
-</head>
-<body>
-
-<h4>Student</h4>
-<hr />
-<div class="row">
+<div class="row" id="edit-person">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Default">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="PersonID" />
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -40,19 +27,35 @@
                 <input asp-for="BirthDate" class="form-control" />
                 <span asp-validation-for="BirthDate" class="text-danger"></span>
             </div>
+            @switch (Model.Role)
+            {
+                case Models.Role.Admin:
+                    //create an admin ui
+                    break;
+                case Models.Role.Teacher:
+                    //create a teacher ui
+                    break;
+                case Models.Role.Student:
+                    //create a student ui
+                    Student student = (Student)Model;
+                    <div class="form-group">
+                        <label asp-for="@student.GroupID" class="control-label"></label>
+                        @{
+                            List<SelectListItem> items = (await groupService.GetAllAsync())?.Select(g => new SelectListItem() { Text = g.GroupID.ToString(), Value = g.GroupID.ToString() }).ToList();
+                        }
+                        <select asp-for="@student.GroupID" class="form-control" asp-items="items"></select>
+                    </div>
+                    break;
+                default:
+                    break;
+            }
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Edit" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-</body>
-</html>

@@ -1,0 +1,134 @@
+﻿@using Models 
+@model Group
+@using Application.Controllers.Services
+@inject RepositoryService<Student> studentsService
+@inject RepositoryService<Teacher> teachersService
+@inject RepositoryService<Course> coursesService
+
+
+@{
+    ViewData["Title"] = "Edit";
+
+
+
+    List<SelectListItem> students = new List<SelectListItem>();
+    foreach (var item in await studentsService.GetAllAsync())
+    {
+        bool areChecked = item.GroupID == Model.GroupID ? true : false;
+        students.Add(new SelectListItem { Text = $"{item.FirstName} {item.LastName}", Value = $"{item.PersonID}", Selected = areChecked });
+    }
+
+    List<SelectListItem> teachers = new List<SelectListItem>();
+    foreach (var item in await teachersService.GetAllAsync())
+    {
+        teachers.Add(new SelectListItem { Text = $"{item.FirstName} {item.LastName}", Value = $"{item.PersonID}" });
+    }
+
+    List<SelectListItem> courses = new List<SelectListItem>();
+    foreach (var item in await coursesService.GetAllAsync())
+    {
+        bool areChecked = false;
+        var group = item.Groups.FirstOrDefault(g => g.GroupID == Model.GroupID);
+
+        //var group = item.Groups.Where(g => g.GroupID == Model.GroupID).FirstOrDefault();
+        areChecked = group is null ? false : true;
+        //item.Groups.ForEach(g => AreChecked = g.GroupID == Model.GroupID ? true : false);
+        courses.Add(new SelectListItem { Text = $"{item.Date} - {item.Classroom.Name} - {item.SubjectID}", Value = $"{item.CourseID}", Selected = areChecked });
+    }
+}
+
+<h1>Edit</h1>
+<vc:courses-details-view-components>
+    <h4>Group</h4>
+    <hr />
+    <div class="row">
+        <div class="container">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="@Model.GroupID" />
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="HomeRoomTeacher" class="control-label">Teachers</label><br />
+                    <select asp-for="HomeRoomTeacherID" asp-items="teachers"></select>
+                </div>
+                <!--Exemple collapse-->
+                <!--<div class="accordion" id="accordionGroup">
+                    <div class="card">
+                        <div class="card-header" id="headingStudent">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#Students" aria-expanded="false" aria-controls="Students">
+                                    Students
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="Students" class="collapse" aria-labelledby="headingStudent" data-parent="#accordionGroup">
+                            <div class="card-body">
+                                ...
+                                ...
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingThree">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#Courses" aria-expanded="false" aria-controls="Courses">
+                                    Courses
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="Courses" class="collapse" aria-labelledby="headingThree" data-parent="#accordionGroup">
+                            <div class="card-body">
+                                ...
+                                ...
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+                <!--Other collapse-->
+                <p>
+                    <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseStudents" role="button" aria-expanded="false" aria-controls="multiCollapseStudents">Students</a>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseCourses" aria-expanded="false" aria-controls="multiCollapseCourses">Courses</button>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseStudents multiCollapseCourses">Both elements</button>
+                </p>
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="collapse multi-collapse" id="multiCollapseStudents">
+                            <div class="card card-body container">
+                                @foreach (var student in students)
+                                {
+                                    <input type="checkbox" name="StudentsID" value="@student.Value" checked="@student.Selected" />
+                                    <label asp-for="@student.Value">@student.Text</label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="collapse multi-collapse" id="multiCollapseCourses">
+                            <div class="card card-body">
+                                @foreach (var course in courses)
+                                {
+                                    <input type="checkbox" name="CoursesID" value="@course.Value" checked="@course.Selected" />
+                                    <label asp-for="@course.Value">@course.Text</label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Repositories.IRepositories;
@@ -9,7 +10,7 @@ using Models;
 
 namespace Application.Repositories
 {
-    public class GroupsRepository
+    public class GroupsRepository : IRepositoryAsync<Group>
     {
         private HighSchoolContext _context;
         public GroupsRepository(HighSchoolContext context)
@@ -27,7 +28,7 @@ namespace Application.Repositories
             _context.Groups.Remove(obj);
             return await _context.SaveChangesAsync();
         }
-        public async Task<List<Group>> GetAllAsync() => await _context.Groups.ToListAsync();
+        public async Task<List<Group>> GetAllAsync() => await _context.Groups.AnyAsync() ? await _context.Groups.ToListAsync() : null;
 
         public async Task<Group> GetAsync(int id) => await _context.Groups.FirstOrDefaultAsync(g => g.GroupID == id);
 
@@ -35,24 +36,19 @@ namespace Application.Repositories
 
         public async Task<int> UpdateAsync(Group obj)
         {
+            try { 
             var group = await GetAsync(obj.GroupID);
-
-            var courses = group.Courses;
-            courses.ForEach(c => c.Groups.Clear());
-            courses = obj.Courses;
-            //StudentsID.ForEach(id => group.Students.Add(students.FirstOrDefault(s => s.PersonID == id)));
-            //CoursesID.ForEach(id => group.Courses.Add(courses.FirstOrDefault(c => c.CourseID == id))); 
-
-            var students = group.Students;
-            students = obj.Students;
-
-            return await _context.SaveChangesAsync();
-            /*var group = await GetAsync(obj.GroupID);
+            group.Students.Clear();
             group.Students = obj.Students;
-            group.Courses = obj.Courses;
             group.HomeRoomTeacherID = obj.HomeRoomTeacherID;
             group.HomeRoomTeacher = obj.HomeRoomTeacher;
-            return await _context.SaveChangesAsync();*/
+            return await _context.SaveChangesAsync();
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine(e);
+                return -1;
+            }
         }
         public async Task<int> UpdateAsyncGroup(Group obj, List<int> studentsID, List<int> coursesID)
         {
@@ -65,7 +61,7 @@ namespace Application.Repositories
 
             //group.Courses.ForEach(c => c.Groups.Clear());
             group.Courses.Clear();
-            group.Courses = courses;  
+            group.Courses = courses;
             group.Students = students;
 
             return await _context.SaveChangesAsync();
@@ -76,7 +72,5 @@ namespace Application.Repositories
             group.HomeRoomTeacher = obj.HomeRoomTeacher;
             return await _context.SaveChangesAsync();*/
         }
-
-
     }
 }

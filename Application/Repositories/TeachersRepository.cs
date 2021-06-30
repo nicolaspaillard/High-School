@@ -24,7 +24,7 @@ namespace Application.Repositories
 
         public async Task<int> DeleteAsync(Teacher obj)
         {
-            var teacher = await context.Teachers.FindAsync(obj.PersonID);      
+            var teacher = await GetAsync(obj.PersonID);      
             var courses = await context.Courses.Where(c => c.TeacherID == teacher.PersonID).ToListAsync(); //Suppression de la liaison avec la table courses
             courses.ForEach(course => course.TeacherID = null);
             var groups = await context.Groups.Where(g => g.HomeRoomTeacherID == teacher.PersonID).ToListAsync(); //Suppression de la liaison avec la table groups
@@ -37,7 +37,6 @@ namespace Application.Repositories
 
         public async Task<Teacher> GetAsync(int id) => await context.Teachers.FirstOrDefaultAsync(t => t.PersonID == id);
         public async Task<Teacher> GetAsync(Guid guid) => await context.Teachers.FirstOrDefaultAsync(t => t.AzureID == guid);
-
         public async Task<int> UpdateAsync(Teacher obj)
         {
             var teacher = await GetAsync(obj.PersonID);

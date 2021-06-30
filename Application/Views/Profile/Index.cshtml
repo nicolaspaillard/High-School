@@ -1,75 +1,77 @@
-﻿@model Application.Models.ProfileViewModel
+﻿@using Models
+@model ProfileViewModel
+@using Application.Controllers.ViewComponents
+@using Application.Controllers.Services
 
+@inject RoleService roleService
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Mon profil : </h1>
-<a href="https://localhost:44321/signout-">Déconnexion</a>
-<table>
-    <thead>
-        <tr>
-            <td>Prénom</td>
-            <td>Nom</td>
-            <td>Email</td>
-            <td>Rôle</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>@Model.Person.FirstName</td>
-            <td>@Model.Person.LastName</td>
-            <td>@Model.Person.Email</td>
-            @{
-                string role = Model.Role.ToString() == "Student" ? "Étudiant" : Model.Role.ToString() == "Teacher" ? "Professeur" : "Administrateur";
-            }
-            <td>@role</td>
-        </tr>
-    </tbody>
-</table>
-@if (Model.Role == Models.Role.Student && Model.Courses != null && Model.Courses.Count > 0)
-{
-    <h2>Emploi du temps : </h2>
-    <table>
-        <thead>
-            <tr>
-                <td>Date</td>
-                <td>Salle</td>
-                <td>Professeur</td>
-                <td>Matière</td>
-                <td>Classes</td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (Models.Course course in Model.Courses.OrderBy(c => c.Date))
-            {
-                <tr>
-                    <td>@course.Date.ToString("G")</td>
-                    <td>@course.Classroom.Name</td>
-                    <td>Mr/Mme. @course.Teacher.LastName</td>
-                    <td>@course.Subject.SubjectID.ToString()</td>
-                    <td>@course.Groups.ToString()</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    //invokeasync components
-}
-else if (Model.Role == Models.Role.Teacher)
-{
+<div id="modal-placeholder"></div>
 
-}
-else if (Model.Role == Models.Role.Admin)
-{
+@*bouton déconnexion*@
+@await Component.InvokeAsync("DetailsPerson", Model.Person)
+@*popups :
+    @await Component.InvokeAsync("EditPerson", new { Model.Person })
 
-}
-<style scoped>
-    table {
-        width: 100%;
-        vertical-align: middle;
+*@
+@{Role role = await roleService.GetRoleAsync(User);}
+@if (role != Models.Role.Admin)
+{
+    @*view daily courses : *@
+    @if (Model.Courses != null)
+    {
+        <a for="dailycoursesList" data-toggle="collapse" href="#dailycoursesList" aria-expanded="true" aria-controls="dailycoursesList" class="btn btn-primary">Cours du jour</a>
+        <a for="coursesList" data-toggle="collapse" href="#coursesList" aria-expanded="true" aria-controls="coursesList" class="btn btn-primary">Tous les cours</a>
+        <div id="dailycoursesList" class="collapse">
+            @await Component.InvokeAsync("ListCourses", Model.Courses.Where(c => c.Date.Day == DateTime.Now.Day && c.Date.Month == DateTime.Now.Month))
+        </div>
+        <div id="coursesList" class="collapse">
+            @await Component.InvokeAsync("ListCourses", Model.Courses)
+        </div>
     }
+    @if (role == Models.Role.Student)
+    {
 
-        table thead {
-            font-weight: bold;
-        }
-</style>
+    }
+    else if (role == Models.Role.Teacher)
+    {
+        @*
+            view all courses
+            teacher:
+                edit missing for his courses
+                edit grades for his courses
+                groups
+                groups.courses
+        *@
+    }
+}
+else
+{
+    <a for="teachersList" data-toggle="collapse" href="#teachersList" aria-expanded="true" aria-controls="teachersList" class="btn btn-primary">Gérer les professeurs</a>
+    <a for="studentsList" data-toggle="collapse" href="#studentsList" aria-expanded="true" aria-controls="studentsList" class="btn btn-primary">Gérer les étudiants</a>
+    <a for="groupsList" data-toggle="collapse" href="#groupsList" aria-expanded="true" aria-controls="groupsList" class="btn btn-primary">Gérer les classes</a>
+    <a for="coursesList" data-toggle="collapse" href="#coursesList" aria-expanded="true" aria-controls="coursesList" class="btn btn-primary">Gérer les cours</a>
+    <div id="teachersList" class="collapse">
+        @await Component.InvokeAsync("ListPeople", Model.Teachers)
+    </div>
+    <div id="studentsList" class="collapse">
+        @await Component.InvokeAsync("ListPeople", Model.Students)
+    </div>
+    <div id="groupsList" class="collapse">
+        @await Component.InvokeAsync("ListGroups", Model.Groups)
+    </div>
+    <div id="coursesList" class="collapse">
+        @await Component.InvokeAsync("ListCourses", Model.Courses)
+    </div>
+
+
+
+    @*admin components
+        view list students/teachers / edit students/teachers
+        view list courses / edit courses
+        view list classrooms / edit classrooms
+
+    *@
+}
