@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Controllers.ViewComponents
 {
-    public class EditClassroomViewComponent : ViewComponent
+    public class CreateClassroomViewComponent : ViewComponent
     {
         public async Task<IViewComponentResult> InvokeAsync(Classroom classroom)
         {

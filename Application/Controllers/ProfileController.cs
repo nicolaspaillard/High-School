@@ -18,6 +18,7 @@ namespace Application.Controllers
 {
     public class ProfileController : Controller
     {
+        #region InitRepo
         private readonly IRepositoryAsync<Student> _students;
         private readonly IRepositoryAsync<Teacher> _teachers;
         private readonly IRepositoryAsync<Admin> _admins;
@@ -29,6 +30,8 @@ namespace Application.Controllers
         private readonly IRepositoryAsync<Subject> _subjects;
         AzureTools _azureTools;
         ProfileViewModel ProfileViewModel = new();
+        #endregion
+        #region ProfileController
         public ProfileController(IRepositoryAsync<Student> students,
                                 IRepositoryAsync<Teacher> teachers,
                                 IRepositoryAsync<Admin> admins,
@@ -51,13 +54,14 @@ namespace Application.Controllers
             _azureTools = new(students, teachers, admins);
         }
         // GET: Profile
+        #endregion
         [Authorize]
         public async Task<IActionResult> Index()
         {
             var person = await _azureTools.RegisterAzureUser(User);
             ProfileViewModel.Person = person;
             if (person.Role == Role.Student)
-            {  
+            {
                 Group group = ((Student)person).Group;
                 if (group != null)
                 {
@@ -71,7 +75,7 @@ namespace Application.Controllers
                         ProfileViewModel.Grades = (await _grades.GetAllAsync())?.Where(g => g.StudentID == person.PersonID).ToList();
                         ProfileViewModel.Missings = (await _missings.GetAllAsync())?.Where(m => m.StudentID == person.PersonID).ToList();
                     }
-                }                
+                }
                 return View(ProfileViewModel);
             }
             else if (person.Role == Role.Teacher)
@@ -98,84 +102,9 @@ namespace Application.Controllers
                 return NotFound();
             }
         }
+        #region Course
         public async Task<IActionResult> EditCourseModal(Course course)
         {
-            return ViewComponent("EditCourse", course);
-        }
-        public async Task<IActionResult> ListGradesModal(Course course)
-        {
-            course = await _courses.GetAsync(course.CourseID);
-            return ViewComponent("ListGrades", course);
-        }
-        public async Task<IActionResult> EditMissingModal(Course course)
-        {
-            return ViewComponent("EditMissing", course);
-        }
-
-        public async Task<IActionResult> EditGroupModal(int groupID)
-        {
-            var group = await _groups.GetAsync(groupID);
-            return ViewComponent("EditGroup", group);
-        }
-
-        public async Task<IActionResult> EditGroup(int groupID)
-        {
-            var group = await _groups.GetAsync(groupID);
-            return ViewComponent("EditGroup", group);
-        }
-        [HttpPost]       
-        public async Task<IActionResult> EditGroup(Group group, List<int> StudentID)
-        {
-            ModelState.Remove("HomeRoomTeacher");
-            ModelState.Remove("Students");
-            group.HomeRoomTeacher = await _teachers.GetAsync((int)group.HomeRoomTeacherID);
-
-            var students = new List<Student>();
-            StudentID.ForEach(id => students.Add(_students.GetAsync(id).Result));
-            group.Students = new();
-            group.Students = students;
-            if (ModelState.IsValid) await _groups.UpdateAsync(group);
-            return ViewComponent("EditGroup", group);
-        }
-        [HttpPost]
-        public async Task<IActionResult> EditMissing(Course course, List<int> StudentID)
-        {
-            ModelState.Remove("Subject");
-            ModelState.Remove("Teacher");
-            ModelState.Remove("Classroom");
-            course = await _courses.GetAsync(course.CourseID);
-            List<Missing> tempMissings = course.Missings;
-
-            //course.Missings.ForEach(m => _missings.DeleteAsync(m));
-            foreach (var missing in course.Missings.ToList())
-            {
-                await _missings.DeleteAsync(missing);
-            }
-
-            foreach (var id in StudentID)
-            {
-                if (!course.Missings.Select(m => m.StudentID).Contains((int)id))
-                    await _missings.CreateAsync(new Missing { CourseID = course.CourseID, StudentID = id });
-            }
-            //MissingID.ForEach(id => missings.Add(_missings.GetAsync(id).Result));
-            return ViewComponent("EditMissing", course);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EditCourse(Course course, List<int> GroupID)
-        {
-            ModelState.Remove("Subject");
-            ModelState.Remove("Teacher");
-            ModelState.Remove("Classroom");
-            course.Subject = await _subjects.GetAsync((int)course.SubjectID);
-            course.Teacher = await _teachers.GetAsync((int)course.TeacherID);
-            course.Classroom = await _classrooms.GetAsync((int)course.ClassroomID);
-
-            var groups = new List<Group>();
-            GroupID.ForEach(id => groups.Add(_groups.GetAsync(id).Result));
-            course.Groups = new();
-            course.Groups = groups;
-            if (ModelState.IsValid) await _courses.UpdateAsync(course);
             return ViewComponent("EditCourse", course);
         }
         public async Task<IActionResult> CreateCourseModal(Course course)
@@ -193,6 +122,50 @@ namespace Application.Controllers
             return ViewComponent("CreateCourse", course);
 
         }
+        [HttpPost]
+        public async Task<IActionResult> EditCourse(Course course, List<int> GroupID)
+        {
+            ModelState.Remove("Subject");
+            ModelState.Remove("Teacher");
+            ModelState.Remove("Classroom");
+            course.Subject = await _subjects.GetAsync((int)course.SubjectID);
+            course.Teacher = await _teachers.GetAsync((int)course.TeacherID);
+            course.Classroom = await _classrooms.GetAsync((int)course.ClassroomID);
+
+            var groups = new List<Group>();
+            GroupID.ForEach(id => groups.Add(_groups.GetAsync(id).Result));
+            course.Groups = new();
+            course.Groups = groups;
+            if (ModelState.IsValid) await _courses.UpdateAsync(course);
+            return ViewComponent("EditCourse", course);
+        }
+        #endregion
+        #region Group
+        public async Task<IActionResult> EditGroupModal(int groupID)
+        {
+            var group = await _groups.GetAsync(groupID);
+            return ViewComponent("EditGroup", group);
+        }
+
+        public async Task<IActionResult> EditGroup(int groupID)
+        {
+            var group = await _groups.GetAsync(groupID);
+            return ViewComponent("EditGroup", group);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditGroup(Group group, List<int> StudentID)
+        {
+            ModelState.Remove("HomeRoomTeacher");
+            ModelState.Remove("Students");
+            group.HomeRoomTeacher = await _teachers.GetAsync((int)group.HomeRoomTeacherID);
+
+            var students = new List<Student>();
+            StudentID.ForEach(id => students.Add(_students.GetAsync(id).Result));
+            group.Students = new();
+            group.Students = students;
+            if (ModelState.IsValid) await _groups.UpdateAsync(group);
+            return ViewComponent("EditGroup", group);
+        }
 
         public async Task<IActionResult> CreateGroupModal(Group group)
         {
@@ -201,13 +174,19 @@ namespace Application.Controllers
         public async Task<IActionResult> CreateGroup(Group group, List<int> StudentID)
         {
             group.HomeRoomTeacher = (await _teachers.GetAsync((int)group.HomeRoomTeacherID));
-            group.Students= new();
+            group.Students = new();
             StudentID.ForEach(g => group.Students.Add(_students.GetAsync(g).Result));
             await _groups.CreateAsync(group);
             return ViewComponent("CreateGroup", group);
 
         }
-
+        #endregion
+        #region Grades
+        public async Task<IActionResult> ListGradesModal(Course course)
+        {
+            course = await _courses.GetAsync(course.CourseID);
+            return ViewComponent("ListGrades", course);
+        }
         [HttpPost]
         public async Task<IActionResult> ListGrades(List<Grade> grades)
         {
@@ -216,8 +195,44 @@ namespace Application.Controllers
             if (ModelState.IsValid) await _courses.UpdateAsync(course);
             return ViewComponent("ListGrades", course);
         }
+        #endregion
+        #region Missing
+        public async Task<IActionResult> EditMissingModal(Course course)
+        {
+            return ViewComponent("EditMissing", course);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditMissing(Course course, List<int> StudentID)
+        {
+            ModelState.Remove("Subject");
+            ModelState.Remove("Teacher");
+            ModelState.Remove("Classroom");
+            course = await _courses.GetAsync(course.CourseID);
+
+            foreach (var missing in course.Missings.ToList())
+            {
+                await _missings.DeleteAsync(missing);
+            }
+
+            foreach (var id in StudentID)
+            {
+                if (!course.Missings.Select(m => m.StudentID).Contains((int)id))
+                    await _missings.CreateAsync(new Missing { CourseID = course.CourseID, StudentID = id });
+            }
+            //MissingID.ForEach(id => missings.Add(_missings.GetAsync(id).Result));
+            return ViewComponent("EditMissing", course);
+        }
+        #endregion
+        #region Classroom
         public async Task<IActionResult> EditClassroomModal(Classroom classroom)
         {
+            return ViewComponent("EditClassroom", classroom);
+        }
+        public async Task<IActionResult> EditClassroom(Classroom classroom)
+        {
+            if (ModelState.IsValid) await _classrooms.UpdateAsync(classroom);
             return ViewComponent("EditClassroom", classroom);
         }
 
@@ -225,7 +240,17 @@ namespace Application.Controllers
         {
             return ViewComponent("ListClassrooms", classrooms);
         }
-    }   
+        public async Task<IActionResult> CreateClassroomModal(Classroom classroom)
+        {
+            return ViewComponent("CreateClassroom", classroom);
+        }
+        public async Task<IActionResult> CreateClassroom(Classroom classroom)
+        {
+            if (ModelState.IsValid) await _classrooms.CreateAsync(classroom);
+            return ViewComponent("CreateClassroom", classroom);
+        }
+        #endregion
+    }
 }
 
 
