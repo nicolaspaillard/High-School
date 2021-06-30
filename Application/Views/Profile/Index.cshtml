@@ -8,6 +8,7 @@
     ViewData["Title"] = "Index";
 }
 
+<div id="modal-placeholder"></div>
 
 @*bouton déconnexion*@
 @await Component.InvokeAsync("DetailsPerson", Model.Person)
@@ -50,20 +51,22 @@ else
     <a for="coursesList" data-toggle="collapse" href="#coursesList" aria-expanded="true" aria-controls="coursesList" class="btn btn-primary">Modifier les cours</a>
     <a for="peopleList" data-toggle="collapse" href="#peopleList" aria-expanded="true" aria-controls="peopleList" class="btn btn-primary">Modifier les utilisateurs</a>
     <a for="groupsList" data-toggle="collapse" href="#groupsList" aria-expanded="true" aria-controls="groupsList" class="btn btn-primary">Gérer les groupes</a>
-    <div id="coursesList" class="collapse">
-        @await Component.InvokeAsync("ListCourses", Model.Courses)
-    </div>    
-    <div id="groupsList" class="collapse">
-        @await Component.InvokeAsync("ListGroups", Model.Groups)
-    </div>
-    <div id="peopleList" class="collapse">
-        @await Component.InvokeAsync("ListPeople", Model.Courses);
-    </div>
+<div id="coursesList" class="collapse">
+    @await Component.InvokeAsync("ListCourses", Model.Courses)
+</div>
+<div id="groupsList" class="collapse">
+    @await Component.InvokeAsync("ListGroups", Model.Groups)
+</div>
+<div id="peopleList" class="collapse">
+    @await Component.InvokeAsync("ListPeople", Model.Courses);
+</div>
 
-    @*admin components
-        view list students/teachers / edit students/teachers
-        view list courses / edit courses
-        view list classrooms / edit classrooms
 
-    *@
+
+@*admin components
+    view list students/teachers / edit students/teachers
+    view list courses / edit courses
+    view list classrooms / edit classrooms
+
+*@
 }
