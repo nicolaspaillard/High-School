@@ -5,7 +5,7 @@
 @inject RepositoryService<Group> GroupServices
 
 
-<button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#create-group" data-url="@Url.Action("CreateGroupModal")">
+<button type="button" class="btn btn-secondary" data-toggle="ajax-modal" data-target="#create-group" data-url="@Url.Action("CreateGroupModal")">
     Créer un Groupe
 </button>
 <div id="modal-placeholder"></div>
@@ -38,7 +38,7 @@
                     @Html.DisplayFor(modelItem => item.HomeRoomTeacher.LastName)
                 </td>
                 <td>
-                    <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#edit-group" data-url="@Url.Action("EditGroupModal",item)">
+                    <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#edit-group" data-url="@Url.Action("EditGroupModal","Profile",new { GroupID = item.GroupID.ToString() })">
                         Modifier
                     </button>
                     <a asp-action="Delete" asp-route-id="@item.GroupID">Delete</a>

@@ -102,19 +102,23 @@ namespace Application.Controllers
         {
             return ViewComponent("EditMissing", course);
         }
+
+
         public async Task<IActionResult> EditGroupModal(int groupID)
         {
             var group = await _groups.GetAsync(groupID);
             return ViewComponent("EditGroup", group);
         }
 
-        
+
         public async Task<IActionResult> EditGroup(int groupID)
         {
             var group = await _groups.GetAsync(groupID);
             return ViewComponent("EditGroup", group);
         }
-        [HttpPost]        public async Task<IActionResult> EditGroup(Group group, List<int> StudentID)
+
+        [HttpPost]       
+        public async Task<IActionResult> EditGroup(Group group, List<int> StudentID)
         {
             ModelState.Remove("HomeRoomTeacher");
             ModelState.Remove("Students");

@@ -29,7 +29,7 @@
     {
         <a for="studentsList" data-toggle="collapse" href="#studentsList" aria-expanded="true" aria-controls="studentsList" class="btn btn-primary">Tous les élèves</a>
         <div id="studentsList" class="collapse">
-            @await Component.InvokeAsync("ListPeople", Model.Groups)
+            @await Component.InvokeAsync("ListStudents", Model.Groups)
         </div> }
     else if (role != Models.Role.Teacher)
     {
