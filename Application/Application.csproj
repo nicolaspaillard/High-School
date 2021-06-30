@@ -32,7 +32,6 @@
     <Folder Include="Views\Profile\Components\ListClassrooms\" />
     <Folder Include="Views\Profile\Components\EditClassroom\" />
     <Folder Include="Views\Profile\Components\ListMissings\" />
-    <Folder Include="Views\Profile\Components\ListPeople\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

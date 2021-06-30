@@ -10,7 +10,7 @@
 @inject RepositoryService<Course> _courses
 @{
     Model.Groups = (await _courses.GetAsync(Model.CourseID)).Groups;
-    
+
 }
 <div class="row modal fade" id="edit-missing" role="dialog">
     <div class="modal-dialog" role="document">
@@ -26,11 +26,20 @@
                     <input type="hidden" name="IsValid" value="@ViewData.ModelState.IsValid.ToString()" />
                     <input type="hidden" asp-for="CourseID" />
                     <div class="form-group">
-                        @foreach (var item in (await _student.GetAllAsync()).Select(s => new SelectListItem() { Text = $"{s.FirstName} {s.LastName}", Value = s.PersonID.ToString() }))
+                        @foreach (var item in (Model.Groups))
                         {
-                            Model.Groups.ForEach(g => item.Selected = g.Students.Select(s => s.PersonID).Contains(int.Parse(item.Value)));
-                            <label asp-for="@item.Text">@item.Text</label>
-                            <input type="checkbox" name="StudentID" value="@item.Value" checked="@item.Selected" />
+                            List<SelectListItem> k = new();
+                            @foreach (Student s in item.Students)
+                            {
+                                k.Add(new SelectListItem(String.Join(" ", s.FirstName, s.LastName), s.PersonID.ToString()));
+                            }
+                            @foreach (var o in k)
+                            {
+                                Model.Groups.ForEach(g => o.Selected = g.Students.Select(s => s.PersonID).Contains(int.Parse(o.Value)));
+                                <label asp-for="@o.Text">@o.Text</label>
+                                <input type="checkbox" name="StudentID" value="@o.Value" checked="@o.Selected" />
+                            }
+
                         }
                         <span asp-validation-for="Groups" class="text-danger"></span>
                     </div>

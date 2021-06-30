@@ -21,6 +21,8 @@
       ],
       "oauth2AllowIdTokenImplicitFlow": true,
       "logoutUrl": "https://localhost:44321/signout-callback-oidc",
+      "post_logout_redirect_uri ": "https://localhost:44321",
+      "RedirectUris": "https://localhost:44321",
       "requiredResourceAccess": [
         {
           "x-ms-resourceAppName": "Microsoft Graph",
@@ -34,16 +36,16 @@
           ]
         }
       ],
-      "codeConfigurations": [	
+      "codeConfigurations": [
         {
-		      "settingFile": "/appsettings.json",
+          "settingFile": "/appsettings.json",
           "replaceTokens": {
             "appId": "Enter_the_Application_Id_here",
             "tenantId": "common",
             "authorityEndpointHost": "https://login.microsoftonline.com/"
           }
         }
-      ]	
+      ]
     }
   ]
 }
