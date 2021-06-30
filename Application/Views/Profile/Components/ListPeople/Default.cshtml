@@ -1,0 +1,52 @@
+﻿@using Models
+@model List<Person>
+@using Application.Controllers.Services
+@inject RepositoryService<Group> GroupServices
+@inject RepositoryService<Student> StudentServices
+
+<div id="modal-placeholder"></div>
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>Prénom</th>
+            <th>Nom</th>
+            @switch (Model.FirstOrDefault().Role)
+            {
+                case Role.Admin:
+                    break;
+                case Role.Teacher:
+                    break;
+                case Role.Student:
+                    <th>Classe</th>
+                    break;
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Person p in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => p.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => p.LastName)
+            </td>
+            
+            @switch (Model.FirstOrDefault().Role)
+            {
+                case Role.Admin:
+                    break;
+                case Role.Teacher:
+                    break;
+                case Role.Student:
+                    <td>
+                        @Html.DisplayFor(modelItem => ((Student)p).GroupID)
+                    </td>
+                    break;
+            }
+        </tr>
+        }
+    </tbody>
+</table>
