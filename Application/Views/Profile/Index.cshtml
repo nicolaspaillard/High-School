@@ -20,14 +20,17 @@
 @if (role != Models.Role.Admin)
 {
     @*view daily courses : *@
-    <a for="dailycoursesList" data-toggle="collapse" href="#dailycoursesList" aria-expanded="true" aria-controls="dailycoursesList" class="btn btn-primary">Cours du jour</a>
-    <a for="coursesList" data-toggle="collapse" href="#coursesList" aria-expanded="true" aria-controls="coursesList" class="btn btn-primary">Tous les cours</a>
-    <div id="dailycoursesList" class="collapse">
-        @await Component.InvokeAsync("ListCourses", Model.Courses.Where(c => c.Date.Day == DateTime.Now.Day && c.Date.Month == DateTime.Now.Month))
-    </div>
-    <div id="coursesList" class="collapse">
-        @await Component.InvokeAsync("ListCourses", Model.Courses)
-    </div>
+    @if (Model.Courses != null)
+    {
+        <a for="dailycoursesList" data-toggle="collapse" href="#dailycoursesList" aria-expanded="true" aria-controls="dailycoursesList" class="btn btn-primary">Cours du jour</a>
+        <a for="coursesList" data-toggle="collapse" href="#coursesList" aria-expanded="true" aria-controls="coursesList" class="btn btn-primary">Tous les cours</a>
+        <div id="dailycoursesList" class="collapse">
+            @await Component.InvokeAsync("ListCourses", Model.Courses.Where(c => c.Date.Day == DateTime.Now.Day && c.Date.Month == DateTime.Now.Month))
+        </div>
+        <div id="coursesList" class="collapse">
+            @await Component.InvokeAsync("ListCourses", Model.Courses)
+        </div>
+    }
     @if (role == Models.Role.Student)
     {
 
@@ -52,7 +55,7 @@ else
     <a for="coursesList" data-toggle="collapse" href="#coursesList" aria-expanded="true" aria-controls="coursesList" class="btn btn-primary">Gérer les cours</a>
     <div id="teachersList" class="collapse">
         @await Component.InvokeAsync("ListPeople", Model.Teachers)
-    </div> 
+    </div>
     <div id="studentsList" class="collapse">
         @await Component.InvokeAsync("ListPeople", Model.Students)
     </div>
