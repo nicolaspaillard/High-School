@@ -1,5 +1,6 @@
 ﻿using Application.Repositories;
 using Application.Repositories.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.Controllers.api
 {
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class CoursesApiController : ControllerBase
@@ -21,7 +23,7 @@ namespace Application.Controllers.api
             this._repository = repository;
         }
 
-        [HttpGet("getall")]
+        [HttpGet("courses")]
         public async Task<IActionResult> GetCourses()
         {
             return Ok(await _repository.GetAllAsync());
@@ -30,7 +32,7 @@ namespace Application.Controllers.api
 
         // api/CoursesApi/getcourse/2
 
-        [HttpGet("getcourse/{id}")]
+        [HttpGet("course/{id}")]
         public async Task<IActionResult> Details(int id)
         {
             var course = await _repository.GetAsync(id);

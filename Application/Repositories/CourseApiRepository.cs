@@ -19,12 +19,19 @@ namespace Application.Repositories
 
         public async Task<List<Course>> GetAllAsync()
         {
-            return await context.Courses.AnyAsync() ? await context.Courses.ToListAsync() : null;
+            return await context.Courses.AnyAsync() ? await context.Courses
+                .Include(c => c.Teacher)
+                //.Include(c => c.Classroom)
+                .ToListAsync() : null;
         }
 
         public async Task<Course> GetAsync(int id)
         {
-            return await context.Courses.Include(c => c.Groups).FirstOrDefaultAsync(c => c.CourseID == id);
+            return await context.Courses
+                .Include(c => c.Groups).ThenInclude(g=>g.HomeRoomTeacher)
+                .Include(c => c.Groups).ThenInclude(g => g.Students)
+             
+                .FirstOrDefaultAsync(c => c.CourseID == id);
         }
     }
 }
