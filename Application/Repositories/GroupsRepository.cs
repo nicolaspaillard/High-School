@@ -39,9 +39,7 @@ namespace Application.Repositories
             try { 
             var group = await GetAsync(obj.GroupID);
             group.Students.Clear();
-            group.Courses.Clear();
             group.Students = obj.Students;
-            group.Courses = obj.Courses;
             group.HomeRoomTeacherID = obj.HomeRoomTeacherID;
             group.HomeRoomTeacher = obj.HomeRoomTeacher;
             return await _context.SaveChangesAsync();
