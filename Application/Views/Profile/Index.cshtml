@@ -40,8 +40,12 @@
 else
 {
     <a for="coursesList" data-toggle="collapse" href="#coursesList" aria-expanded="true" aria-controls="coursesList" class="btn btn-primary">Modifier les cours</a>
+    <a for="peopleList" data-toggle="collapse" href="#peopleList" aria-expanded="true" aria-controls="peopleList" class="btn btn-primary">Modifier les utilisateurs</a>
     <div id="coursesList" class="collapse">
         @await Component.InvokeAsync("ListCourses", Model.Courses);
+    </div>
+    <div id="peopleList" class="collapse">
+        @await Component.InvokeAsync("ListPeople", Model.Courses);
     </div>
 
 
