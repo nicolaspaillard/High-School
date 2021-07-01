@@ -34,7 +34,7 @@ namespace WPF_HS
         private async Task BindCourses()
         {
             HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync("https://localhost:44321/api/CoursesApi/courses");
+            HttpResponseMessage response = await client.GetAsync("https://itschooldigi.azurewebsites.net/api/CoursesApi/courses");
 
             if (response.IsSuccessStatusCode)
             {

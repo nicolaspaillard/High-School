@@ -31,7 +31,7 @@ namespace WPF_HS
         public async Task ShowCourseDetails(int id)
         {
             HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync($"https://localhost:44321/api/CoursesApi/course/{id}");
+            HttpResponseMessage response = await client.GetAsync($"https://itschooldigi.azurewebsites.net/api/CoursesApi/course/{id}");
 
             if (response.IsSuccessStatusCode)
             {
