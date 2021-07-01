@@ -6,7 +6,9 @@
 @{
     Role role = await roleService.GetRoleAsync(User);
 }
-<button type="button" class="btn btn-success" data-toggle="ajax-modal" data-target="#edit-course" data-url="@Url.Action("CreateCourseModal")">Créer un Cours</button>
+@if (role == Role.Admin){
+    <button type="button" class="btn btn-success" data-toggle="ajax-modal" data-target="#edit-course" data-url="@Url.Action("CreateCourseModal")">Créer un Cours</button>
+}
 <div id="modal-placeholder"></div>
 <table class="table">
     <thead>
@@ -59,12 +61,15 @@
                         <button type="button" class="btn btn-secondary" data-toggle="ajax-modal" data-target="#list-grades" data-url="@Url.Action("ListGradesModal", item)">
                             Notes
                         </button>
+                    @if (role == Role.Admin)
+                    {
                         <button type="button" class="btn btn-secondary" data-toggle="ajax-modal" data-target="#edit-course" data-url="@Url.Action("EditCourseModal", item)">
                             Modifier
                         </button>
                         <button type="button" class="btn btn-danger" href="#modal-placeholder">
                             Supprimer
                         </button>
+                        }
                     }
                 </td>
             </tr>

@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+                Groupe
+            </th>
+            <th>
                 Etudiants
             </th>
             <th>
@@ -28,6 +31,9 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => @item.GroupID)
+                </td>
                 <td>
                     @item.Students.Count()
                 </td>

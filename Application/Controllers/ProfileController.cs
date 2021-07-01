@@ -65,7 +65,7 @@ namespace Application.Controllers
                 Group group = ((Student)person).Group;
                 if (group != null)
                 {
-                    ProfileViewModel.Groups.Add(group);
+                    ProfileViewModel.Groups= (await _groups.GetAllAsync())?.Where(g=>g.GroupID== group.GroupID).ToList();
                     ProfileViewModel.HomeRoomTeacher = group.HomeRoomTeacher;
                     List<Course> courses = ProfileViewModel.Groups.SelectMany(g => g.Courses)?.ToList();
                     if (courses != null)
