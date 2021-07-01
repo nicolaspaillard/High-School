@@ -1,14 +1,14 @@
 ﻿@using Models
 @model List<Person>
 @using Application.Controllers.Services
+@using Application.Controllers
 @inject RepositoryService<Group> GroupServices
 @inject RepositoryService<Student> StudentServices
-
+@inject RoleService roleService
 <div id="modal-placeholder"></div>
 <table class="table">
     <thead>
         <tr>
-
             <th>Prénom</th>
             <th>Nom</th>
             @switch (Model.First().Role)
@@ -23,31 +23,46 @@
                     <th>Classe</th>
                     break;
             }
+            @if ((await roleService.GetRoleAsync(User))==Role.Admin)
+            {
+                <th></th>
+            }
         </tr>
     </thead>
     <tbody>
         @foreach (Person p in Model)
         {
-            <tr>
-                <td>@p.FirstName</td>
-                <td>@p.LastName</td>
-                @switch (p.Role)
-                {
-                    case Role.Admin:
-                        break;
-                    case Role.Teacher:
-                        var homerooms = ((Teacher)p).Courses?.SelectMany(c => c.Groups.Where(g => g.HomeRoomTeacherID == p.PersonID)?.Distinct());
-                        var classes = ((Teacher)p).Courses?.SelectMany(c => c.Groups)?.Distinct();
-                        <td>@foreach (var item in homerooms) { Html.Raw($"{item} "); }</td>
-                        <td>@foreach (var item in homerooms) { Html.Raw($"{item} "); }</td>
-                        break;
-                    case Role.Student:
-                        <td>
-                            @(((Student)p).GroupID)
-                        </td>
-                        break;
-                }
-            </tr>
+        <tr>
+            <td>@p.FirstName</td>
+            <td>@p.LastName</td>
+            @switch (p.Role)
+            {
+                case Role.Admin:
+                    break;
+                case Role.Teacher:
+                    var homerooms = ((Teacher)p).Courses?.SelectMany(c => c.Groups.Where(g => g.HomeRoomTeacherID == p.PersonID)?.Distinct());
+                    var classes = ((Teacher)p).Courses?.SelectMany(c => c.Groups)?.Distinct();
+                    <td>@foreach (var item in homerooms) { Html.Raw($"{item} "); }</td>
+                    <td>@foreach (var item in homerooms) { Html.Raw($"{item} "); }</td>
+                    break;
+                case Role.Student:
+                    <td>
+                        @(((Student)p).GroupID)
+                    </td>
+                    break;
+            }
+            @if ((await roleService.GetRoleAsync(User)) == Role.Admin)
+            {
+            <td>
+                <button type="button" class="btn btn-secondary" data-toggle="ajax-modal" data-target="#edit-person" data-url="@Url.Action("EditPersonModal", p)">
+                    Modifier
+                </button>
+                <button type="button" class="btn btn-danger" href="#modal-placeholder">
+                    Supprimer
+                </button>
+            </td>
+            }
+        </tr>
         }
     </tbody>
 </table>
