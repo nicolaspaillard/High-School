@@ -30,7 +30,9 @@ namespace Dal
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseLazyLoadingProxies();
-                optionsBuilder.UseSqlServer(@"Data Source=(localdb)\mssqllocaldb;Initial Catalog=HighSchool;Integrated Security=true");
+                //optionsBuilder.UseSqlServer(@"Data Source=(localdb)\mssqllocaldb;Initial Catalog=HighSchool;Integrated Security=true");
+                optionsBuilder.UseSqlServer(@"Server=tcp:itschool.database.windows.net,1433;Initial Catalog=itschooldatabase;Persist Security Info=False;User ID=admin34;Password=azerty!34;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+
             }
             base.OnConfiguring(optionsBuilder);
         }

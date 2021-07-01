@@ -21,25 +21,28 @@ namespace Dal.Migrations
 
             modelBuilder.Entity("CourseGroup", b =>
                 {
-                    b.Property<int>("CoursesID")
+                    b.Property<int>("CoursesCourseID")
                         .HasColumnType("int");
 
-                    b.Property<int>("GroupsID")
+                    b.Property<int>("GroupsGroupID")
                         .HasColumnType("int");
 
-                    b.HasKey("CoursesID", "GroupsID");
+                    b.HasKey("CoursesCourseID", "GroupsGroupID");
 
-                    b.HasIndex("GroupsID");
+                    b.HasIndex("GroupsGroupID");
 
                     b.ToTable("CourseGroup");
                 });
 
             modelBuilder.Entity("Models.Admin", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("PersonID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid>("AzureID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
@@ -53,14 +56,17 @@ namespace Dal.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.HasKey("PersonID");
 
                     b.ToTable("Admins");
                 });
 
             modelBuilder.Entity("Models.Classroom", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("ClassroomID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -68,31 +74,32 @@ namespace Dal.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("ClassroomID");
 
                     b.ToTable("Classrooms");
                 });
 
             modelBuilder.Entity("Models.Course", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("CourseID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("ClassroomID")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("SubjectID")
+                    b.Property<int>("SubjectID")
                         .HasColumnType("int");
 
                     b.Property<int?>("TeacherID")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("CourseID");
 
                     b.HasIndex("ClassroomID");
 
@@ -105,7 +112,7 @@ namespace Dal.Migrations
 
             modelBuilder.Entity("Models.Grade", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("GradeID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -122,7 +129,7 @@ namespace Dal.Migrations
                     b.Property<double>("Value")
                         .HasColumnType("float");
 
-                    b.HasKey("ID");
+                    b.HasKey("GradeID");
 
                     b.HasIndex("CourseID");
 
@@ -133,7 +140,7 @@ namespace Dal.Migrations
 
             modelBuilder.Entity("Models.Group", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("GroupID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -141,7 +148,7 @@ namespace Dal.Migrations
                     b.Property<int?>("HomeRoomTeacherID")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("GroupID");
 
                     b.HasIndex("HomeRoomTeacherID");
 
@@ -150,7 +157,7 @@ namespace Dal.Migrations
 
             modelBuilder.Entity("Models.Missing", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("MissingID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -161,7 +168,7 @@ namespace Dal.Migrations
                     b.Property<int?>("StudentID")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("MissingID");
 
                     b.HasIndex("CourseID");
 
@@ -172,10 +179,13 @@ namespace Dal.Migrations
 
             modelBuilder.Entity("Models.Student", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("PersonID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid>("AzureID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
@@ -192,7 +202,10 @@ namespace Dal.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.HasKey("PersonID");
 
                     b.HasIndex("GroupID");
 
@@ -201,20 +214,45 @@ namespace Dal.Migrations
 
             modelBuilder.Entity("Models.Subject", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("SubjectID")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("SubjectID");
 
                     b.ToTable("Subjects");
+
+                    b.HasData(
+                        new
+                        {
+                            SubjectID = 0
+                        },
+                        new
+                        {
+                            SubjectID = 1
+                        },
+                        new
+                        {
+                            SubjectID = 2
+                        },
+                        new
+                        {
+                            SubjectID = 3
+                        },
+                        new
+                        {
+                            SubjectID = 4
+                        });
                 });
 
             modelBuilder.Entity("Models.Teacher", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("PersonID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid>("AzureID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
@@ -228,22 +266,25 @@ namespace Dal.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.HasKey("PersonID");
 
                     b.ToTable("Teachers");
                 });
 
             modelBuilder.Entity("SubjectTeacher", b =>
                 {
-                    b.Property<int>("SubjectsID")
+                    b.Property<int>("SubjectsSubjectID")
                         .HasColumnType("int");
 
-                    b.Property<int>("TeachersID")
+                    b.Property<int>("TeachersPersonID")
                         .HasColumnType("int");
 
-                    b.HasKey("SubjectsID", "TeachersID");
+                    b.HasKey("SubjectsSubjectID", "TeachersPersonID");
 
-                    b.HasIndex("TeachersID");
+                    b.HasIndex("TeachersPersonID");
 
                     b.ToTable("SubjectTeacher");
                 });
@@ -252,13 +293,13 @@ namespace Dal.Migrations
                 {
                     b.HasOne("Models.Course", null)
                         .WithMany()
-                        .HasForeignKey("CoursesID")
+                        .HasForeignKey("CoursesCourseID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Models.Group", null)
                         .WithMany()
-                        .HasForeignKey("GroupsID")
+                        .HasForeignKey("GroupsGroupID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -266,16 +307,22 @@ namespace Dal.Migrations
             modelBuilder.Entity("Models.Course", b =>
                 {
                     b.HasOne("Models.Classroom", "Classroom")
-                        .WithMany()
-                        .HasForeignKey("ClassroomID");
+                        .WithMany("Courses")
+                        .HasForeignKey("ClassroomID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Models.Subject", "Subject")
                         .WithMany("Courses")
-                        .HasForeignKey("SubjectID");
+                        .HasForeignKey("SubjectID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Models.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("TeacherID");
+                        .WithMany("Courses")
+                        .HasForeignKey("TeacherID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Classroom");
 
@@ -287,7 +334,7 @@ namespace Dal.Migrations
             modelBuilder.Entity("Models.Grade", b =>
                 {
                     b.HasOne("Models.Course", "Course")
-                        .WithMany()
+                        .WithMany("Grades")
                         .HasForeignKey("CourseID");
 
                     b.HasOne("Models.Student", "Student")
@@ -325,28 +372,37 @@ namespace Dal.Migrations
 
             modelBuilder.Entity("Models.Student", b =>
                 {
-                    b.HasOne("Models.Group", null)
+                    b.HasOne("Models.Group", "Group")
                         .WithMany("Students")
                         .HasForeignKey("GroupID");
+
+                    b.Navigation("Group");
                 });
 
             modelBuilder.Entity("SubjectTeacher", b =>
                 {
                     b.HasOne("Models.Subject", null)
                         .WithMany()
-                        .HasForeignKey("SubjectsID")
+                        .HasForeignKey("SubjectsSubjectID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Models.Teacher", null)
                         .WithMany()
-                        .HasForeignKey("TeachersID")
+                        .HasForeignKey("TeachersPersonID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Models.Classroom", b =>
+                {
+                    b.Navigation("Courses");
+                });
+
             modelBuilder.Entity("Models.Course", b =>
                 {
+                    b.Navigation("Grades");
+
                     b.Navigation("Missings");
                 });
 
@@ -361,6 +417,11 @@ namespace Dal.Migrations
                 });
 
             modelBuilder.Entity("Models.Subject", b =>
+                {
+                    b.Navigation("Courses");
+                });
+
+            modelBuilder.Entity("Models.Teacher", b =>
                 {
                     b.Navigation("Courses");
                 });

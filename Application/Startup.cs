@@ -110,6 +110,7 @@ namespace Application
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }
