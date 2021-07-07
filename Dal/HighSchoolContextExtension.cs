@@ -13,10 +13,10 @@ namespace Dal
     {
         public static void Initialize(this HighSchoolContext context, bool dropAlways = false)
         {
-            /*if (dropAlways)
+            if (dropAlways)
                 context.Database.EnsureDeleted();
 
-            context.Database.EnsureCreated();*/
+            context.Database.EnsureCreated();
 
             //if db has been already seeded
             if (context.Students.Any())
